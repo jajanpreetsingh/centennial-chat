@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CentennialTalk.Models
+﻿namespace CentennialTalk.Models
 {
     public class Message
     {

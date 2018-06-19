@@ -1,6 +1,5 @@
 ﻿using CentennialTalk.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace CentennialTalk.Persistence
 {
