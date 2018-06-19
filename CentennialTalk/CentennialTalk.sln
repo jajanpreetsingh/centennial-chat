@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CentennialTalk", "CentennialTalk\CentennialTalk.csproj", "{58D7024D-99E0-4617-AE86-BB1F2FC72919}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CentennialTalk.Persistence", "CentennialTalk.Persistence\CentennialTalk.Persistence.csproj", "{FCE5187B-DBCE-41F5-83C7-10E9551E7704}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CentennialTalk.Models", "CentennialTalk.Models\CentennialTalk.Models.csproj", "{BA679158-29B1-4F3C-9CA4-30976E747B89}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CentennialTalk.Service", "CentennialTalk.Service\CentennialTalk.Service.csproj", "{C7713370-C6B8-4715-A1C7-1A66EA6723BE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{58D7024D-99E0-4617-AE86-BB1F2FC72919}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58D7024D-99E0-4617-AE86-BB1F2FC72919}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58D7024D-99E0-4617-AE86-BB1F2FC72919}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58D7024D-99E0-4617-AE86-BB1F2FC72919}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCE5187B-DBCE-41F5-83C7-10E9551E7704}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCE5187B-DBCE-41F5-83C7-10E9551E7704}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCE5187B-DBCE-41F5-83C7-10E9551E7704}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCE5187B-DBCE-41F5-83C7-10E9551E7704}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA679158-29B1-4F3C-9CA4-30976E747B89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA679158-29B1-4F3C-9CA4-30976E747B89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA679158-29B1-4F3C-9CA4-30976E747B89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA679158-29B1-4F3C-9CA4-30976E747B89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7713370-C6B8-4715-A1C7-1A66EA6723BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7713370-C6B8-4715-A1C7-1A66EA6723BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7713370-C6B8-4715-A1C7-1A66EA6723BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7713370-C6B8-4715-A1C7-1A66EA6723BE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2DA02FC8-2413-47A2-93CF-C28B14811C7F}
+	EndGlobalSection
+EndGlobal
