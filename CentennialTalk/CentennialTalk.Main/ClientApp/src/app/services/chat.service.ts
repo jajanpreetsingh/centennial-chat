@@ -10,15 +10,11 @@ export class ChatService {
   }
 
   createNewChat(newChat) {
-
-    console.log("newChat", newChat);
-
     return this.http.post("/api/chat/new", newChat)
       .map(res => res.json());
   }
 
   joinChat(joinChat) {
-
     return this.http.post("/api/chat/join", joinChat)
       .map(res => res.json());
   }

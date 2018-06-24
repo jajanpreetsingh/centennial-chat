@@ -5,6 +5,13 @@ namespace CentennialTalk.Main
 {
     public class ChatHub : Hub
     {
+        public override Task OnConnectedAsync()
+        {
+            base.OnConnectedAsync();
+
+            return Clients.All.SendAsync("connectionStarted", Context.ConnectionId);
+        }
+
         public Task Send(string jsonMessage)
         {
             return Clients.All.SendAsync("receive", jsonMessage);
