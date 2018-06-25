@@ -1,6 +1,6 @@
 ﻿using CentennialTalk.Models;
 
-namespace CentennialTalk.Service.Contracts
+namespace CentennialTalk.ServiceContract
 {
     public interface IChatService
     {

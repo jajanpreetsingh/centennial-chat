@@ -1,11 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CentennialTalk.Models
 {
+    [Serializable]
     public class Message
     {
-        public string MessageId { get; set; }
+        public Guid MessageId { get; set; }
 
         [Required]
         [StringLength(255)]
@@ -32,11 +34,13 @@ namespace CentennialTalk.Models
 
         public Message()
         {
+            MessageId = new Guid();
         }
 
         public Message(string sender, string content, 
                     string chatCode, string replyMessageId = null)
         {
+            MessageId = new Guid();
             Sender = sender;
             ChatCode = chatCode;
             Content = content;

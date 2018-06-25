@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CentennialTalk.Persistence\CentennialTalk.Persistence.csproj" />
+    <ProjectReference Include="..\CentennialTalk.ServiceContract\CentennialTalk.ServiceContract.csproj" />
   </ItemGroup>
 
 </Project>

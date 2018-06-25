@@ -1,6 +1,4 @@
-﻿using CentennialTalk.Persistence.Contracts;
-
-namespace CentennialTalk.Persistence.Repositories
+﻿namespace CentennialTalk.Persistence.Repositories
 {
     public class BaseRepository<T> where T : class
     {

@@ -1,8 +1,7 @@
 using CentennialTalk.Persistence;
-using CentennialTalk.Persistence.Contracts;
 using CentennialTalk.Persistence.Repositories;
-using CentennialTalk.Service.Contracts;
-using CentennialTalk.Service.Services;
+using CentennialTalk.PersistenceContract;
+using CentennialTalk.ServiceContract;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;

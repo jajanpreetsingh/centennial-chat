@@ -28,11 +28,12 @@ namespace CentennialTalk.Persistence.Migrations
                         .IsRequired()
                         .HasMaxLength(8);
 
+                    b.Property<bool>("IsLinkOpen");
+
                     b.Property<DateTime>("LastUpdated");
 
-                    b.Property<string>("Moderator")
-                        .IsRequired()
-                        .HasMaxLength(255);
+                    b.Property<string>("ModeratorUsername")
+                        .IsRequired();
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -40,12 +41,39 @@ namespace CentennialTalk.Persistence.Migrations
 
                     b.HasKey("DiscussionId");
 
+                    b.HasIndex("ModeratorUsername");
+
                     b.ToTable("Discussions");
+                });
+
+            modelBuilder.Entity("CentennialTalk.Models.GroupMember", b =>
+                {
+                    b.Property<string>("Username")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("ChatCode")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("ConnectionId");
+
+                    b.Property<Guid?>("DiscussionId");
+
+                    b.Property<Guid>("GroupMemberId");
+
+                    b.Property<bool>("IsConnected");
+
+                    b.HasKey("Username");
+
+                    b.HasIndex("DiscussionId");
+
+                    b.ToTable("GroupMembers");
                 });
 
             modelBuilder.Entity("CentennialTalk.Models.Message", b =>
                 {
-                    b.Property<string>("MessageId")
+                    b.Property<Guid>("MessageId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ChatCode")
@@ -56,6 +84,8 @@ namespace CentennialTalk.Persistence.Migrations
                         .IsRequired()
                         .HasMaxLength(255);
 
+                    b.Property<string>("GroupMemberUsername");
+
                     b.Property<string>("RepliedMessageId");
 
                     b.Property<string>("Sender")
@@ -64,7 +94,31 @@ namespace CentennialTalk.Persistence.Migrations
 
                     b.HasKey("MessageId");
 
+                    b.HasIndex("GroupMemberUsername");
+
                     b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("CentennialTalk.Models.Discussion", b =>
+                {
+                    b.HasOne("CentennialTalk.Models.GroupMember", "Moderator")
+                        .WithMany()
+                        .HasForeignKey("ModeratorUsername")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CentennialTalk.Models.GroupMember", b =>
+                {
+                    b.HasOne("CentennialTalk.Models.Discussion")
+                        .WithMany("Members")
+                        .HasForeignKey("DiscussionId");
+                });
+
+            modelBuilder.Entity("CentennialTalk.Models.Message", b =>
+                {
+                    b.HasOne("CentennialTalk.Models.GroupMember")
+                        .WithMany("Messages")
+                        .HasForeignKey("GroupMemberUsername");
                 });
 #pragma warning restore 612, 618
         }

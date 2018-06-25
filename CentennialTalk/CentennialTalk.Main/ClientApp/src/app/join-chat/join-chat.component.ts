@@ -33,17 +33,17 @@ export class JoinChatComponent implements OnInit {
 
       console.log(data);
 
-      this.moderator = data.moderator;
-      this.title = data.title;
+      //this.moderator = data.moderator;
+      //this.title = data.title;
 
-      this.router.navigate(['/chat'], {
-        queryParams: {
-          username: this.username,
-          moderator: this.moderator,
-          title: this.title,
-          chatCode: this.chatCode
-        }
-      });
+      //this.router.navigate(['/chat'], {
+      //  queryParams: {
+      //    username: this.username,
+      //    moderator: this.moderator,
+      //    title: this.title,
+      //    chatCode: this.chatCode
+      //  }
+      //});
     },
       error => {
         this.username =

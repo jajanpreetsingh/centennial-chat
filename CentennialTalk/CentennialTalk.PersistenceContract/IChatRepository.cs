@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CentennialTalk.Persistence.Contracts
+namespace CentennialTalk.PersistenceContract
 {
     public interface IChatRepository
     {

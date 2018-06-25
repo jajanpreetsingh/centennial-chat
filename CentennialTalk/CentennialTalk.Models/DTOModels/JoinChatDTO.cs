@@ -4,6 +4,7 @@ using System.Text;
 
 namespace CentennialTalk.Models.DTOModels
 {
+    [Serializable]
     public class JoinChatDTO
     {
         public string username;

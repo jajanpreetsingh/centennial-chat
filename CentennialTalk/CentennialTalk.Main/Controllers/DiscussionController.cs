@@ -1,6 +1,6 @@
 ﻿using CentennialTalk.Models;
 using CentennialTalk.Models.DTOModels;
-using CentennialTalk.Service.Contracts;
+using CentennialTalk.ServiceContract;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CentennialTalk.Main.Controllers
@@ -9,15 +9,13 @@ namespace CentennialTalk.Main.Controllers
     public class DiscussionController : Controller
     {
         private readonly IChatService chatService;
+        private readonly IUnitOfWorkService uowService;
 
-        public DiscussionController(IChatService chatService)
+        public DiscussionController(IChatService chatService,
+            IUnitOfWorkService uowService)
         {
             this.chatService = chatService;
-        }
-
-        public IActionResult Index()
-        {
-            return View();
+            this.uowService = uowService;
         }
 
         [HttpPost("new")]
@@ -25,7 +23,9 @@ namespace CentennialTalk.Main.Controllers
         {
             Discussion chat = chatService.CreateNewChat(newChat.moderator, newChat.title);
 
-            return new JsonResult(chat);
+            uowService.SaveChanges();
+
+            return new ResponseDTO(ResponseCode.OK, chat).Json;
         }
 
         [HttpPost("join")]
@@ -33,7 +33,9 @@ namespace CentennialTalk.Main.Controllers
         {
             Discussion chat = chatService.GetChatByCode(joinChat.chatCode);
 
-            return new JsonResult(chat);
+            uowService.SaveChanges();
+
+            return new ResponseDTO(ResponseCode.OK, chat).Json;
         }
     }
 }

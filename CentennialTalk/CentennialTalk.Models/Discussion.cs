@@ -6,13 +6,14 @@ using System.Linq;
 
 namespace CentennialTalk.Models
 {
+    [Serializable]
     public class Discussion
     {
         public Guid DiscussionId { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string Moderator { get; set; }
+        public GroupMember Moderator { get; set; }
 
         [Required]
         [StringLength(255)]
@@ -22,27 +23,32 @@ namespace CentennialTalk.Models
         [StringLength(8)]
         public string DiscussionCode { get; set; }
 
-        [NotMapped]
-        public IList<string> Members { get; set; }
+        public IList<GroupMember> Members { get; set; }
 
         public DateTime LastUpdated { get; set; }
 
+        public bool IsLinkOpen { get; set; }
+
         public Discussion()
-        { }
+        {
+            Members = new List<GroupMember>();
+
+            DiscussionId = new Guid();
+        }
 
         public Discussion(string moderator, string title)
         {
-            Members = new List<string>();
+            Members = new List<GroupMember>();
+
+            DiscussionId = new Guid();
 
             Title = string.IsNullOrWhiteSpace(title)
                     ? string.Format("Discussion by {0}", Moderator)
                     : title;
 
-            Moderator = moderator;
-
             DiscussionCode = GenerateChatCode();
 
-            DiscussionId = new Guid();
+            Moderator = new GroupMember(moderator, DiscussionCode);
 
             Members.Add(Moderator);
 
@@ -54,7 +60,7 @@ namespace CentennialTalk.Models
             var chars = "ABCefghiDEFGHTUVWXY01234ZabcdjklmKLMNOnopqrstuvwxyz567IJPQRS89";
             var stringChars = new char[8];
 
-            int seed = Moderator.ToCharArray().ToList().Sum(x => (int)x);
+            int seed = Moderator.Username.ToCharArray().ToList().Sum(x => (int)x);
 
             Random random = new Random(seed);
 

@@ -12,6 +12,7 @@ import { ChatComponent } from './chat/chat.component';
 import { NewChatComponent } from './new-chat/new-chat.component';
 import { JoinChatComponent } from './join-chat/join-chat.component';
 import { ChatService } from './services/chat.service';
+import { MemberService } from './services/member.service';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { ChatService } from './services/chat.service';
   ],
   providers: [
     ChatService,
+    MemberService
   ],
   bootstrap: [AppComponent]
 })

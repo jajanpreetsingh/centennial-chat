@@ -1,5 +1,5 @@
 ﻿using CentennialTalk.Models;
-using CentennialTalk.Persistence.Contracts;
+using CentennialTalk.PersistenceContract;
 using System.Linq;
 
 namespace CentennialTalk.Persistence.Repositories
@@ -17,8 +17,6 @@ namespace CentennialTalk.Persistence.Repositories
                 Discussion discussion = new Discussion(moderator, title);
 
                 dbContext.Discussions.Add(discussion);
-
-                dbContext.SaveChanges();
 
                 return discussion;
             }

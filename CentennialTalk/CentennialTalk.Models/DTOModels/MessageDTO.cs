@@ -5,9 +5,12 @@ using System.Text;
 namespace CentennialTalk.Models.DTOModels
 {
     [Serializable]
-    public class NewChatDTO
+    public class MessageDTO
     {
-        public string moderator;
-        public string title;
+        public string content;
+
+        public string sender;
+
+        public string chatCode;
     }
 }

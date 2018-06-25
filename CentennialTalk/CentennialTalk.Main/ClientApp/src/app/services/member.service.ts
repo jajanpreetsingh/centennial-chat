@@ -4,17 +4,12 @@ import { HttpClientModule } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 
 @Injectable()
-export class ChatService {
+export class MemberService {
   constructor(private http: Http) {
   }
 
-  createNewChat(newChat) {
-    return this.http.post("/api/chat/new", newChat)
-      .map(res => res.json());
-  }
-
-  joinChat(joinChat) {
-    return this.http.post("/api/chat/join", joinChat)
+  updateStatus(data) {
+    return this.http.post("/api/member/status", data)
       .map(res => res.json());
   }
 }

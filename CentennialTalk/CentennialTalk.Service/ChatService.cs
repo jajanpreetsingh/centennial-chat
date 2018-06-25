@@ -1,8 +1,7 @@
 ﻿using CentennialTalk.Models;
-using CentennialTalk.Persistence.Contracts;
-using CentennialTalk.Service.Contracts;
+using CentennialTalk.ServiceContract;
 
-namespace CentennialTalk.Service.Services
+namespace CentennialTalk.PersistenceContract
 {
     public class ChatService : IChatService
     {
