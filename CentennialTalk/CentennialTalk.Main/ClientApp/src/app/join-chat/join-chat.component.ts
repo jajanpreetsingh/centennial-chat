@@ -29,21 +29,30 @@ export class JoinChatComponent implements OnInit {
         "username": this.username,
         "chatCode": this.chatCode
       }
-    ).subscribe(data => {
+    ).subscribe(res => {
+      if (res.code == 200) {
 
-      console.log(data);
+        this.moderator = res.data.moderator;
+        this.title = res.data.title;
 
-      //this.moderator = data.moderator;
-      //this.title = data.title;
+        
 
-      //this.router.navigate(['/chat'], {
-      //  queryParams: {
-      //    username: this.username,
-      //    moderator: this.moderator,
-      //    title: this.title,
-      //    chatCode: this.chatCode
-      //  }
-      //});
+        this.router.navigate(['/chat'], {
+          queryParams: {
+            username: this.username,
+            moderator: this.moderator,
+            title: this.title,
+            chatCode: this.chatCode
+          }
+        });
+      }
+      else {
+        this.username =
+          this.moderator =
+          this.chatCode =
+          this.title = '';
+        console.log(res.data);
+      }
     },
       error => {
         this.username =

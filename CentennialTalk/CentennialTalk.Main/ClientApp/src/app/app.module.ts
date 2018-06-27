@@ -7,18 +7,18 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { ChatComponent } from './chat/chat.component';
 import { NewChatComponent } from './new-chat/new-chat.component';
 import { JoinChatComponent } from './join-chat/join-chat.component';
+
 import { ChatService } from './services/chat.service';
 import { MemberService } from './services/member.service';
+import { MessageService } from './services/message.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    FetchDataComponent,
     ChatComponent,
     NewChatComponent,
     JoinChatComponent
@@ -34,12 +34,12 @@ import { MemberService } from './services/member.service';
       { path: 'new', component: NewChatComponent },
       { path: 'chat', component: ChatComponent },
       { path: 'chat/:data', component: ChatComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
     ])
   ],
   providers: [
     ChatService,
-    MemberService
+    MemberService,
+    MessageService
   ],
   bootstrap: [AppComponent]
 })

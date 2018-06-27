@@ -7,8 +7,10 @@ namespace CentennialTalk.PersistenceContract
 {
     public interface IChatRepository
     {
-        Discussion CreateNewChat(string moderator, string title);
+        Discussion CreateNewChat(Discussion discussion);
 
         Discussion GetChatByCode(string code);
+
+        List<Discussion> GetOpenChatGroups();
     }
 }

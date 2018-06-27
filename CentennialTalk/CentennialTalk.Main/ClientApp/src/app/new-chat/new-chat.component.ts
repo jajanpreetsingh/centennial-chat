@@ -34,18 +34,29 @@ export class NewChatComponent implements OnInit {
         "moderator": this.moderator,
         "title": this.title
       }
-    ).subscribe(data => {
-      this.moderator = data.Moderator;
-      this.title = data.Title;
+    ).subscribe(res => {
+      if (res.code == 200) {
+        console.log(res);
 
-      this.router.navigate(['/chat'], {
-        queryParams: {
-          username: this.username,
-          moderator: this.moderator,
-          title: this.title,
-          chatCode: this.chatCode
-        }
-      });
+        this.moderator = res.data.moderator;
+        this.title = res.data.title;
+
+        this.router.navigate(['/chat'], {
+          queryParams: {
+            username: this.username,
+            moderator: this.moderator,
+            title: this.title,
+            chatCode: this.chatCode
+          }
+        });
+      }
+      else {
+        this.username =
+          this.moderator =
+          this.chatCode =
+          this.title = '';
+        console.log(res.data);
+      }
     },
       error => {
         this.username =

@@ -4,6 +4,7 @@ import { HubConnection } from '@aspnet/signalr';
 import * as signalR from '@aspnet/signalr';
 import { ChatService } from '../services/chat.service';
 import { MemberService } from '../services/member.service';
+import { MessageService } from '../services/message.service';
 
 @Component({
   selector: 'app-chat',
@@ -18,20 +19,23 @@ export class ChatComponent implements OnInit {
   title: string;
 
   isConnected: boolean;
+  connectionId: string;
 
   //members: string[] = [];
 
   private hubConnection: HubConnection;
   message = '';
-  messages: string[] = [];
+  messages: any = [];
 
   constructor(private chatService: ChatService,
     private memberService: MemberService,
     private activatedRoute: ActivatedRoute,
+    private messageService: MessageService,
     private router: Router) {
   }
 
   ngOnInit() {
+
     this.activatedRoute.params.subscribe((params: Params) => {
       console.log(this.activatedRoute.snapshot.queryParams);
 
@@ -39,8 +43,19 @@ export class ChatComponent implements OnInit {
       this.chatCode = this.activatedRoute.snapshot.queryParams['chatCode'];
       this.moderator = this.activatedRoute.snapshot.queryParams['moderator'];
       this.title = this.activatedRoute.snapshot.queryParams['title'];
+
+      this.amIModerator = this.moderator == this.username;
+
+      console.log(this.username);
+      console.log(this.chatCode);
+      console.log(this.moderator);
+      console.log(this.title);
     });
 
+    this.initChatHub();
+  }
+
+  initChatHub() {
     this.hubConnection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Trace)
       .withUrl('/discussion')
@@ -49,7 +64,7 @@ export class ChatComponent implements OnInit {
     this.hubConnection.start();
 
     this.hubConnection.on('connectionStarted', data => {
-      this.onConnectionStart(data);      
+      this.onConnectionStart(data);
     });
 
     this.hubConnection.on('connectionAborted', data => {
@@ -71,12 +86,28 @@ export class ChatComponent implements OnInit {
 
   onConnectionStart(data) {
     console.log('connection id', data);
+
+    this.connectionId = data;
+
     this.isConnected = true;
 
     this.hubConnection.invoke('JoinGroupChat', JSON.stringify({
       username: this.username,
-      chatCode: this.chatCode
+      chatCode: this.chatCode,
+      isModerator: this.amIModerator
     }));
+
+    this.memberService.updateStatus({
+      username: this.username,
+      chatCode: this.chatCode,
+      connectionId: this.connectionId,
+      isConnected: true
+    }).subscribe(res => {
+      console.log(res);
+    },
+      err => {
+        console.log(err);
+      });
   }
 
   onConnectionAbort(data) {
@@ -86,26 +117,41 @@ export class ChatComponent implements OnInit {
     }));
   }
 
-  onUserJoined(data) {
-    console.log(data + ' joined');
+  onUserJoined(username) {
+    console.log(username + ' joined');
   }
 
-  onUserLeft(data) {
-    console.log(data + ' left');
+  onUserLeft(username) {
+    console.log(username + ' left');
   }
 
-  onMessageReceived(data) {
-    console.log(data);
-    if (data.chatCode == this.chatCode) {
-      this.messages.push(data.content);
+  onMessageReceived(messageData) {
+    if (messageData.chatCode == this.chatCode) {
+      this.messages.push(messageData);
     }
   }
 
   sendMessage() {
+    var content = this.message;
+
     this.hubConnection.invoke('Send', JSON.stringify({
       sender: this.username,
       chatCode: this.chatCode,
-      content: this.message
+      content: content
     }));
+
+    this.messageService.saveMessage({
+      //messageId: '00000000-0000-0000-0000-000000000000',
+      content: content,
+      chatCode: this.chatCode,
+      sender: this.username,
+      //replyId: '00000000-0000-0000-0000-000000000000',
+      //sentDate: Date.now()
+    }).subscribe(res => {
+      console.log(res);
+    },
+      err => {
+        console.log(err);
+      });
   }
 }

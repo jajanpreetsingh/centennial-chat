@@ -7,13 +7,13 @@ namespace CentennialTalk.Models.DTOModels
     [Serializable]
     public class ConnectionDetailDTO
     {
-        public string Username;
+        public string username;
 
-        public string ChatCode;
+        public string chatCode;
 
-        public string ConnectionId;
+        public string connectionId;
 
-        public bool IsConnected;
+        public bool isConnected;
 
         public ConnectionDetailDTO()
         { }

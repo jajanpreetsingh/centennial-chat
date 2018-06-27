@@ -4,14 +4,16 @@ using CentennialTalk.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CentennialTalk.Persistence.Migrations
 {
     [DbContext(typeof(ChatDBContext))]
-    partial class ChatDBContextModelSnapshot : ModelSnapshot
+    [Migration("20180625190713_ChangeMemberKey")]
+    partial class ChangeMemberKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,8 +26,6 @@ namespace CentennialTalk.Persistence.Migrations
                     b.Property<Guid>("DiscussionId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedDate");
-
                     b.Property<string>("DiscussionCode")
                         .IsRequired()
                         .HasMaxLength(8);
@@ -34,11 +34,15 @@ namespace CentennialTalk.Persistence.Migrations
 
                     b.Property<DateTime>("LastUpdated");
 
+                    b.Property<Guid>("ModeratorGroupMemberId");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255);
 
                     b.HasKey("DiscussionId");
+
+                    b.HasIndex("ModeratorGroupMemberId");
 
                     b.ToTable("Discussions");
                 });
@@ -57,10 +61,6 @@ namespace CentennialTalk.Persistence.Migrations
                     b.Property<Guid?>("DiscussionId");
 
                     b.Property<bool>("IsConnected");
-
-                    b.Property<bool>("IsModerator");
-
-                    b.Property<DateTime>("JoiningTime");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -88,13 +88,11 @@ namespace CentennialTalk.Persistence.Migrations
 
                     b.Property<Guid?>("GroupMemberId");
 
-                    b.Property<Guid>("RepliedMessageId");
+                    b.Property<string>("RepliedMessageId");
 
                     b.Property<string>("Sender")
                         .IsRequired()
                         .HasMaxLength(255);
-
-                    b.Property<DateTime>("SentDate");
 
                     b.HasKey("MessageId");
 
@@ -103,22 +101,12 @@ namespace CentennialTalk.Persistence.Migrations
                     b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("CentennialTalk.Models.MessageReaction", b =>
+            modelBuilder.Entity("CentennialTalk.Models.Discussion", b =>
                 {
-                    b.Property<Guid>("MessageReactionId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid?>("MessageId");
-
-                    b.Property<int>("ReactType");
-
-                    b.Property<string>("Sender");
-
-                    b.HasKey("MessageReactionId");
-
-                    b.HasIndex("MessageId");
-
-                    b.ToTable("Reactions");
+                    b.HasOne("CentennialTalk.Models.GroupMember", "Moderator")
+                        .WithMany()
+                        .HasForeignKey("ModeratorGroupMemberId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CentennialTalk.Models.GroupMember", b =>
@@ -133,13 +121,6 @@ namespace CentennialTalk.Persistence.Migrations
                     b.HasOne("CentennialTalk.Models.GroupMember")
                         .WithMany("Messages")
                         .HasForeignKey("GroupMemberId");
-                });
-
-            modelBuilder.Entity("CentennialTalk.Models.MessageReaction", b =>
-                {
-                    b.HasOne("CentennialTalk.Models.Message")
-                        .WithMany("Reactions")
-                        .HasForeignKey("MessageId");
                 });
 #pragma warning restore 612, 618
         }

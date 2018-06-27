@@ -8,6 +8,7 @@ namespace CentennialTalk.Models.DTOModels
     public class NewChatDTO
     {
         public string moderator;
+
         public string title;
     }
 }

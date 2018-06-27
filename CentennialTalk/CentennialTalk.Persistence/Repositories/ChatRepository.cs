@@ -1,5 +1,7 @@
 ﻿using CentennialTalk.Models;
 using CentennialTalk.PersistenceContract;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CentennialTalk.Persistence.Repositories
@@ -10,32 +12,24 @@ namespace CentennialTalk.Persistence.Repositories
         {
         }
 
-        public Discussion CreateNewChat(string moderator, string title)
+        public List<Discussion> GetOpenChatGroups()
         {
-            try
-            {
-                Discussion discussion = new Discussion(moderator, title);
+            return dbContext.Discussions.Where(x => x.IsLinkOpen).ToList();
+        }
 
-                dbContext.Discussions.Add(discussion);
+        public Discussion CreateNewChat(Discussion discussion)
+        {
+            dbContext.Discussions.Add(discussion);
 
-                return discussion;
-            }
-            catch (System.Exception ex)
-            {
-                throw ex;
-            }
+            return discussion;
         }
 
         public Discussion GetChatByCode(string code)
         {
-            try
-            {
-                return dbContext.Discussions.FirstOrDefault(x => x.DiscussionCode == code);
-            }
-            catch (System.Exception ex)
-            {
-                throw ex;
-            }
+            return dbContext.Discussions
+                .Where(x => x.DiscussionCode == code)
+                .Include(x => x.Members)
+                .FirstOrDefault();
         }
     }
 }

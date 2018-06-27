@@ -1,7 +1,8 @@
-﻿using System;
+﻿using CentennialTalk.Models.DTOModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Dynamic;
 using System.Linq;
 
 namespace CentennialTalk.Models
@@ -13,10 +14,6 @@ namespace CentennialTalk.Models
 
         [Required]
         [StringLength(255)]
-        public GroupMember Moderator { get; set; }
-
-        [Required]
-        [StringLength(255)]
         public string Title { get; set; }
 
         [Required]
@@ -24,6 +21,8 @@ namespace CentennialTalk.Models
         public string DiscussionCode { get; set; }
 
         public IList<GroupMember> Members { get; set; }
+
+        public DateTime CreatedDate { get; set; }
 
         public DateTime LastUpdated { get; set; }
 
@@ -34,33 +33,39 @@ namespace CentennialTalk.Models
             Members = new List<GroupMember>();
 
             DiscussionId = new Guid();
+
+            IsLinkOpen = true;
         }
 
-        public Discussion(string moderator, string title)
+        public Discussion(NewChatDTO newChat)
         {
             Members = new List<GroupMember>();
 
             DiscussionId = new Guid();
 
-            Title = string.IsNullOrWhiteSpace(title)
-                    ? string.Format("Discussion by {0}", Moderator)
-                    : title;
+            DiscussionCode = GenerateChatCode(newChat.moderator);
 
-            DiscussionCode = GenerateChatCode();
+            GroupMember mod = new GroupMember(newChat.moderator, DiscussionCode, true);
 
-            Moderator = new GroupMember(moderator, DiscussionCode);
+            Title = string.IsNullOrWhiteSpace(newChat.title)
+                    ? string.Format("Discussion by {0}", mod.Username)
+                    : newChat.title;
 
-            Members.Add(Moderator);
+            Members.Add(mod);
 
             LastUpdated = DateTime.Now;
+
+            CreatedDate = DateTime.Now;
+
+            IsLinkOpen = true;
         }
 
-        private string GenerateChatCode()
+        private string GenerateChatCode(string moderator)
         {
             var chars = "ABCefghiDEFGHTUVWXY01234ZabcdjklmKLMNOnopqrstuvwxyz567IJPQRS89";
             var stringChars = new char[8];
 
-            int seed = Moderator.Username.ToCharArray().ToList().Sum(x => (int)x);
+            int seed = moderator.ToCharArray().ToList().Sum(x => (int)x);
 
             Random random = new Random(seed);
 
@@ -70,6 +75,18 @@ namespace CentennialTalk.Models
             }
 
             return new string(stringChars);
+        }
+
+        public object GetResponseDTO()
+        {
+            ExpandoObject dto = new ExpandoObject();
+
+            dto.TryAdd("id", DiscussionId);
+            dto.TryAdd("chatCode", DiscussionCode);
+            dto.TryAdd("title", Title);
+            dto.TryAdd("moderator", Members.FirstOrDefault(x => x.IsModerator).Username);
+
+            return dto;
         }
     }
 }

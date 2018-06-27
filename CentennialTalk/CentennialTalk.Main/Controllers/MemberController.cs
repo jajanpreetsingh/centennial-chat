@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CentennialTalk.Main.Controllers
 {
     [Route("api/member")]
-    public class MemberController : Controller
+    public class MemberController : BaseController
     {
         private readonly IMemberService memberService;
         private readonly IUnitOfWorkService uowService;
@@ -25,9 +25,10 @@ namespace CentennialTalk.Main.Controllers
             bool result = uowService.SaveChanges();
 
             if (result)
-                return new ResponseDTO(ResponseCode.OK, data).Json;
+                return GetJson(new ResponseDTO(ResponseCode.OK, data));
             else
-                return new ResponseDTO(ResponseCode.ERROR, "No member found or server error").Json;
+                return GetJson(new ResponseDTO(ResponseCode.ERROR,
+                    "No member found or server error"));
         }
     }
 }

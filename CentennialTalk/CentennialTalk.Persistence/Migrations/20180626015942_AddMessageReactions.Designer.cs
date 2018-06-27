@@ -4,14 +4,16 @@ using CentennialTalk.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CentennialTalk.Persistence.Migrations
 {
     [DbContext(typeof(ChatDBContext))]
-    partial class ChatDBContextModelSnapshot : ModelSnapshot
+    [Migration("20180626015942_AddMessageReactions")]
+    partial class AddMessageReactions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,8 +25,6 @@ namespace CentennialTalk.Persistence.Migrations
                 {
                     b.Property<Guid>("DiscussionId")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatedDate");
 
                     b.Property<string>("DiscussionCode")
                         .IsRequired()
@@ -108,15 +108,13 @@ namespace CentennialTalk.Persistence.Migrations
                     b.Property<Guid>("MessageReactionId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("MessageId");
+                    b.Property<Guid>("MessageId");
 
                     b.Property<int>("ReactType");
 
                     b.Property<string>("Sender");
 
                     b.HasKey("MessageReactionId");
-
-                    b.HasIndex("MessageId");
 
                     b.ToTable("Reactions");
                 });
@@ -133,13 +131,6 @@ namespace CentennialTalk.Persistence.Migrations
                     b.HasOne("CentennialTalk.Models.GroupMember")
                         .WithMany("Messages")
                         .HasForeignKey("GroupMemberId");
-                });
-
-            modelBuilder.Entity("CentennialTalk.Models.MessageReaction", b =>
-                {
-                    b.HasOne("CentennialTalk.Models.Message")
-                        .WithMany("Reactions")
-                        .HasForeignKey("MessageId");
                 });
 #pragma warning restore 612, 618
         }

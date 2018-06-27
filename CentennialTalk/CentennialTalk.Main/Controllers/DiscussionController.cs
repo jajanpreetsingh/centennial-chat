@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CentennialTalk.Main.Controllers
 {
     [Route("api/chat")]
-    public class DiscussionController : Controller
+    public class DiscussionController : BaseController
     {
         private readonly IChatService chatService;
         private readonly IUnitOfWorkService uowService;
@@ -21,21 +21,47 @@ namespace CentennialTalk.Main.Controllers
         [HttpPost("new")]
         public IActionResult New([FromBody]NewChatDTO newChat)
         {
-            Discussion chat = chatService.CreateNewChat(newChat.moderator, newChat.title);
+            Discussion chat = chatService.CreateNewChat(newChat);
 
             uowService.SaveChanges();
 
-            return new ResponseDTO(ResponseCode.OK, chat).Json;
+            if (chat != null)
+                return GetJson(new ResponseDTO(ResponseCode.OK, chat));
+            else
+                return GetJson(new ResponseDTO(ResponseCode.ERROR, "Error creating chat"));
         }
 
         [HttpPost("join")]
         public IActionResult Join([FromBody]JoinChatDTO joinChat)
         {
-            Discussion chat = chatService.GetChatByCode(joinChat.chatCode);
+            ResponseDTO result = chatService.JoinChat(joinChat);
+
+            bool saved = uowService.SaveChanges();
+
+            if (!saved)
+                return GetJson(new ResponseDTO(ResponseCode.ERROR,
+                    "Error while saving message"));
+
+            return GetJson(result);
+        }
+
+        [HttpPost("close")]
+        public IActionResult CloseJoiningLink(string chatCode)
+        {
+            Discussion chat = chatService.GetChatByCode(chatCode);
+
+            if (chat == null)
+                return GetJson(new ResponseDTO(ResponseCode.ERROR,
+                    "No Chat with such code exists"));
+
+            if (!chat.IsLinkOpen)
+                return GetJson(new ResponseDTO(ResponseCode.OK, "Chat is already closed"));
+
+            chat.IsLinkOpen = false;
 
             uowService.SaveChanges();
 
-            return new ResponseDTO(ResponseCode.OK, chat).Json;
+            return GetJson(new ResponseDTO(ResponseCode.OK, "Success"));
         }
     }
 }

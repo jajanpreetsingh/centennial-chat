@@ -1,5 +1,4 @@
 ﻿using CentennialTalk.Models.DTOModels;
-using CentennialTalk.Persistence;
 using CentennialTalk.ServiceContract;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
@@ -20,14 +19,19 @@ namespace CentennialTalk.Main
         public List<string> ChatGroups;
 
         private readonly IChatService chatService;
-        private readonly ChatDBContext dBContext;
+        private readonly IMemberService memberService;
+        private readonly IMessageService messageService;
+        private readonly IUnitOfWorkService unitOfWorkService;
 
         public ChatHub(IChatService chatService,
-                        ChatDBContext dBContext)
+                       IMemberService memberService,
+                       IMessageService messageService,
+                       IUnitOfWorkService unitOfWorkService)
         {
             this.chatService = chatService;
-            this.dBContext = dBContext;
-
+            this.memberService = memberService;
+            this.messageService = messageService;
+            this.unitOfWorkService = unitOfWorkService;
             ChatGroups = new List<string>();
         }
 
@@ -41,6 +45,10 @@ namespace CentennialTalk.Main
         public override Task OnDisconnectedAsync(Exception exception)
         {
             base.OnDisconnectedAsync(exception);
+
+            memberService.DisconnectAllMembers();
+
+            unitOfWorkService.SaveChanges();
 
             return Clients.All.SendAsync(connectionAbortedEvent, Context.ConnectionId);
         }

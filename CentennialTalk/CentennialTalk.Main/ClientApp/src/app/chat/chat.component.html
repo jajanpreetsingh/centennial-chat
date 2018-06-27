@@ -1,4 +1,3 @@
-<h1>{{title}}</h1>
 
 <!--<div class="container">
   <img src="/w3images/bandmember.jpg" alt="Avatar" style="width:100%;">
@@ -14,11 +13,25 @@
   <span class="time-left">11:01</span>
 </div>-->
 
-<ul>
-  <li *ngFor="let message of messages">{{message}}</li>
-</ul>
+<div class="row">
+  <div class="container col-sm-3">
 
-<div class="container">
-  <input type="text" name="message" [(ngModel)]="message" placeholder="type your message"/>
+  </div>
+
+  <div class="container col-sm-6">
+    <h1>{{title}}</h1>
+
+    <ul>
+      <li *ngFor="let message of messages">{{message.content}}</li>
+    </ul>
+
+    <div class="container">
+      <input type="text" name="message" [(ngModel)]="message" placeholder="type your message" />
+    </div>
+    <button (click)="sendMessage()" value="Send">Send</button>
+  </div>
+
+  <div class="container col-sm-3">
+
+  </div>
 </div>
-<button value="Send">Send</button>

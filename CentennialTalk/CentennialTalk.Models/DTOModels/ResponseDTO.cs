@@ -14,14 +14,6 @@ namespace CentennialTalk.Models.DTOModels
             this.code = code;
             this.data = data;
         }
-
-        public JsonResult Json
-        {
-            get
-            {
-                return new JsonResult(this);
-            }
-        }
     }
 
     public enum ResponseCode

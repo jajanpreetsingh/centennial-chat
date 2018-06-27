@@ -8,6 +8,9 @@ namespace CentennialTalk.Models.DTOModels
     public class JoinChatDTO
     {
         public string username;
+
         public string chatCode;
+
+        public bool isModerator;
     }
 }

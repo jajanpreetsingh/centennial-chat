@@ -9,5 +9,7 @@ namespace CentennialTalk.PersistenceContract
     public interface IMemberRepository
     {
         GroupMember GetMemberByConnection(ConnectionDetailDTO data);
+
+        List<GroupMember> GetAll();
     }
 }
