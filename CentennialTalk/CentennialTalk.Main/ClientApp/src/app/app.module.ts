@@ -14,6 +14,7 @@ import { JoinChatComponent } from './join-chat/join-chat.component';
 import { ChatService } from './services/chat.service';
 import { MemberService } from './services/member.service';
 import { MessageService } from './services/message.service';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { MessageService } from './services/message.service';
   providers: [
     ChatService,
     MemberService,
-    MessageService
+    MessageService,
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

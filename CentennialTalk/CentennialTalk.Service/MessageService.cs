@@ -39,8 +39,9 @@ namespace CentennialTalk.Service
             {
                 Message message = new Message(messageData);
 
-                //if (messageData.replyId != Guid.Empty)
-                //    message.SetReplyId(messageData.replyId);
+                if (messageData.replyId != messageData.messageId
+                    && messageData.replyId != Guid.Empty)
+                    message.SetReplyId(messageData.replyId);
 
                 return messageRepository.SaveMessage(message);
             }

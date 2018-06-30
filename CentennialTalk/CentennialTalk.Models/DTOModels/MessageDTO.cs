@@ -5,7 +5,7 @@ namespace CentennialTalk.Models.DTOModels
     [Serializable]
     public class MessageDTO
     {
-        //public Guid messageId;
+        public Guid messageId;
 
         public string content;
 
@@ -13,8 +13,8 @@ namespace CentennialTalk.Models.DTOModels
 
         public string chatCode;
 
-        //public Guid replyId;
+        public Guid replyId;
 
-        //public DateTime sentDate;
+        public DateTime sentDate;
     }
 }

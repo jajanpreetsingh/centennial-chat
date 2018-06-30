@@ -5,6 +5,8 @@ import * as signalR from '@aspnet/signalr';
 import { ChatService } from '../services/chat.service';
 import { MemberService } from '../services/member.service';
 import { MessageService } from '../services/message.service';
+import { v4 as uuid } from 'uuid';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-chat',
@@ -31,11 +33,10 @@ export class ChatComponent implements OnInit {
     private memberService: MemberService,
     private activatedRoute: ActivatedRoute,
     private messageService: MessageService,
-    private router: Router) {
+    private router: Router, private datePipe: DatePipe) {
   }
 
   ngOnInit() {
-
     this.activatedRoute.params.subscribe((params: Params) => {
       console.log(this.activatedRoute.snapshot.queryParams);
 
@@ -115,6 +116,18 @@ export class ChatComponent implements OnInit {
       username: this.username,
       chatCode: this.chatCode
     }));
+
+    this.memberService.updateStatus({
+      username: this.username,
+      chatCode: this.chatCode,
+      connectionId: this.connectionId,
+      isConnected: false
+    }).subscribe(res => {
+      console.log(res);
+    },
+      err => {
+        console.log(err);
+      });
   }
 
   onUserJoined(username) {
@@ -140,13 +153,15 @@ export class ChatComponent implements OnInit {
       content: content
     }));
 
+    var mid = uuid();
+
     this.messageService.saveMessage({
-      //messageId: '00000000-0000-0000-0000-000000000000',
+      messageId: mid,
       content: content,
       chatCode: this.chatCode,
       sender: this.username,
-      //replyId: '00000000-0000-0000-0000-000000000000',
-      //sentDate: Date.now()
+      replyId: mid,
+      sentDate: this.datePipe.transform(Date.now(), 'yyyy-MM-dd HH:mm:ss')
     }).subscribe(res => {
       console.log(res);
     },

@@ -65,7 +65,6 @@ namespace CentennialTalk.Service
                     return new ResponseDTO(code, "Link Closed for joining. Reach out to moderator");
 
                 if (chat.Members != null
-
                     && chat
                         .Members
                         .Any(x => x.Username == joinChat.username && x.IsConnected))

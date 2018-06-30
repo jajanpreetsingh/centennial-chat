@@ -47,7 +47,7 @@ namespace CentennialTalk.Models
 
         public Message(MessageDTO messageData)
         {
-            MessageId = new Guid();
+            MessageId = messageData.messageId;//new Guid();
 
             Reactions = new List<MessageReaction>();
 
@@ -55,7 +55,7 @@ namespace CentennialTalk.Models
             ChatCode = messageData.chatCode;
             Content = messageData.content;
 
-            SentDate = DateTime.Now;// messageData.sentDate;
+            SentDate = messageData.sentDate;
         }
 
         public void SetReplyId(Guid guid)
@@ -67,12 +67,12 @@ namespace CentennialTalk.Models
         {
             MessageDTO dto = new MessageDTO();
 
-            //dto.messageId = MessageId;
+            dto.messageId = MessageId;
             dto.chatCode = ChatCode;
             dto.content = Content;
             dto.sender = Sender;
-            //dto.replyId = RepliedMessageId;
-            //dto.sentDate = SentDate;
+            dto.replyId = RepliedMessageId;
+            dto.sentDate = SentDate;
 
             return dto;
         }
