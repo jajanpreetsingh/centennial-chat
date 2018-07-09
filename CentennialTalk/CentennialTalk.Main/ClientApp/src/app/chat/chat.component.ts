@@ -7,6 +7,9 @@ import { MemberService } from '../services/member.service';
 import { MessageService } from '../services/message.service';
 import { v4 as uuid } from 'uuid';
 import { DatePipe } from '@angular/common';
+import { FileService } from '../services/file.service';
+
+declare var MediaRecorder: any;
 
 @Component({
   selector: 'app-chat',
@@ -23,6 +26,12 @@ export class ChatComponent implements OnInit {
   isConnected: boolean;
   connectionId: string;
 
+  blobFileChuncks: any = [];
+  mediaRecorder: any;
+  blob: any;
+
+  textToPlay: string;
+
   //members: string[] = [];
 
   private hubConnection: HubConnection;
@@ -30,9 +39,8 @@ export class ChatComponent implements OnInit {
   messages: any = [];
 
   constructor(private chatService: ChatService,
-    private memberService: MemberService,
-    private activatedRoute: ActivatedRoute,
-    private messageService: MessageService,
+    private memberService: MemberService, private activatedRoute: ActivatedRoute,
+    private messageService: MessageService, private fileService: FileService,
     private router: Router, private datePipe: DatePipe) {
   }
 
@@ -46,11 +54,6 @@ export class ChatComponent implements OnInit {
       this.title = this.activatedRoute.snapshot.queryParams['title'];
 
       this.amIModerator = this.moderator == this.username;
-
-      console.log(this.username);
-      console.log(this.chatCode);
-      console.log(this.moderator);
-      console.log(this.title);
     });
 
     this.initChatHub();
@@ -83,6 +86,10 @@ export class ChatComponent implements OnInit {
     this.hubConnection.on('messageReceived', data => {
       this.onMessageReceived(data);
     });
+  }
+
+  playAudio(textToTranslate) {
+    window.speechSynthesis.speak(new SpeechSynthesisUtterance(textToTranslate));
   }
 
   onConnectionStart(data) {
@@ -147,22 +154,20 @@ export class ChatComponent implements OnInit {
   sendMessage() {
     var content = this.message;
 
-    this.hubConnection.invoke('Send', JSON.stringify({
-      sender: this.username,
-      chatCode: this.chatCode,
-      content: content
-    }));
-
     var mid = uuid();
 
-    this.messageService.saveMessage({
+    var messageObj = {
       messageId: mid,
       content: content,
       chatCode: this.chatCode,
       sender: this.username,
       replyId: mid,
       sentDate: this.datePipe.transform(Date.now(), 'yyyy-MM-dd HH:mm:ss')
-    }).subscribe(res => {
+    };
+
+    this.hubConnection.invoke('Send', JSON.stringify(messageObj));
+
+    this.messageService.saveMessage(messageObj).subscribe(res => {
       console.log(res);
     },
       err => {

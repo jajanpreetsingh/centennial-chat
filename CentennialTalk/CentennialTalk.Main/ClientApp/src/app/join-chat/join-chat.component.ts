@@ -31,11 +31,8 @@ export class JoinChatComponent implements OnInit {
       }
     ).subscribe(res => {
       if (res.code == 200) {
-
         this.moderator = res.data.moderator;
         this.title = res.data.title;
-
-        
 
         this.router.navigate(['/chat'], {
           queryParams: {

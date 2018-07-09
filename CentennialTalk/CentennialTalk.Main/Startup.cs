@@ -74,7 +74,7 @@ namespace CentennialTalk.Main
 
             Log.Logger = new LoggerConfiguration()
                             .MinimumLevel.Information()
-                            .WriteTo.RollingFile("./Logs/log-{Date}.text", LogEventLevel.Information)
+                            .WriteTo.RollingFile("./Logs/log-{Date}.txt", LogEventLevel.Information)
                             .CreateLogger();
 
             if (env.IsDevelopment())

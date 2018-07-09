@@ -15,6 +15,7 @@ import { ChatService } from './services/chat.service';
 import { MemberService } from './services/member.service';
 import { MessageService } from './services/message.service';
 import { DatePipe } from '@angular/common';
+import { FileService } from './services/file.service';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { DatePipe } from '@angular/common';
     ChatService,
     MemberService,
     MessageService,
-    DatePipe
+    DatePipe,
+    FileService
   ],
   bootstrap: [AppComponent]
 })

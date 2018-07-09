@@ -5,8 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Cloud.Speech.V1" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CentennialTalk.Persistence\CentennialTalk.Persistence.csproj" />
     <ProjectReference Include="..\CentennialTalk.ServiceContract\CentennialTalk.ServiceContract.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="APIKey\" />
   </ItemGroup>
 
 </Project>
