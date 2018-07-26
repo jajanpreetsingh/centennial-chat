@@ -13,7 +13,9 @@ namespace CentennialTalk.Persistence.Repositories
 
         public List<Message> GetChatMessages(string chatCode)
         {
-            return dbContext.Messages.Where(x => x.ChatCode == chatCode).ToList();
+            return dbContext.Messages.Where(x => x.ChatCode == chatCode
+            && !string.IsNullOrWhiteSpace(x.Sender))
+                .ToList();
         }
 
         public bool SaveMessage(Message message)

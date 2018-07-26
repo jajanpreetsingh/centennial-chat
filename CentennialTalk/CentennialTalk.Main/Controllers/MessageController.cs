@@ -3,6 +3,7 @@ using CentennialTalk.Models.DTOModels;
 using CentennialTalk.ServiceContract;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CentennialTalk.Main.Controllers
 {
@@ -24,7 +25,7 @@ namespace CentennialTalk.Main.Controllers
         {
             List<Message> messages = messageService.GetChatMessages(chatCode);
 
-            return GetJson(new ResponseDTO(ResponseCode.OK, messages));
+            return GetJson(new ResponseDTO(ResponseCode.OK, messages.Select(x=>x.GetResponseDTO())));
         }
 
         [HttpPost("send")]

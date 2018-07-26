@@ -1,4 +1,5 @@
 ﻿using CentennialTalk.Models.DTOModels;
+using CentennialTalk.Models.QuestionModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -28,9 +29,17 @@ namespace CentennialTalk.Models
 
         public bool IsLinkOpen { get; set; }
 
+        public IList<PollingQuestion> Polls { get; set; }
+
+        public IList<SubjectiveQuestion> Questions { get; set; }
+
         public Discussion()
         {
             Members = new List<GroupMember>();
+
+            Questions = new List<SubjectiveQuestion>();
+
+            Polls = new List<PollingQuestion>();
 
             DiscussionId = new Guid();
 
@@ -40,6 +49,10 @@ namespace CentennialTalk.Models
         public Discussion(NewChatDTO newChat)
         {
             Members = new List<GroupMember>();
+
+            Questions = new List<SubjectiveQuestion>();
+
+            Polls = new List<PollingQuestion>();
 
             DiscussionId = new Guid();
 

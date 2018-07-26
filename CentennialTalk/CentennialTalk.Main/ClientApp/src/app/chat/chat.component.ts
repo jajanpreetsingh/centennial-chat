@@ -3,13 +3,10 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { HubConnection } from '@aspnet/signalr';
 import * as signalR from '@aspnet/signalr';
 import { ChatService } from '../services/chat.service';
-import { MemberService } from '../services/member.service';
-import { MessageService } from '../services/message.service';
 import { v4 as uuid } from 'uuid';
-import { DatePipe } from '@angular/common';
 import { FileService } from '../services/file.service';
-
-declare var MediaRecorder: any;
+import { SpeechService } from '../services/speech.service';
+import { HubService } from '../services/hub.service';
 
 @Component({
   selector: 'app-chat',
@@ -23,25 +20,11 @@ export class ChatComponent implements OnInit {
   amIModerator: boolean;
   title: string;
 
-  isConnected: boolean;
-  connectionId: string;
-
-  blobFileChuncks: any = [];
-  mediaRecorder: any;
-  blob: any;
-
-  textToPlay: string;
-
-  //members: string[] = [];
-
-  private hubConnection: HubConnection;
   message = '';
-  messages: any = [];
 
-  constructor(private chatService: ChatService,
-    private memberService: MemberService, private activatedRoute: ActivatedRoute,
-    private messageService: MessageService, private fileService: FileService,
-    private router: Router, private datePipe: DatePipe) {
+  constructor(private chatService: ChatService, private activatedRoute: ActivatedRoute,
+    private fileService: FileService, private router: Router,
+    private speechService: SpeechService, private hubService: HubService) {
   }
 
   ngOnInit() {
@@ -56,99 +39,26 @@ export class ChatComponent implements OnInit {
       this.amIModerator = this.moderator == this.username;
     });
 
-    this.initChatHub();
+    var joinGroupReq = JSON.stringify({
+      username: this.username,
+      chatCode: this.chatCode,
+      isModerator: this.amIModerator
+    });
+
+    this.hubService.initChatHub(joinGroupReq);
   }
 
-  initChatHub() {
-    this.hubConnection = new signalR.HubConnectionBuilder()
-      .configureLogging(signalR.LogLevel.Trace)
-      .withUrl('/discussion')
-      .build();
+  startListening() {
+    this.speechService.startListening();
+  }
 
-    this.hubConnection.start();
-
-    this.hubConnection.on('connectionStarted', data => {
-      this.onConnectionStart(data);
-    });
-
-    this.hubConnection.on('connectionAborted', data => {
-      this.onConnectionAbort(data);
-    });
-
-    this.hubConnection.on('userJoined', data => {
-      this.onUserJoined(data);
-    });
-
-    this.hubConnection.on('userLeft', data => {
-      this.onUserLeft(data);
-    });
-
-    this.hubConnection.on('messageReceived', data => {
-      this.onMessageReceived(data);
-    });
+  stopListening() {
+    this.speechService.stopListening();
+    this.message = this.speechService.recordTranscript;
   }
 
   playAudio(textToTranslate) {
     window.speechSynthesis.speak(new SpeechSynthesisUtterance(textToTranslate));
-  }
-
-  onConnectionStart(data) {
-    console.log('connection id', data);
-
-    this.connectionId = data;
-
-    this.isConnected = true;
-
-    this.hubConnection.invoke('JoinGroupChat', JSON.stringify({
-      username: this.username,
-      chatCode: this.chatCode,
-      isModerator: this.amIModerator
-    }));
-
-    this.memberService.updateStatus({
-      username: this.username,
-      chatCode: this.chatCode,
-      connectionId: this.connectionId,
-      isConnected: true
-    }).subscribe(res => {
-      console.log(res);
-    },
-      err => {
-        console.log(err);
-      });
-  }
-
-  onConnectionAbort(data) {
-    this.hubConnection.invoke('LeaveGroupChat', JSON.stringify({
-      username: this.username,
-      chatCode: this.chatCode
-    }));
-
-    this.memberService.updateStatus({
-      username: this.username,
-      chatCode: this.chatCode,
-      connectionId: this.connectionId,
-      isConnected: false
-    }).subscribe(res => {
-      console.log(res);
-    },
-      err => {
-        console.log(err);
-      });
-  }
-
-  onUserJoined(username) {
-    console.log(username + ' joined');
-  }
-
-  onUserLeft(username) {
-    console.log(username + ' left');
-  }
-
-  onMessageReceived(messageData) {
-    if (messageData.chatCode == this.chatCode) {
-      this.messages.push(messageData);
-    }
   }
 
   sendMessage() {
@@ -162,16 +72,8 @@ export class ChatComponent implements OnInit {
       chatCode: this.chatCode,
       sender: this.username,
       replyId: mid,
-      sentDate: this.datePipe.transform(Date.now(), 'yyyy-MM-dd HH:mm:ss')
     };
 
-    this.hubConnection.invoke('Send', JSON.stringify(messageObj));
-
-    this.messageService.saveMessage(messageObj).subscribe(res => {
-      console.log(res);
-    },
-      err => {
-        console.log(err);
-      });
+    this.hubService.sendMessage(messageObj);
   }
 }

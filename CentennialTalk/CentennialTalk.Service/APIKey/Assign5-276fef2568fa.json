@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "assign5-201014",
+  "private_key_id": "276fef2568fa44daba92cdd5ed532f1d9dccb2b4",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDDmC1eYqdAX8AJ\nO2vxUiui09qrmiDZb+HItLeE9Q2qLZVi63BveFoXdpsr2pXztcfmSML5ffmGl0Nl\nNC9OzYciPcKVixxtPaH0+MMLeyxSpwFPCnKG5SGQAjrI6AlyJyl2KX25sqeFng2+\no4lKkGZK8MuGuaFj1Doxldaxm5iyhQkyltFMJ2Kv0iPt9Eg9yvUVVxRz2kY5zuLN\nUnBu3/47TSAqONncX9vpHzLWj6TzYsqHeJed1cM/T3DkQ1qd30Gy+ZTQhbE9J+aR\ntr9nHc2ZLvjaEe4yP6xMjkc13PM4JbGKsBggeop6pbdkEnaYhsrhwMYunnhCLsDN\ne/AS/GrNAgMBAAECggEABVHhxgPr5aHVEMs3c+BWxH57n5g5FYDoBLP5m9mobf0A\nZ6jcrYN5+9JjhQ1Ub8T9c2N+PhfxjfoWQK3rLXsElmdUoAmhE82N1qJfd7P5cCQP\nso0nsUiRIaAV5jn9a8fp5kdZno/f44/5crpy9P65cYdcGcV5wMPYc1nOdZU0UYKl\nh4QZeELXxISCN7HUmSdN//tmLPxH0WPtOtPu67lUKNahw+DkwtxzTrlL8R/Z96SE\nxlzUsw0DNj6Ez8X4bFR/tX8s4oXCT612hJFhFGbyVkN5C+SwUDVWWzaKJf3L5fFS\nl977dTGUat6WZo1aI8E/Qy7x+5/ekwctBZKN2z5XcQKBgQD+v6JM5LMzVT2vHAqw\njEcXMhCuawBtXjtREKqtW0yClxpVAlqFwTIwDCheC+m6fkNWs9Nfu7r6oUVXvk2J\nGdDqCbDidqWjG+e3FRPDSvPH2ydMTk866CMT003NXr+oqJHTQYuooFulNOfSMCoq\n1/mc1HL0jkLDiFE04Gv8O94DeQKBgQDEjicAS4wFglKSzpozhZTvcJwwH1VjI0dc\nxuaPNSWhrSH5r8fVCfxQbMh9jf+8bbqAH4hXkW6w4ic+qZ4u0yEUO6XZrJQtO35Y\nIGBlfFAeahy9zKRwYMgjfTdgRZCh/XxhqzkRw52x3UIzdG15erKEqfZCbcEAEZSU\ny3HWtv3Y9QKBgQDGoG6Qm8Upoi3tSeT/0PBhIpUlGaMEo3OGeoNJlaUrMVvDqokg\nPwm9ss0KvyknUul4Qc/ulfZtEq95gZT88BcXVCUJ/k6Zxdk+w/1bySYYz0Rt16Up\nHfSzsY65MUYo3/6LhFC7UwUB5CVYmltWen1Sjcdv7TgbMz92BgHMcnVhqQKBgQCU\nVDZIebqMOcH4ueMSeH9hhljH1A2LCAeFkzBQ6Cmi7dXS6H1kXunDA6T1YyCX4TK6\nF5G7i6u93p0BI92Uto2jCDRrpVoZHGmHNb+pNnv7x9YywWliyRaf+ZG9nCG+rV2d\nEyq5JicuH6wiyn0HDLoFdYG6tbrNQ3ceJr2c7HF6tQKBgQDU8W6W/Q6PBn5kAxjM\nbWHo3net23K67t1bRibbmK2g36byeMUzU3dbsFrMTPTFrBacAzvjgWCcnvEwqh+g\nQaLdhirBUwexPJBsnyw7O6QuL9KYNE5VIprr0iy/2SWIcSHnCPsKKLsWePH90rdx\nMOLZ6OmXv3L7h5y0V/qYjJ5+bw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "jajan-centennial-talk@assign5-201014.iam.gserviceaccount.com",
+  "client_id": "104021206237198690796",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/jajan-centennial-talk%40assign5-201014.iam.gserviceaccount.com"
+}

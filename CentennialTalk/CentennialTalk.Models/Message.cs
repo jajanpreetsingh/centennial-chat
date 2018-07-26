@@ -34,7 +34,8 @@ namespace CentennialTalk.Models
         {
             get
             {
-                return RepliedMessageId != Guid.Empty;
+                return RepliedMessageId != Guid.Empty
+                    && RepliedMessageId != MessageId;
             }
         }
 
@@ -63,7 +64,7 @@ namespace CentennialTalk.Models
             RepliedMessageId = guid;
         }
 
-        public object GetResponseDTO()
+        public MessageDTO GetResponseDTO()
         {
             MessageDTO dto = new MessageDTO();
 
