@@ -9,6 +9,8 @@ namespace CentennialTalk.Models.DTOModels
     {
         public string moderator;
 
+        public string password;
+
         public string title;
     }
 }

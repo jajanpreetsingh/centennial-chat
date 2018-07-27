@@ -3,12 +3,10 @@
 namespace CentennialTalk.Models.DTOModels
 {
     [Serializable]
-    public class JoinChatDTO
+    public class SignUpDTO
     {
         public string username;
 
-        public string chatCode;
-
-        public bool isModerator;
+        public string password;
     }
 }
