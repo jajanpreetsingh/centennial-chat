@@ -12,7 +12,7 @@ namespace CentennialTalk.Main.Controllers
         private readonly UserManager<IdentityUser> userManager;
         private readonly SignInManager<IdentityUser> signInManager;
 
-        public AccountController(UserManager<IdentityUser> userManager, 
+        public AccountController(UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager)
         {
             this.userManager = userManager;
@@ -34,16 +34,24 @@ namespace CentennialTalk.Main.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> SignIn([FromBody]NewChatDTO newChatDTO)
+        public async Task<IActionResult> Login([FromBody]NewChatDTO newChatDTO)
         {
-            IdentityResult result = await signInManager.SignInAsync()
+            Microsoft.AspNetCore.Identity.SignInResult result = await signInManager
+                    .PasswordSignInAsync(newChatDTO.moderator, newChatDTO.password, false, false);
 
             if (result.Succeeded)
             {
-                return GetJson(new ResponseDTO(ResponseCode.OK, "Registeration successful"));
+                return GetJson(new ResponseDTO(ResponseCode.OK, "Login successful"));
             }
 
-            return GetJson(new ResponseDTO(ResponseCode.ERROR, result.Errors.ToArray()));
+            return GetJson(new ResponseDTO(ResponseCode.ERROR, "Invalid login attempt"));
+        }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+            return GetJson(new ResponseDTO(ResponseCode.OK, "Logged out successfully"));
         }
     }
 }

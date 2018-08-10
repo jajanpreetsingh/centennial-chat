@@ -33,7 +33,6 @@ html, body {
     background: rgb(228, 105, 105);
   }
 
-
 .login-container::before, .login-container::after {
   content: "";
   position: absolute;

@@ -3,7 +3,6 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Injectable()
 export class UtilityService {
-
   constructor(private router: Router) { }
 
   navigate(path, data) {

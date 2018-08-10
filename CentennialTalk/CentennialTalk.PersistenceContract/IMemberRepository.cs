@@ -1,8 +1,6 @@
 ﻿using CentennialTalk.Models;
 using CentennialTalk.Models.DTOModels;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CentennialTalk.PersistenceContract
 {

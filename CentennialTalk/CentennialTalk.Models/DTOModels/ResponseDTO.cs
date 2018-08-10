@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 
 namespace CentennialTalk.Models.DTOModels
 {

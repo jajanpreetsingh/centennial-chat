@@ -5,7 +5,6 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class MessageService {
-
   constructor(private http: Http) {
   }
 
@@ -15,7 +14,6 @@ export class MessageService {
   }
 
   saveMessage(messageData) {
-
     console.log('sending');
     return this.http.post("/api/message/send", messageData)
       .map(res => res.json());
