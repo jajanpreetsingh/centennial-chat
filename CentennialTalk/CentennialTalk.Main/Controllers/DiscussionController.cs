@@ -63,5 +63,18 @@ namespace CentennialTalk.Main.Controllers
 
             return GetJson(new ResponseDTO(ResponseCode.OK, "Success"));
         }
+
+        [HttpPost("questions/add")]
+        public IActionResult AddQuestionToChat([FromBody]QuestionDTO question)
+        {
+            ResponseDTO res = chatService.AddQuestionToChat(question);
+
+            bool saved = uowService.SaveChanges();
+
+            if (!saved)
+                return GetJson(new ResponseDTO(ResponseCode.ERROR, "Error saving question"));
+
+            return GetJson(res);
+        }
     }
 }

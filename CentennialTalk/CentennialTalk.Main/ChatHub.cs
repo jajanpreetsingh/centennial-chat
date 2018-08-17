@@ -55,7 +55,7 @@ namespace CentennialTalk.Main
 
         public void JoinGroupChat(string chatData)
         {
-            JoinChatDTO data = JsonConvert.DeserializeObject<JoinChatDTO>(chatData);
+            var data = JsonConvert.DeserializeObject<JoinChatDTO>(chatData);
 
             Groups.AddToGroupAsync(Context.ConnectionId, data.chatCode);
 

@@ -11,7 +11,7 @@
   </p>
   <span class="time-left">11:01</span>
 </div>-->
-<div class="row">
+<!--<div class="row">
   <div class="container col-sm-2">
   </div>
   <div class="container col-sm-8">
@@ -29,11 +29,10 @@
   </div>
   <div class="container col-sm-2">
   </div>
-</div>
-
+</div>-->
 
 <div class="container">
-  <h3 class=" text-center">Messaging</h3>
+  <h3 class=" text-center">{{chatData.title}}</h3>
   <div class="messaging">
     <div class="inbox_msg">
       <div class="inbox_people">
@@ -41,17 +40,18 @@
           <div class="recent_heading">
             <h4>Recent</h4>
           </div>
-          <div class="srch_bar">
+          <!--<div class="srch_bar">
             <div class="stylish-input-group">
               <input type="text" class="search-bar" placeholder="Search">
               <span class="input-group-addon">
                 <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
               </span>
             </div>
-          </div>
+          </div>-->
         </div>
         <div class="inbox_chat">
-          <div class="chat_list active_chat">
+
+          <!--<div class="chat_list active_chat">
             <div class="chat_people">
               <div class="chat_img"> <img src="Images/user-profile.png" alt="sunil"> </div>
               <div class="chat_ib">
@@ -62,7 +62,8 @@
                 </p>
               </div>
             </div>
-          </div>
+          </div>        repeatable template       -->
+
           <div class="chat_list">
             <div class="chat_people">
               <div class="chat_img"> <img src="Images/user-profile.png" alt="sunil"> </div>
@@ -139,10 +140,44 @@
       </div>
       <div class="mesgs">
         <div class="msg_history">
-          <div class="incoming_msg">
-            <div class="incoming_msg_img"> <img src="Images/user-profile.png" alt="sunil"> </div>
-            <div class="received_msg">
-              <div class="received_withd_msg">
+
+          <div *ngFor="let message of hs.messages">
+            -->
+            <div ng-if="message.isMine == false" class="incoming_msg">
+              <div class="incoming_msg_img"> <img src="Images/user-profile.png" alt="{{message.sender}}"> </div>
+              <div class="received_msg">
+                <div class="received_withd_msg">
+                  <p>
+                    {{message.content}}
+                  </p>
+                  <span class="time_date">{{message.sendDate}}</span>
+                </div>
+              </div>
+            </div>
+
+            <div ng-if="message.isMine == true" class="outgoing_msg">
+              <div class="sent_msg">
+                <p>
+                  {{message.content}}
+                </p>
+                <span class="time_date">{{message.sendDate}}</span>
+              </div>
+            </div>
+
+            <!--<div class="incoming_msg">
+              <div class="incoming_msg_img"> <img src="Images/user-profile.png" alt="sunil"> </div>
+              <div class="received_msg">
+                <div class="received_withd_msg">
+                  <p>
+                    Test which is a new approach to have all
+                    solutions
+                  </p>
+                  <span class="time_date"> 11:01 AM    |    June 9</span>
+                </div>
+              </div>
+            </div>
+            <div class="outgoing_msg">
+              <div class="sent_msg">
                 <p>
                   Test which is a new approach to have all
                   solutions
@@ -150,55 +185,46 @@
                 <span class="time_date"> 11:01 AM    |    June 9</span>
               </div>
             </div>
-          </div>
-          <div class="outgoing_msg">
-            <div class="sent_msg">
-              <p>
-                Test which is a new approach to have all
-                solutions
-              </p>
-              <span class="time_date"> 11:01 AM    |    June 9</span>
-            </div>
-          </div>
-          <div class="incoming_msg">
-            <div class="incoming_msg_img"> <img src="Images/user-profile.png" alt="sunil"> </div>
-            <div class="received_msg">
-              <div class="received_withd_msg">
-                <p>Test, which is a new approach to have</p>
-                <span class="time_date"> 11:01 AM    |    Yesterday</span>
+            <div class="incoming_msg">
+              <div class="incoming_msg_img"> <img src="Images/user-profile.png" alt="sunil"> </div>
+              <div class="received_msg">
+                <div class="received_withd_msg">
+                  <p>Test, which is a new approach to have</p>
+                  <span class="time_date"> 11:01 AM    |    Yesterday</span>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="outgoing_msg">
-            <div class="sent_msg">
-              <p>Apollo University, Delhi, India Test</p>
-              <span class="time_date"> 11:01 AM    |    Today</span>
-            </div>
-          </div>
-          <div class="incoming_msg">
-            <div class="incoming_msg_img"> <img src="Images/user-profile.png" alt="sunil"> </div>
-            <div class="received_msg">
-              <div class="received_withd_msg">
-                <p>
-                  We work directly with our designers and suppliers,
-                  and sell direct to you, which means quality, exclusive
-                  products, at a price anyone can afford.
-                </p>
+            <div class="outgoing_msg">
+              <div class="sent_msg">
+                <p>Apollo University, Delhi, India Test</p>
                 <span class="time_date"> 11:01 AM    |    Today</span>
               </div>
             </div>
+            <div class="incoming_msg">
+              <div class="incoming_msg_img"> <img src="Images/user-profile.png" alt="sunil"> </div>
+              <div class="received_msg">
+                <div class="received_withd_msg">
+                  <p>
+                    We work directly with our designers and suppliers,
+                    and sell direct to you, which means quality, exclusive
+                    products, at a price anyone can afford.
+                  </p>
+                  <span class="time_date"> 11:01 AM    |    Today</span>
+                </div>
+              </div>
+            </div>-->
           </div>
-        </div>
-        <div class="type_msg">
-          <div class="input_msg_write">
-            <input type="text" class="write_msg" placeholder="Type a message" />
-            <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+          <div class="type_msg">
+            <div class="input_msg_write">
+              <input type="text" class="write_msg" [(ngModel)]="message" placeholder="type your message" />
+              <button class="msg_send_btn" (click)="sendMessage()" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+
+              <!--<button class="msg_send_btn" (click)="startListening()" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+
+              <button class="msg_send_btn" (click)="stopListening()" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>-->
+            </div>
           </div>
         </div>
       </div>
     </div>
-
-
-
   </div>
-</div>

@@ -4,6 +4,10 @@ import * as signalR from '@aspnet/signalr';
 import { MessageService } from './message.service';
 import { DatePipe } from '@angular/common';
 import { MemberService } from './member.service';
+import { ChatModel } from '../../models/chat.model';
+import { MessageModel } from '../../models/message.model';
+import { UtilityService } from './utility.service';
+import { CheckType } from '@angular/core/src/view';
 
 @Injectable()
 export class HubService {
@@ -12,15 +16,17 @@ export class HubService {
   private isConnected: boolean;
   private connectionId: string;
 
-  private joinGroupReq: any;
+  private chatData: ChatModel;
 
-  messages: any = [];
+  messages: MessageModel[] = [];
 
   constructor(private messageService: MessageService, private datePipe: DatePipe,
-    private memberService: MemberService) { }
+    private memberService: MemberService, private utilityService: UtilityService) { }
 
-  initChatHub(joinGroupReq) {
-    this.joinGroupReq = joinGroupReq;
+  initChatHub() {
+    this.chatData = this.utilityService.getLocalChatData();
+
+    console.log('chat data', this.chatData);
 
     this.hubConnection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Trace)
@@ -57,11 +63,17 @@ export class HubService {
 
     this.isConnected = true;
 
-    this.hubConnection.invoke('JoinGroupChat', this.joinGroupReq);
+    this.hubConnection.invoke('JoinGroupChat', JSON.stringify({
+      'username': this.chatData.username,
+      'chatCode': this.chatData.chatCode,
+      'isModerator': this.chatData.username == this.chatData.moderator
+    })).catch(e => {
+      console.log(e);
+    });
 
     this.memberService.updateStatus({
-      username: this.joinGroupReq.username,
-      chatCode: this.joinGroupReq.chatCode,
+      username: this.chatData.username,
+      chatCode: this.chatData.chatCode,
       connectionId: this.connectionId,
       isConnected: true
     }).subscribe(res => {
@@ -74,13 +86,15 @@ export class HubService {
 
   onConnectionAbort(data) {
     this.hubConnection.invoke('LeaveGroupChat', JSON.stringify({
-      username: this.joinGroupReq.username,
-      chatCode: this.joinGroupReq.chatCode
+      username: this.chatData.username,
+      chatCode: this.chatData.chatCode
     }));
 
+    this.utilityService.navigateToPath('home');
+
     this.memberService.updateStatus({
-      username: this.joinGroupReq.username,
-      chatCode: this.joinGroupReq.chatCode,
+      username: this.chatData.username,
+      chatCode: this.chatData.chatCode,
       connectionId: this.connectionId,
       isConnected: false
     }).subscribe(res => {
@@ -100,8 +114,12 @@ export class HubService {
   }
 
   onMessageReceived(messageData) {
-    if (messageData.chatCode == this.joinGroupReq.chatCode) {
+
+    if (messageData.chatCode == this.chatData.chatCode) {
       this.messages.push(messageData);
+
+      this.messages[this.messages.length - 1].isMine
+        = this.messages[this.messages.length - 1].sender == this.chatData.username;
     }
   }
 
@@ -119,6 +137,6 @@ export class HubService {
   }
 
   getMessages() {
-    return this.messages.sort((a, b) => { a.sentDate - b.sentDate });
+    //return this.messages.sort((a, b) => { a.sentDate - b.sentDate });
   }
 }

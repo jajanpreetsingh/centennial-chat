@@ -16,6 +16,7 @@ namespace CentennialTalk.Models.QuestionModels
 
         public Question()
         {
+            IsPublished = false;
         }
     }
 

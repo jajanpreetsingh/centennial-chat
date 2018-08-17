@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, InjectionToken } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, Http } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
@@ -17,6 +17,11 @@ import { MessageService } from './services/message.service';
 import { DatePipe } from '@angular/common';
 import { FileService } from './services/file.service';
 import { SpeechService } from './services/speech.service';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { LoginComponent } from './login/login.component';
+import { AccountService } from './services/account.service';
+import { UtilityService } from './services/utility.service';
+import { HubService } from './services/hub.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +29,9 @@ import { SpeechService } from './services/speech.service';
     HomeComponent,
     ChatComponent,
     NewChatComponent,
-    JoinChatComponent
+    JoinChatComponent,
+    SignUpComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -33,8 +40,11 @@ import { SpeechService } from './services/speech.service';
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'home', component: HomeComponent, pathMatch: 'full' },
       { path: 'join', component: JoinChatComponent },
       { path: 'new', component: NewChatComponent },
+      { path: 'login', component: LoginComponent },
+      { path: 'signup', component: SignUpComponent },
       { path: 'chat', component: ChatComponent },
       { path: 'chat/:data', component: ChatComponent },
     ])
@@ -45,7 +55,10 @@ import { SpeechService } from './services/speech.service';
     MessageService,
     DatePipe,
     FileService,
-    SpeechService
+    SpeechService,
+    AccountService,
+    UtilityService,
+    HubService
   ],
   bootstrap: [AppComponent]
 })

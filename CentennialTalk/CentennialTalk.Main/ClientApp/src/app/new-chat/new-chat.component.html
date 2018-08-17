@@ -5,8 +5,8 @@
 
     <div class="form-box">
       <form (ngSubmit)="onSubmitNewChat()">
-        <input name="moderator" type="text" placeholder="username" (change)="onChangeModerator()" [(ngModel)]="moderator">
-        <input name="title" type="text" placeholder="title" (change)="onChangeModerator()" [(ngModel)]="title">
+        <input name="moderator" type="text" disabled="disabled" placeholder="username" (change)="onChangeModerator()" [(ngModel)]="chatData.moderator">
+        <input name="title" type="text" placeholder="title" (change)="onChangeModerator()" [(ngModel)]="chatData.title">
         <button class="btn btn-info btn-block login" type="submit">Start Discussion</button>
       </form>
     </div>

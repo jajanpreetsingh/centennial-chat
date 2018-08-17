@@ -3,6 +3,7 @@ using CentennialTalk.Persistence.Repositories;
 using CentennialTalk.PersistenceContract;
 using CentennialTalk.Service;
 using CentennialTalk.ServiceContract;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -12,9 +13,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Serilog.Events;
 using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 
 namespace CentennialTalk.Main
 {
@@ -60,6 +64,18 @@ namespace CentennialTalk.Main
                                 .AddEntityFrameworkStores<ChatDBContext>()
                                 .AddDefaultTokenProviders();
 
+            if (Configuration["AuthType"] == "JWT")
+            {
+                ConfigureJWTAuthentication(services);
+            }
+            else
+            {
+                ConfigureCookieAuthentication(services);
+            }
+        }
+
+        private void ConfigureCookieAuthentication(IServiceCollection services)
+        {
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings.
@@ -91,6 +107,32 @@ namespace CentennialTalk.Main
                 //options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 //options.SlidingExpiration = true;
             });
+        }
+
+        private void ConfigureJWTAuthentication(IServiceCollection services)
+        {
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
+            services
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(cfg =>
+                {
+                    cfg.RequireHttpsMetadata = false;
+                    cfg.SaveToken = true;
+                    cfg.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidIssuer = Configuration["JwtIssuer"],
+                        ValidAudience = Configuration["JwtIssuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtKey"])),
+                        ClockSkew = TimeSpan.Zero // remove delay of token when expire
+                    };
+                });
         }
 
         private void AddServicePackages(IServiceCollection services)

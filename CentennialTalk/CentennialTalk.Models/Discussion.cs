@@ -29,6 +29,8 @@ namespace CentennialTalk.Models
 
         public bool IsLinkOpen { get; set; }
 
+        public DateTime ExpirationDate { get; set; }
+
         public IList<PollingQuestion> Polls { get; set; }
 
         public IList<SubjectiveQuestion> Questions { get; set; }

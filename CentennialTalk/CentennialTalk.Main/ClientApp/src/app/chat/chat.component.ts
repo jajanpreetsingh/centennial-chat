@@ -7,6 +7,8 @@ import { v4 as uuid } from 'uuid';
 import { FileService } from '../services/file.service';
 import { SpeechService } from '../services/speech.service';
 import { HubService } from '../services/hub.service';
+import { ChatModel } from '../../models/chat.model';
+import { UtilityService } from '../services/utility.service';
 
 @Component({
   selector: 'app-chat',
@@ -14,38 +16,22 @@ import { HubService } from '../services/hub.service';
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
-  username: string;
-  chatCode: string;
-  moderator: string;
-  amIModerator: boolean;
-  title: string;
+  chatData: ChatModel = new ChatModel();
 
   message = '';
 
-  constructor(private chatService: ChatService, private activatedRoute: ActivatedRoute,
-    private fileService: FileService, private router: Router,
-    private speechService: SpeechService, private hubService: HubService) {
+  hs: HubService;
+
+  constructor(private chatService: ChatService, private speechService: SpeechService,
+    private hubService: HubService, private utilityService: UtilityService) {
+
+   this.hs = this.hubService;
   }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe((params: Params) => {
-      console.log(this.activatedRoute.snapshot.queryParams);
+    this.chatData = this.utilityService.getLocalChatData();
 
-      this.username = this.activatedRoute.snapshot.queryParams['username'];
-      this.chatCode = this.activatedRoute.snapshot.queryParams['chatCode'];
-      this.moderator = this.activatedRoute.snapshot.queryParams['moderator'];
-      this.title = this.activatedRoute.snapshot.queryParams['title'];
-
-      this.amIModerator = this.moderator == this.username;
-    });
-
-    var joinGroupReq = JSON.stringify({
-      username: this.username,
-      chatCode: this.chatCode,
-      isModerator: this.amIModerator
-    });
-
-    this.hubService.initChatHub(joinGroupReq);
+    this.hubService.initChatHub();
   }
 
   startListening() {
@@ -69,8 +55,8 @@ export class ChatComponent implements OnInit {
     var messageObj = {
       messageId: mid,
       content: content,
-      chatCode: this.chatCode,
-      sender: this.username,
+      chatCode: this.chatData.chatCode,
+      sender: this.chatData.username,
       replyId: mid,
     };
 

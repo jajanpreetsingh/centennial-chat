@@ -3,6 +3,8 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { HubConnection } from '@aspnet/signalr';
 import * as signalR from '@aspnet/signalr';
 import { ChatService } from '../services/chat.service';
+import { ChatModel } from '../../models/chat.model';
+import { UtilityService } from '../services/utility.service';
 
 @Component({
   selector: 'app-join-chat',
@@ -10,14 +12,10 @@ import { ChatService } from '../services/chat.service';
   styleUrls: ['./join-chat.component.css']
 })
 export class JoinChatComponent implements OnInit {
-  username: string;
-  chatCode: string;
-  moderator: string;
-  title: string;
+  chatData: ChatModel = new ChatModel();
 
   constructor(private chatService: ChatService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router) {
+    private utilityService: UtilityService) {
   }
 
   ngOnInit() {
@@ -26,36 +24,25 @@ export class JoinChatComponent implements OnInit {
   onSubmitJoinChat() {
     this.chatService.joinChat(
       {
-        "username": this.username,
-        "chatCode": this.chatCode
+        "username": this.chatData.username,
+        "chatCode": this.chatData.chatCode
       }
     ).subscribe(res => {
       if (res.code == 200) {
-        this.moderator = res.data.moderator;
-        this.title = res.data.title;
+        this.chatData.moderator = res.data.moderator;
+        this.chatData.title = res.data.title;
 
-        this.router.navigate(['/chat'], {
-          queryParams: {
-            username: this.username,
-            moderator: this.moderator,
-            title: this.title,
-            chatCode: this.chatCode
-          }
-        });
+        this.utilityService.setLocalChatData(this.chatData);
+
+        this.utilityService.navigateToPath('/chat');
       }
       else {
-        this.username =
-          this.moderator =
-          this.chatCode =
-          this.title = '';
+        this.chatData = new ChatModel();
         console.log(res.data);
       }
     },
       error => {
-        this.username =
-          this.moderator =
-          this.chatCode =
-          this.title = '';
+        this.chatData = new ChatModel();
         console.log(error);
       });
   }

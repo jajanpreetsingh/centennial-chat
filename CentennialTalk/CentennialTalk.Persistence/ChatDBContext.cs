@@ -1,10 +1,12 @@
 ﻿using CentennialTalk.Models;
 using CentennialTalk.Models.QuestionModels;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CentennialTalk.Persistence
 {
-    public class ChatDBContext : DbContext
+    public class ChatDBContext : IdentityDbContext<IdentityUser>
     {
         public DbSet<Message> Messages { get; set; }
 
@@ -17,6 +19,8 @@ namespace CentennialTalk.Persistence
         public DbSet<PollingQuestion> Polls { get; set; }
 
         public DbSet<SubjectiveQuestion> Questions { get; set; }
+
+        //public DbSet<IdentityUser> ApplicationUsers { get; set; }
 
         public ChatDBContext(DbContextOptions contextOptions) : base(contextOptions)
         {

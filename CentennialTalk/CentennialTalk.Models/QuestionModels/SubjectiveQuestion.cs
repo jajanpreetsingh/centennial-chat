@@ -1,4 +1,6 @@
-﻿namespace CentennialTalk.Models.QuestionModels
+﻿using CentennialTalk.Models.DTOModels;
+
+namespace CentennialTalk.Models.QuestionModels
 {
     public class SubjectiveQuestion : Question
     {
@@ -11,6 +13,13 @@
         {
             Content = content;
             Type = QuestionType.POLLING;
+        }
+
+        public SubjectiveQuestion(QuestionDTO dto) : base()
+        {
+            Type = QuestionType.SUBJECTIVE;
+
+            Content = dto.content;
         }
     }
 }

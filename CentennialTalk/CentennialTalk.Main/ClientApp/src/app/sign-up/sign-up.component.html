@@ -1,0 +1,14 @@
+<div class="container col-sm-12">
+  <div class="login-container">
+    <div id="output"></div>
+    <div class="avatar"></div>
+    <div>Moderator Signup</div>
+    <div class="form-box">
+      <form (ngSubmit)="onModeratorSignup()">
+        <input name="user" type="text" placeholder="username" [(ngModel)]="signup.username">
+        <input name="password" type="password" placeholder="password" [(ngModel)]="signup.password">
+        <button class="btn btn-info btn-block login" type="submit">Sign up</button>
+      </form>
+    </div>
+  </div>
+</div>
