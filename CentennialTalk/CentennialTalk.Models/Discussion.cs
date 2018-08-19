@@ -96,7 +96,6 @@ namespace CentennialTalk.Models
         {
             ExpandoObject dto = new ExpandoObject();
 
-            dto.TryAdd("id", DiscussionId);
             dto.TryAdd("chatCode", DiscussionCode);
             dto.TryAdd("title", Title);
             dto.TryAdd("moderator", Members.FirstOrDefault(x => x.IsModerator).Username);

@@ -64,7 +64,7 @@ namespace CentennialTalk.Main.Controllers
             return GetJson(new ResponseDTO(ResponseCode.ERROR, "Invalid login attempt"));
         }
 
-        [HttpPost("logout")]
+        [HttpGet("logout")]
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();

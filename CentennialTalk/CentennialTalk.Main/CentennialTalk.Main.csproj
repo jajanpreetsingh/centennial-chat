@@ -14,8 +14,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.MessagePack" Version="1.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.0" />
     <PackageReference Include="Serilog.Extensions.Logging.File" Version="1.1.0" />
@@ -35,12 +33,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\models\member.model.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CentennialTalk.Persistence\CentennialTalk.Persistence.csproj" />
     <ProjectReference Include="..\CentennialTalk.Service\CentennialTalk.Service.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\src\assets\images\" />
     <Folder Include="ClientApp\src\assets\recorderjs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\models\member.model.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

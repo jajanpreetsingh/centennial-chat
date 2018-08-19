@@ -1,6 +1,9 @@
-﻿using CentennialTalk.Models.DTOModels;
+﻿using CentennialTalk.Models;
+using CentennialTalk.Models.DTOModels;
 using CentennialTalk.ServiceContract;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CentennialTalk.Main.Controllers
 {
@@ -29,6 +32,17 @@ namespace CentennialTalk.Main.Controllers
             else
                 return GetJson(new ResponseDTO(ResponseCode.ERROR,
                     "No member found or server error"));
+        }
+
+        [HttpPost("members")]
+        public IActionResult GetChatMembers(string chatCode)
+        {
+            List<GroupMember> gMembers = memberService.GetChatMembers(chatCode);
+
+            if (gMembers == null || gMembers.Count <= 0)
+                return GetJson(new ResponseDTO(ResponseCode.OK, new List<string>()));
+
+            return GetJson(new ResponseDTO(ResponseCode.OK, gMembers.Select(x => x.Username)));
         }
     }
 }

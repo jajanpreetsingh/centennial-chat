@@ -21,12 +21,8 @@ export class AccountService {
       .map(res => res.json());
   }
 
-  isUserLoggedIn() {
-    var token = localStorage.getItem("jwt");
-    var isExpired = token != null
-      && token != ''
-      && new JwtHelperService().isTokenExpired(token);
-
-    return isExpired;
+  tryLogout() {
+    return this.http.get("/api/auth/logout")
+      .map(res => res.json());
   }
 }

@@ -9,5 +9,7 @@ namespace CentennialTalk.PersistenceContract
         GroupMember GetMemberByConnection(ConnectionDetailDTO data);
 
         List<GroupMember> GetAll();
+
+        List<GroupMember> GetChatMembers(string chatCode);
     }
 }

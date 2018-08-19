@@ -26,7 +26,7 @@ namespace CentennialTalk.Main.Controllers
             uowService.SaveChanges();
 
             if (chat != null)
-                return GetJson(new ResponseDTO(ResponseCode.OK, chat));
+                return GetJson(new ResponseDTO(ResponseCode.OK, chat.GetResponseDTO()));
             else
                 return GetJson(new ResponseDTO(ResponseCode.ERROR, "Error creating chat"));
         }

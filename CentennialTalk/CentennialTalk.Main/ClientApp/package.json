@@ -14,7 +14,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^5.2.0",
-    "@angular/common": "^5.2.0",
+    "@angular/common": "^5.2.11",
     "@angular/compiler": "^5.2.0",
     "@angular/core": "^5.2.0",
     "@angular/forms": "^5.2.0",
@@ -30,7 +30,8 @@
     "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
     "jquery": "^3.3.1",
-    "npm": "^6.3.0",
+    "jwt-decode": "^2.2.0",
+    "npm": "^6.4.0",
     "rxjs": "^5.5.6",
     "uuid": "^3.3.0",
     "zone.js": "^0.8.19"

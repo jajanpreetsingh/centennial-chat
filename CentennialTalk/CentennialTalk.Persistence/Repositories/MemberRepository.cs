@@ -23,5 +23,10 @@ namespace CentennialTalk.Persistence.Repositories
                 .FirstOrDefault(x => x.Username == data.username
                     && x.ChatCode == data.chatCode);
         }
+
+        public List<GroupMember> GetChatMembers(string chatCode)
+        {
+            return dbContext.GroupMembers.Where(x => x.ChatCode == chatCode).ToList();
+        }
     }
 }

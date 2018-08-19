@@ -7,7 +7,7 @@ import { MemberService } from './member.service';
 import { ChatModel } from '../../models/chat.model';
 import { MessageModel } from '../../models/message.model';
 import { UtilityService } from './utility.service';
-import { CheckType } from '@angular/core/src/view';
+import { MemberModel } from '../../models/member.model';
 
 @Injectable()
 export class HubService {
@@ -20,13 +20,25 @@ export class HubService {
 
   messages: MessageModel[] = [];
 
+  members: MemberModel[] = [];
+
   constructor(private messageService: MessageService, private datePipe: DatePipe,
     private memberService: MemberService, private utilityService: UtilityService) { }
 
   initChatHub() {
     this.chatData = this.utilityService.getLocalChatData();
 
-    console.log('chat data', this.chatData);
+    if (this.chatData == null || this.chatData.chatCode == '') {
+      this.utilityService.navigateToPath('home');
+      return;
+    }
+
+    this.messageService.getChatMessages(this.chatData.chatCode).subscribe(res => {
+      this.messages = res.data;
+    },
+      err => {
+        console.log(err);
+      });
 
     this.hubConnection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Trace)
@@ -35,25 +47,7 @@ export class HubService {
 
     this.hubConnection.start();
 
-    this.hubConnection.on('connectionStarted', data => {
-      this.onConnectionStart(data);
-    });
-
-    this.hubConnection.on('connectionAborted', data => {
-      this.onConnectionAbort(data);
-    });
-
-    this.hubConnection.on('userJoined', data => {
-      this.onUserJoined(data);
-    });
-
-    this.hubConnection.on('userLeft', data => {
-      this.onUserLeft(data);
-    });
-
-    this.hubConnection.on('messageReceived', data => {
-      this.onMessageReceived(data);
-    });
+    this.initEventCallbacks();
   }
 
   onConnectionStart(data) {
@@ -75,7 +69,7 @@ export class HubService {
       username: this.chatData.username,
       chatCode: this.chatData.chatCode,
       connectionId: this.connectionId,
-      isConnected: true
+      isConnected: this.isConnected
     }).subscribe(res => {
       console.log(res);
     },
@@ -92,11 +86,13 @@ export class HubService {
 
     this.utilityService.navigateToPath('home');
 
+    this.isConnected = false;
+
     this.memberService.updateStatus({
       username: this.chatData.username,
       chatCode: this.chatData.chatCode,
       connectionId: this.connectionId,
-      isConnected: false
+      isConnected: this.isConnected
     }).subscribe(res => {
       console.log(res);
     },
@@ -107,19 +103,44 @@ export class HubService {
 
   onUserJoined(username) {
     console.log(username + ' joined');
+
+    let index = this.members.indexOf(username);
+
+    if (index > -1)
+      this.members[index].isConnected = true;
+    else {
+      let member = new MemberModel();
+
+      member.username = username;
+      member.isConnected = true;
+
+      this.members.push(member);
+    }
   }
 
   onUserLeft(username) {
     console.log(username + ' left');
+
+    let index = this.members.indexOf(username);
+
+    if (index > -1)
+      this.members[index].isConnected = false;
+    else {
+      let member = new MemberModel();
+
+      member.username = username;
+      member.isConnected = false;
+
+      this.members.push(member);
+    }
   }
 
   onMessageReceived(messageData) {
-
     if (messageData.chatCode == this.chatData.chatCode) {
-      this.messages.push(messageData);
 
-      this.messages[this.messages.length - 1].isMine
-        = this.messages[this.messages.length - 1].sender == this.chatData.username;
+      messageData.isMine = messageData.sender == this.chatData.username;
+
+      this.messages.push(messageData);
     }
   }
 
@@ -134,6 +155,28 @@ export class HubService {
       err => {
         console.log(err);
       });
+  }
+
+  initEventCallbacks() {
+    this.hubConnection.on('connectionStarted', data => {
+      this.onConnectionStart(data);
+    });
+
+    this.hubConnection.on('connectionAborted', data => {
+      this.onConnectionAbort(data);
+    });
+
+    this.hubConnection.on('userJoined', data => {
+      this.onUserJoined(data);
+    });
+
+    this.hubConnection.on('userLeft', data => {
+      this.onUserLeft(data);
+    });
+
+    this.hubConnection.on('messageReceived', data => {
+      this.onMessageReceived(data);
+    });
   }
 
   getMessages() {

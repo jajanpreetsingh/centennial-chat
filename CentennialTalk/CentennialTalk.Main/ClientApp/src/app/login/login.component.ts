@@ -26,6 +26,8 @@ export class LoginComponent implements OnInit {
 
         this.utilityService.setLocalCredentials(this.login);
 
+        this.utilityService.getJwtData();
+
         this.router.navigate(['/new']);
       }
       else {

@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router, Params } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt'
+import { AccountService } from './account.service';
+import * as jwtDecode from 'jwt-decode';
 
 @Injectable()
 export class UtilityService {
-  constructor(private activatedRoute: ActivatedRoute,
-    private router: Router) { }
+  constructor(private router: Router, private accountService: AccountService) { }
 
   setLocalChatData(chatData) {
     localStorage.setItem("chatData", JSON.stringify(chatData));
@@ -55,5 +56,31 @@ export class UtilityService {
 
   navigateToPath(path) {
     this.router.navigate([path]);
+  }
+
+  showErrorAlert(message) {
+  }
+
+  showSuccessAlert(message) {
+  }
+
+  getJwtData() {
+    let token = this.getJwtToken();
+
+    if (token == null)
+      return;
+
+    console.log(new JwtHelperService().urlBase64Decode(token));
+
+    console.log(jwtDecode(token));
+  }
+
+  logout() {
+    this.accountService.tryLogout().subscribe(res => {
+      this.setJwtToken('');
+      this.setLocalCredentials('');
+
+      this.navigateToPath('home');
+    });
   }
 }

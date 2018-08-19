@@ -1,4 +1,6 @@
-﻿using CentennialTalk.Models.DTOModels;
+﻿using CentennialTalk.Models;
+using CentennialTalk.Models.DTOModels;
+using System.Collections.Generic;
 
 namespace CentennialTalk.ServiceContract
 {
@@ -7,5 +9,7 @@ namespace CentennialTalk.ServiceContract
         bool UpdateConnectionStatus(ConnectionDetailDTO data);
 
         void DisconnectAllMembers();
+
+        List<GroupMember> GetChatMembers(string chatCode);
     }
 }

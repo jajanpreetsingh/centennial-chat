@@ -1,11 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { HubConnection } from '@aspnet/signalr';
-import * as signalR from '@aspnet/signalr';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ChatService } from '../services/chat.service';
 import { ChatModel } from '../../models/chat.model';
 import { UtilityService } from '../services/utility.service';
-import { LoginModel } from '../../models/login.model';
 
 @Component({
   selector: 'app-new-chat',
@@ -13,7 +9,7 @@ import { LoginModel } from '../../models/login.model';
   styleUrls: ['./new-chat.component.css']
 })
 
-export class NewChatComponent implements OnInit {
+export class NewChatComponent implements OnInit, OnDestroy {
   chatData: ChatModel = new ChatModel();
 
   constructor(private chatService: ChatService, private utilityService: UtilityService) {
@@ -45,10 +41,10 @@ export class NewChatComponent implements OnInit {
       }
     ).subscribe(res => {
       if (res.code == 200) {
-        console.log(res);
 
         this.chatData.moderator = res.data.moderator;
         this.chatData.title = res.data.title;
+        this.chatData.chatCode = res.data.chatCode;
 
         this.utilityService.setLocalChatData(this.chatData);
 
@@ -63,5 +59,9 @@ export class NewChatComponent implements OnInit {
         this.chatData = new ChatModel();
         console.log(error);
       });
+  }
+
+  ngOnDestroy() {
+
   }
 }

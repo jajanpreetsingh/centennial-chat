@@ -1,14 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { HubConnection } from '@aspnet/signalr';
-import * as signalR from '@aspnet/signalr';
-import { ChatService } from '../services/chat.service';
 import { v4 as uuid } from 'uuid';
-import { FileService } from '../services/file.service';
 import { SpeechService } from '../services/speech.service';
 import { HubService } from '../services/hub.service';
 import { ChatModel } from '../../models/chat.model';
 import { UtilityService } from '../services/utility.service';
+import { MessageService } from '../services/message.service';
 
 @Component({
   selector: 'app-chat',
@@ -20,12 +16,12 @@ export class ChatComponent implements OnInit {
 
   message = '';
 
-  hs: HubService;
+  hubInstance: HubService;
 
-  constructor(private chatService: ChatService, private speechService: SpeechService,
+  constructor(private speechService: SpeechService,
     private hubService: HubService, private utilityService: UtilityService) {
 
-   this.hs = this.hubService;
+    this.hubInstance = this.hubService;
   }
 
   ngOnInit() {

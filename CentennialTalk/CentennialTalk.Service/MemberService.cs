@@ -54,5 +54,10 @@ namespace CentennialTalk.Service
                 logger.LogError(ex.Message);
             }
         }
+
+        public List<GroupMember> GetChatMembers(string chatCode)
+        {
+            return memberRepository.GetChatMembers(chatCode);
+        }
     }
 }
