@@ -22,6 +22,8 @@ import { LoginComponent } from './login/login.component';
 import { AccountService } from './services/account.service';
 import { UtilityService } from './services/utility.service';
 import { HubService } from './services/hub.service';
+import { NativeSpeechService } from './services/native-speech.service';
+import { SpeechRecognition } from 'nativescript-speech-recognition';
 
 @NgModule({
   declarations: [
@@ -58,7 +60,9 @@ import { HubService } from './services/hub.service';
     SpeechService,
     AccountService,
     UtilityService,
-    HubService
+    HubService,
+    SpeechRecognition,
+    NativeSpeechService
   ],
   bootstrap: [AppComponent]
 })

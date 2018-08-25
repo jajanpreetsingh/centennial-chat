@@ -46,9 +46,9 @@ namespace CentennialTalk.Main.Controllers
         }
 
         [HttpPost("close")]
-        public IActionResult CloseJoiningLink(string chatCode)
+        public IActionResult CloseJoiningLink([FromBody]RequestDTO chatCode)
         {
-            Discussion chat = chatService.GetChatByCode(chatCode);
+            Discussion chat = chatService.GetChatByCode(chatCode.value.ToString());
 
             if (chat == null)
                 return GetJson(new ResponseDTO(ResponseCode.ERROR,

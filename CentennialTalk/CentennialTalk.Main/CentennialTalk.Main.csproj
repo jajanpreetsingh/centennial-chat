@@ -22,14 +22,18 @@
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Compile Remove="ClientApp\src\assets\externaljs\**" />
+    <Compile Remove="ClientApp\src\assets\recorderjs\**" />
     <Content Remove="$(SpaRoot)**" />
     <Content Remove="ClientApp\src\assets\externaljs\**" />
+    <Content Remove="ClientApp\src\assets\recorderjs\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Remove="ClientApp\src\assets\externaljs\**" />
+    <EmbeddedResource Remove="ClientApp\src\assets\recorderjs\**" />
     <None Remove="ClientApp\src\assets\externaljs\**" />
+    <None Remove="ClientApp\src\assets\recorderjs\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,7 +47,6 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\src\assets\images\" />
-    <Folder Include="ClientApp\src\assets\recorderjs\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -35,9 +35,9 @@ namespace CentennialTalk.Main.Controllers
         }
 
         [HttpPost("members")]
-        public IActionResult GetChatMembers(string chatCode)
+        public IActionResult GetChatMembers([FromBody]RequestDTO chatCode)
         {
-            List<GroupMember> gMembers = memberService.GetChatMembers(chatCode);
+            List<GroupMember> gMembers = memberService.GetChatMembers(chatCode.value.ToString());
 
             if (gMembers == null || gMembers.Count <= 0)
                 return GetJson(new ResponseDTO(ResponseCode.OK, new List<string>()));

@@ -33,12 +33,7 @@ export class HubService {
       return;
     }
 
-    this.messageService.getChatMessages(this.chatData.chatCode).subscribe(res => {
-      this.messages = res.data;
-    },
-      err => {
-        console.log(err);
-      });
+    this.fetchPreviousMessages();
 
     this.hubConnection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Trace)
@@ -137,7 +132,6 @@ export class HubService {
 
   onMessageReceived(messageData) {
     if (messageData.chatCode == this.chatData.chatCode) {
-
       messageData.isMine = messageData.sender == this.chatData.username;
 
       this.messages.push(messageData);
@@ -177,6 +171,23 @@ export class HubService {
     this.hubConnection.on('messageReceived', data => {
       this.onMessageReceived(data);
     });
+  }
+
+  fetchPreviousMessages() {
+    console.log('chat code to get message',this.chatData.chatCode);
+    this.messageService.getChatMessages(this.chatData.chatCode).subscribe(res => {
+      let messageArray = res.data;
+
+      console.log('prev messages', res.data);
+
+      if (messageArray != null && messageArray.length > 0)
+        for (var i = 0; i < messageArray.length; i++) {
+          this.onMessageReceived(messageArray[i])
+        }
+    },
+      err => {
+        console.log(err);
+      });
   }
 
   getMessages() {

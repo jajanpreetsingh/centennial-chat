@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NativeSpeechService } from '../services/native-speech.service';
 
 @Component({
   selector: 'app-home',
@@ -7,8 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class HomeComponent implements OnInit {
-  constructor() { }
+  constructor(private nativeService: NativeSpeechService) { }
 
   ngOnInit() {
+
+  }
+
+  start() {
+    this.nativeService.start();
+  }
+
+  stop() {
+    this.nativeService.stop();
   }
 }

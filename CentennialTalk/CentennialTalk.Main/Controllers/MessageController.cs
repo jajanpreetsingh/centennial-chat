@@ -2,6 +2,7 @@
 using CentennialTalk.Models.DTOModels;
 using CentennialTalk.ServiceContract;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,9 +22,9 @@ namespace CentennialTalk.Main.Controllers
         }
 
         [HttpPost("messages")]
-        public IActionResult GetChatMessages(string chatCode)
+        public IActionResult GetChatMessages([FromBody]RequestDTO chatCode)
         {
-            List<Message> messages = messageService.GetChatMessages(chatCode);
+            List<Message> messages = messageService.GetChatMessages(chatCode.value.ToString());
 
             return GetJson(new ResponseDTO(ResponseCode.OK, messages.Select(x => x.GetResponseDTO())));
         }
