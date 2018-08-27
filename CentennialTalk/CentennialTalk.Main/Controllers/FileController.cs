@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CentennialTalk.Models.DTOModels;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -10,19 +12,16 @@ namespace CentennialTalk.Main.Controllers
         private const string fileName = "D:\\data\\soundMessage.raw";
 
         [HttpPost("save")]
-        public IActionResult SaveToFile(object data)
+        public IActionResult SaveToFile([FromBody]RequestDTO data)
         {
-            BinaryFormatter bf = new BinaryFormatter();
-            MemoryStream ms = new MemoryStream();
-            bf.Serialize(ms, data);
-
             if (!System.IO.File.Exists(fileName))
             {
                 FileStream fs = System.IO.File.Create(fileName);
                 fs.Close();
             }
 
-            System.IO.File.WriteAllBytes(fileName, ms.ToArray());
+            byte[] b = Convert.FromBase64String(data.value.ToString());
+            System.IO.File.WriteAllBytes(fileName, b);
 
             return new JsonResult(true);
         }
