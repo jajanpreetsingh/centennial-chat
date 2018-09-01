@@ -17,7 +17,6 @@ export class NewChatComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     if (this.utilityService.isJwtValid()) {
-
       let login = this.utilityService.getLocalCredentials();
 
       if (login == null)
@@ -41,7 +40,6 @@ export class NewChatComponent implements OnInit, OnDestroy {
       }
     ).subscribe(res => {
       if (res.code == 200) {
-
         this.chatData.moderator = res.data.moderator;
         this.chatData.title = res.data.title;
         this.chatData.chatCode = res.data.chatCode;
@@ -62,6 +60,5 @@ export class NewChatComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-
   }
 }

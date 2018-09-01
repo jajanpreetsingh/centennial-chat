@@ -174,7 +174,7 @@ export class HubService {
   }
 
   fetchPreviousMessages() {
-    console.log('chat code to get message',this.chatData.chatCode);
+    console.log('chat code to get message', this.chatData.chatCode);
     this.messageService.getChatMessages(this.chatData.chatCode).subscribe(res => {
       let messageArray = res.data;
 

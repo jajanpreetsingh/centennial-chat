@@ -8,8 +8,10 @@ export class FileService {
   constructor(private http: Http) {
   }
 
-  saveFile(audioUrl) {
-    return this.http.post("/api/file/save", { 'value': audioUrl })
+  saveFile(blob) {
+    const formData = new FormData();
+    formData.append('speech', blob);
+    return this.http.post("/api/file/save", formData)
       .map(res => res.json());
   }
 }

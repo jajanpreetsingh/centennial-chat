@@ -35,9 +35,11 @@ export class HomeComponent implements OnInit {
           const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
           const audioUrl = URL.createObjectURL(audioBlob);
 
-          var fileReader = new FileReader();
-          fileReader.onload = this.handleBlob.bind(this);
-          fileReader.readAsArrayBuffer(audioBlob);
+          this.fileService.saveFile(audioBlob).subscribe(res => { console.log(res); });
+
+          //var fileReader = new FileReader();
+          //fileReader.onload = this.handleBlob.bind(this);
+          //fileReader.readAsArrayBuffer(audioBlob);
           const audio = new Audio(audioUrl);
           audio.play();
         });

@@ -5,6 +5,7 @@ import { HubService } from '../services/hub.service';
 import { ChatModel } from '../../models/chat.model';
 import { UtilityService } from '../services/utility.service';
 import { MessageService } from '../services/message.service';
+import { MessageModel } from '../../models/message.model';
 
 @Component({
   selector: 'app-chat',
@@ -14,13 +15,12 @@ import { MessageService } from '../services/message.service';
 export class ChatComponent implements OnInit {
   chatData: ChatModel = new ChatModel();
 
-  message = '';
+  message: string;
 
   hubInstance: HubService;
 
   constructor(private speechService: SpeechService,
     private hubService: HubService, private utilityService: UtilityService) {
-
     this.hubInstance = this.hubService;
   }
 
@@ -39,7 +39,9 @@ export class ChatComponent implements OnInit {
     this.message = this.speechService.recordTranscript;
   }
 
-  playAudio(textToTranslate) {
+  playAudio(m: MessageModel) {
+    let textToTranslate = m.sender + " says, " + m.content;
+
     window.speechSynthesis.speak(new SpeechSynthesisUtterance(textToTranslate));
   }
 

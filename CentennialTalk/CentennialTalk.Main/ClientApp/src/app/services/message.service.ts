@@ -8,7 +8,7 @@ export class MessageService {
   }
 
   getChatMessages(chatCode) {
-    return this.http.post("/api/message/messages", { 'value':chatCode })
+    return this.http.post("/api/message/messages", { 'value': chatCode })
       .map(res => res.json());
   }
 

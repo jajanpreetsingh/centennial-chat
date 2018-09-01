@@ -65,12 +65,12 @@ namespace CentennialTalk.Service
                 if (!chat.IsLinkOpen)
                     return new ResponseDTO(code, "Link Closed for joining. Reach out to moderator");
 
-                if (chat.Members != null
-                    && chat
-                        .Members
-                        .Any(x => x.Username == joinChat.username && x.IsConnected))
-                    return new ResponseDTO(code,
-                        "A user with that name is already online on this chat");
+                //if (chat.Members != null
+                //    && chat
+                //        .Members
+                //        .Any(x => x.Username == joinChat.username && x.IsConnected))
+                //    return new ResponseDTO(code,
+                //        "A user with that name is already online on this chat");
 
                 GroupMember member = null;
 
