@@ -114,28 +114,5 @@ namespace CentennialTalk.Service
                 return null;
             }
         }
-
-        public ResponseDTO AddQuestionToChat(QuestionDTO questionDTO)
-        {
-            Discussion chat = GetChatByCode(questionDTO.chatCode);
-
-            if (chat == null)
-                return new ResponseDTO(ResponseCode.ERROR, "chat does not exist");
-
-            if (questionDTO.isPollingQuestion)
-            {
-                PollingQuestion pollingQuestion = new PollingQuestion(questionDTO);
-
-                chat.Polls.Add(pollingQuestion);
-            }
-            else
-            {
-                SubjectiveQuestion subjectiveQuestion = new SubjectiveQuestion(questionDTO);
-
-                chat.Questions.Add(subjectiveQuestion);
-            }
-
-            return new ResponseDTO(ResponseCode.ERROR, "Question added successfully");
-        }
     }
 }

@@ -36,5 +36,17 @@ namespace CentennialTalk.Models.QuestionModels
             Content = content;
             Type = QuestionType.POLLING;
         }
+
+        public QuestionDTO GetDTO()
+        {
+            return new QuestionDTO()
+            {
+                chatCode = ChatCode,
+                content = Content,
+                isPollingQuestion = true,
+                options = Options == null ? null : Options.Select(x => x.Text).ToArray(),
+                selectMultiple = SelectMultiple
+            };
+        }
     }
 }

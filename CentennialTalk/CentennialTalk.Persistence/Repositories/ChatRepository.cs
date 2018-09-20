@@ -24,12 +24,20 @@ namespace CentennialTalk.Persistence.Repositories
             return discussion;
         }
 
-        public Discussion GetChatByCode(string code)
+        public Discussion GetChatByCode(string code, bool includeExtendedMembers = false)
         {
+            if (!includeExtendedMembers)
+
+                return dbContext.Discussions
+                    .Where(x => x.DiscussionCode == code)
+                    .FirstOrDefault();
+
             return dbContext.Discussions
-                .Where(x => x.DiscussionCode == code)
-                .Include(x => x.Members)
-                .FirstOrDefault();
+                    .Where(x => x.DiscussionCode == code)
+                    .Include(x => x.Members)
+                    .Include(x => x.Polls)
+                    .Include(x => x.Questions)
+                    .FirstOrDefault();
         }
     }
 }

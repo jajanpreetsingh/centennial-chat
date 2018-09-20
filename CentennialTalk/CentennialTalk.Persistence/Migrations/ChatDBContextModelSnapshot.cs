@@ -15,7 +15,7 @@ namespace CentennialTalk.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
+                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -128,6 +128,8 @@ namespace CentennialTalk.Persistence.Migrations
                     b.Property<Guid>("QuestionId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("ChatCode");
+
                     b.Property<string>("Content");
 
                     b.Property<Guid?>("DiscussionId");
@@ -166,6 +168,8 @@ namespace CentennialTalk.Persistence.Migrations
                 {
                     b.Property<Guid>("QuestionId")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ChatCode");
 
                     b.Property<string>("Content");
 

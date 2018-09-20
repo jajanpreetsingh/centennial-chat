@@ -12,6 +12,8 @@ namespace CentennialTalk.Models.QuestionModels
 
         public bool IsPublished { get; set; }
 
+        public string ChatCode { get; set; }
+
         public QuestionType Type { get; set; }
 
         public Question()

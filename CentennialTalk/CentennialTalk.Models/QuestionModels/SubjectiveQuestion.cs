@@ -21,5 +21,16 @@ namespace CentennialTalk.Models.QuestionModels
 
             Content = dto.content;
         }
+
+        public QuestionDTO GetDTO()
+        {
+            return new QuestionDTO()
+            {
+                chatCode = ChatCode,
+                content = Content,
+                isPollingQuestion = false,
+                selectMultiple = false
+            };
+        }
     }
 }

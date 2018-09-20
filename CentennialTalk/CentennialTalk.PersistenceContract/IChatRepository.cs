@@ -7,7 +7,7 @@ namespace CentennialTalk.PersistenceContract
     {
         Discussion CreateNewChat(Discussion discussion);
 
-        Discussion GetChatByCode(string code);
+        Discussion GetChatByCode(string codebool, bool includeExtendedMembers = false);
 
         List<Discussion> GetOpenChatGroups();
     }
