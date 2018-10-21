@@ -1,5 +1,8 @@
+@import '../scss/variables';
+
+
 body {
-  background: #eee url(http://subtlepatterns.com/patterns/sativa.png);
+  background: $red!important;
 }
 
 html, body {

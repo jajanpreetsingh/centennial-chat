@@ -31,6 +31,7 @@
     "core-js": "^2.4.1",
     "jquery": "^3.3.1",
     "jwt-decode": "^2.2.0",
+    "ngx-bootstrap": "^3.0.1",
     "npm": "^6.4.0",
     "rxjs": "^5.5.6",
     "uuid": "^3.3.0",
@@ -51,12 +52,11 @@
     "karma-coverage-istanbul-reporter": "^1.2.1",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "node-sass": "^4.9.4",
     "protractor": "~5.1.2",
     "ts-node": "~4.1.0",
     "tslint": "~5.9.1",
     "typescript": "~2.5.3"
   },
-  "optionalDependencies": {
-    "node-sass": "^4.9.0"
-  }
+  "optionalDependencies": {}
 }

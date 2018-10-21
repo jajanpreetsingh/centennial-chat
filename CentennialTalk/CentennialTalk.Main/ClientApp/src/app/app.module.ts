@@ -22,6 +22,7 @@ import { LoginComponent } from './login/login.component';
 import { AccountService } from './services/account.service';
 import { UtilityService } from './services/utility.service';
 import { HubService } from './services/hub.service';
+import { AlertModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { HubService } from './services/hub.service';
     HttpClientModule,
     HttpModule,
     FormsModule,
+    AlertModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'home', component: HomeComponent, pathMatch: 'full' },

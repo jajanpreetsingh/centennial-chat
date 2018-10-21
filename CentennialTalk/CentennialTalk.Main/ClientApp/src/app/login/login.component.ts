@@ -28,6 +28,7 @@ export class LoginComponent implements OnInit {
 
         //this.utilityService.getJwtData();
 
+
         this.router.navigate(['/new']);
       }
       else {
