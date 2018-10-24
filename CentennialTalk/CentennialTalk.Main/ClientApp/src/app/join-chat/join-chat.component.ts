@@ -6,7 +6,7 @@ import { UtilityService } from '../services/utility.service';
 @Component({
   selector: 'app-join-chat',
   templateUrl: './join-chat.component.html',
-  styleUrls: ['./join-chat.component.css']
+  styleUrls: ['./join-chat.component.scss']
 })
 export class JoinChatComponent implements OnInit {
   chatData: ChatModel = new ChatModel();

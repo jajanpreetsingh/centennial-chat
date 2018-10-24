@@ -7,7 +7,7 @@ import { UtilityService } from '../services/utility.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   login: LoginModel = new LoginModel();
@@ -40,7 +40,4 @@ export class LoginComponent implements OnInit {
       });
   }
 
-  goToSignup() {
-    this.router.navigate(['/signup']);
-  }
 }

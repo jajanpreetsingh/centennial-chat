@@ -1,14 +1,61 @@
-<div class='row'>
-  <div class="container col-sm-6">
-    <!--<app-new-chat></app-new-chat>-->
-    <app-login></app-login>
-  </div>
-  <alert type="success">hello</alert>
-  <div class="container col-sm-6">
-    <app-join-chat></app-join-chat>
-  </div>
+<app-menu></app-menu>
+<div id="welcome-login" class="container-fluid">
+ <div class="container-fluid">
+   <div class="row">
+     <!--<app-new-chat></app-new-chat>-->
+     <div class="col-sm-1"></div>
+     <div class="col-sm-1"></div>
+     <app-login></app-login>
+     <div class="col-sm-1"></div>
+     <div class="col-sm-1"></div>
+     <app-join-chat></app-join-chat>
+     <div class="col-sm-1"></div>
+     <div class="col-sm-1"></div>
+   </div>
+   </div>
 </div>
+<div id="services" class="container-fluid text-center">
+  <h2>SOLUTIONS</h2>
+  <h4>What we offer</h4>
+  <br>
+  <div class="row slideanim slide">
+    <div class="col-sm-4">
+      <i class="fa fa-users fa-5x" aria-hidden="true"> </i>
+      <h4>LARGE CLASSES</h4>
+      <p>Lorem ipsum dolor sit amet..</p>
+    </div>
+    <div class="col-sm-4">
+      <i class="fa fa-comments fa-5x" aria-hidden="true"> </i>
+      <h4>CHAT-APP</h4>
+      <p>Lorem ipsum dolor sit amet..</p>
+    </div>
+    <div class="col-sm-4">
+      <i class="fa fa-film fa-5x" aria-hidden="true"> </i>
+      <h4>ACTIVE PRESENTATION</h4>
+      <p>Lorem ipsum dolor sit amet..</p>
+    </div>
+  </div>
+  <br><br>
+      <div class="row slideanim slide">
+        <div class="col-sm-1">
+        </div>
+        <div class="col-sm-4">
+          <i class="fa fa-user-secret fa-5x" aria-hidden="true"> </i>
+          <h4>ANONYMOUS MODE</h4>
+          <p>Lorem ipsum dolor sit amet..</p>
+        </div>
+        <div class="col-sm-1">
+        </div>
+        <div class="col-sm-1">
+        </div>
+        <div class="col-sm-4">
+          <i class="fa fa-star-half-o fa-5x" aria-hidden="true"> </i>
 
-<button value="start" (click)="start()">Start</button>
-<button value="stop" (click)="stop()">Stop</button>
-<!--<audio id="player" controls src="{{blob}}"></audio>-->
+          <h4>EMOJIES</h4>
+          <p>Lorem ipsum dolor sit amet..</p>
+        </div>
+        <div class="col-sm-1">
+        </div>
+      </div>
+</div>
+<app-footer></app-footer>

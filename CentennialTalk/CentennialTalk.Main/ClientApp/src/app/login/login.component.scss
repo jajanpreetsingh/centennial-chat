@@ -1,0 +1,52 @@
+@import '../scss/styles.scss';
+
+.panel {
+  border-radius: 0 !important;
+  transition: box-shadow 0.5s;
+}
+
+.panel:hover {
+  box-shadow: 5px 0px 40px rgba(0,0,0, .2);
+}
+
+.panel-footer .btn:hover {
+  border: 1px solid #f4511e;
+  background-color: #fff !important;
+  color: #f4511e;
+}
+
+h1{
+  font-size: 28px;
+}
+
+.panel-heading {
+  font-family: $font-main;
+  border: 1px solid $white;
+  color: $white !important;
+  background-color: $blue-secondary !important;
+  padding: 25px;
+  border-radius: 0 !important;
+}
+
+.fa{
+  padding: 15px;
+  font-size: 9em;
+}
+
+.form-control{
+  margin: 5px 0;
+  border-radius: 0;
+}
+
+.btn.btn-lg {
+  width: 100%;
+  background-color: $blue-secondary;
+  color: $white;
+  border-radius: 0;
+  &:hover
+{
+  background-color: $white;
+  color: $blue-secondary;
+  border: 1px solid $blue-secondary;
+}
+}
