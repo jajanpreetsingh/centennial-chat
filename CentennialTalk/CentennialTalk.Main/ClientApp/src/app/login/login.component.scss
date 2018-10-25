@@ -23,14 +23,17 @@ h1{
   font-family: $font-main;
   border: 1px solid $white;
   color: $white !important;
-  background-color: $blue-secondary !important;
+  background-color: $color-primary !important;
   padding: 25px;
   border-radius: 0 !important;
 }
 
-.fa{
+.fa {
   padding: 15px;
   font-size: 9em;
+  color: $white;
+  background-color: $color-primary;
+  border-radius: 10px;
 }
 
 .form-control{
@@ -40,13 +43,13 @@ h1{
 
 .btn.btn-lg {
   width: 100%;
-  background-color: $blue-secondary;
+  background-color: $color-primary;
   color: $white;
   border-radius: 0;
   &:hover
 {
   background-color: $white;
-  color: $blue-secondary;
-  border: 1px solid $blue-secondary;
+  color: $color-primary;
+  border: 1px solid $color-primary;
 }
 }

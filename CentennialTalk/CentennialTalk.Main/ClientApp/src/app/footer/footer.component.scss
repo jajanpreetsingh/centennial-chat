@@ -1,7 +1,8 @@
 @import '../scss/styles.scss';
 
 footer{
-  background-color: $blue-secondary;
+  background-color: $color-primary;
   color: $white;
   padding-top: 10px;
+  font-family: $font-main;
 }

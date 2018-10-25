@@ -7,14 +7,14 @@
     <div class="col-sm-3">
       <div class="panel panel-default text-center">
         <div class="panel-heading">
-          <h1>Join Chat</h1>
+          <h1>Start Discussion</h1>
         </div>
         <div class="panel-body">
-          <i class="fa fa-user-plus fa-5x" aria-hidden="true"> </i>
+          <i class="fa  fa-pencil-square-o fa-5x" aria-hidden="true"> </i>
           <form (ngSubmit)="onSubmitNewChat()">
             <input name="moderator" class="form-control" type="text" disabled="disabled" placeholder="username" (change)="onChangeModerator()" [(ngModel)]="chatData.moderator">
-            <input name="title" class="form-control" type="text" placeholder="title" (change)="onChangeModerator()" [(ngModel)]="chatData.title">
-            <button class="btn btn-lg" type="submit">Start Discussion</button>
+            <input name="title" class="form-control" type="text" placeholder="Title" (change)="onChangeModerator()" [(ngModel)]="chatData.title">
+            <button class="btn btn-lg" type="submit">Start</button>
           </form>
         </div>
       </div>
