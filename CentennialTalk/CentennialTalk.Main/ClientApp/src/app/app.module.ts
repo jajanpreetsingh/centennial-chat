@@ -12,6 +12,7 @@ import { NewChatComponent } from './new-chat/new-chat.component';
 import { JoinChatComponent } from './join-chat/join-chat.component';
 import { MenuComponent } from './menu/menu.component';
 import { FooterComponent } from './footer/footer.component';
+import { IconsComponent } from './icons/icons.component';
 
 import { ChatService } from './services/chat.service';
 import { MemberService } from './services/member.service';
@@ -36,7 +37,8 @@ import { AlertModule } from 'ngx-bootstrap';
     SignUpComponent,
     LoginComponent,
     MenuComponent,
-    FooterComponent
+    FooterComponent,
+    IconsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -52,7 +54,8 @@ import { AlertModule } from 'ngx-bootstrap';
       { path: 'login', component: LoginComponent },
       { path: 'signup', component: SignUpComponent },
       { path: 'chat', component: ChatComponent },
-      { path: 'chat/:data', component: ChatComponent }
+      { path: 'chat/:data', component: ChatComponent },
+      { path: 'chooseicon', component: IconsComponent }
     ])
   ],
   providers: [
