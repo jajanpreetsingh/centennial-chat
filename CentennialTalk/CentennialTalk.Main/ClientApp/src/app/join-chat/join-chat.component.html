@@ -1,10 +1,12 @@
 <div class="col-sm-3">
   <div class="panel panel-default text-center">
     <div class="panel-heading">
-      <h1>Use as Guest</h1>
+      <h1>Student</h1>
     </div>
     <div class="panel-body">
-      <i class="fa fa-user-plus fa-5x" aria-hidden="true"> </i>
+      <div class="hexagon">
+        <i class="fa fa-user-plus fa-5x" aria-hidden="true"> </i>
+      </div>
       <form (ngSubmit)="onSubmitJoinChat()">
         <input name="user" class="form-control" type="text" placeholder="username" [(ngModel)]="chatData.username">
         <input name="chatCode" class="form-control" type="text" placeholder="Chat code" [(ngModel)]="chatData.chatCode">

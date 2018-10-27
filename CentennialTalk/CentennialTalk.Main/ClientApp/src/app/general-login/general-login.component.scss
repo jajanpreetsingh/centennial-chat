@@ -1,0 +1,45 @@
+@import '../scss/styles.scss';
+
+#welcome-login {
+  background-image: url("../../assets/images/welcome-parallax.jpg");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-top: 100px;
+  padding-bottom: 30px;
+  border-bottom: 2px solid $color-primary;
+  font-family: $font-primary;
+}
+
+.info-blocks {
+  display: -ms-flex;
+  display: -webkit-flex;
+  display: flex;
+  background-color: $dark-white;
+  font-family: $font-primary;
+  p{
+    font-size: 1.2em;
+    font-weight: 300;
+  }
+}
+
+.col-sm-2 {
+  flex: 1;
+  color: $white;
+  padding: 50px 10px;
+
+  &:nth-child(2n) {
+    background-color: $dark-grey;
+  }
+
+  &:nth-child(2n+1) {
+    background-color: $color-primary;
+    border: 2px solid $white;
+  }
+
+  &:nth-child(1), &:nth-child(6) {
+    background-color: inherit;
+    border: none;
+  }
+}

@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { GeneralLoginComponent } from './general-login/general-login.component';
 import { ChatComponent } from './chat/chat.component';
 import { NewChatComponent } from './new-chat/new-chat.component';
 import { JoinChatComponent } from './join-chat/join-chat.component';
@@ -38,7 +39,8 @@ import { AlertModule } from 'ngx-bootstrap';
     LoginComponent,
     MenuComponent,
     FooterComponent,
-    IconsComponent
+    IconsComponent,
+    GeneralLoginComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -49,6 +51,7 @@ import { AlertModule } from 'ngx-bootstrap';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'home', component: HomeComponent, pathMatch: 'full' },
+      { path: 'general-login', component: GeneralLoginComponent },
       { path: 'join', component: JoinChatComponent },
       { path: 'new', component: NewChatComponent },
       { path: 'login', component: LoginComponent },

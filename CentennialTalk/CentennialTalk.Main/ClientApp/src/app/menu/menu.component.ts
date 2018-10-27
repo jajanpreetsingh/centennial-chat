@@ -16,6 +16,10 @@ export class MenuComponent implements OnInit {
   goToSignup() {
     this.router.navigate(['/signup']);
   }
+
+  goToGeneralLogin() {
+    this.router.navigate(['/general-login']);
+  }
 }
 
 
