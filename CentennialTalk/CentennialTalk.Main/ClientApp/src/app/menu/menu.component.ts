@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 })
 export class MenuComponent implements OnInit {
 
+  isIn: boolean = false; 
   constructor(private router: Router) { }
 
   ngOnInit() {
@@ -19,6 +20,11 @@ export class MenuComponent implements OnInit {
 
   goToGeneralLogin() {
     this.router.navigate(['/general-login']);
+  }
+
+  toggleState() {
+    let bool = this.isIn;
+    this.isIn = bool === false ? true : false;
   }
 }
 

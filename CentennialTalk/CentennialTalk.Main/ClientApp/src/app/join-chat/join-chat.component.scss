@@ -42,15 +42,8 @@ h1 {
   border-radius: 0;
 }
 
-.btn.btn-lg {
-  width: 100%;
-  background-color: $color-primary;
-  color: $white;
-  border-radius: 0;
-
-  &:hover {
-    background-color: $white;
-    color: $color-primary;
-    border: 1px solid $color-primary;
+@media only screen and (max-width: 900px) {
+  .fa {
+    font-size: 6em;
   }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FileService } from '../services/file.service';
+import { Router } from '@angular/router';
 
 declare var MediaRecorder: any;
 
@@ -13,7 +14,7 @@ export class HomeComponent implements OnInit {
 
   blob: any;
 
-  constructor(private fileService: FileService) {
+  constructor(private fileService: FileService, private router: Router) {
   }
 
   ngOnInit() {
@@ -56,5 +57,9 @@ export class HomeComponent implements OnInit {
 
   stop() {
     this.mediaRecorder.stop();
+  }
+
+  goToGeneralLogin() {
+    this.router.navigate(['/general-login']);
   }
 }

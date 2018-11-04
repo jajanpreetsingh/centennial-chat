@@ -1,41 +1,65 @@
 @import '../scss/styles.scss';
 
-#img-header{
+#img-header {
   height: 50vh;
+  background-image: url("../../assets/images/home-header.jpg");
+  background-position: center;
+  background-size: contain;
+  margin: 0 -15px;
+  border-bottom: 2px solid $color-primary;
 }
 
 h2 {
   padding: 20px;
 }
 
+.blue-bg {
+  background-color: $blue;
+}
+
+button.blue-bg {
+  background-color: $blue !important;
+  width: initial!important;
+  margin-top: 20px;
+
+  &:hover {
+    color: $blue !important;
+    background-color: $white !important;
+    border: 1px solid $blue !important;
+  }
+}
+
 #white-section {
   background-color: $dark-white;
   padding-bottom: 40px;
 
-  .col-sm-12{
-    padding: 20px;
+  h4 {
+    font-weight: 300;
   }
-  .btn.btn-lg {
-    width: 100%;
-    background-color: $color-primary;
-    color: $white;
-    border-radius: 0;
 
-    &:hover {
-      background-color: $white;
+  .col-sm-12 {
+    padding: 20px;
+
+    h4:nth-child(3) {
+      font-weight: 400;
       color: $color-primary;
-      border: 1px solid $color-primary;
     }
   }
 }
 
-#orange-section {
-  .fa{
+
+#video-section{
+  margin-top: 20px 0;
+}
+
+#blue-section {
+  .fa {
     color: $white;
     font-size: 6em;
   }
+
   padding: 30px 0;
-  background-color: $color-primary;
+  background-color: $blue;
   color: $white;
 
   #instructions {
@@ -50,6 +74,13 @@ h2 {
 
   .col-sm-2 {
     flex: 1;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
 
     &:nth-child(2n) {
       border: 1px solid $white;
@@ -113,3 +144,24 @@ p {
   margin: 20px 0;
 }
 
+
+
+@media only screen and (max-width: 768px) {
+  #blue-section {
+    .col-sm-1 {
+      padding: 0;
+      width: 0;
+    }
+  }
+}
+
+@media only screen and (max-width: 570px) {
+  #blue-section {
+    .col-sm-2:nth-child(2n+1) {
+      visibility: hidden;
+      width: 0px !important;
+      padding: 0;
+      flex: initial;
+    }
+  }
+}

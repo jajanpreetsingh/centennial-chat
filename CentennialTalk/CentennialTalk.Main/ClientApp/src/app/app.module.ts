@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule, Http } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -15,6 +16,10 @@ import { MenuComponent } from './menu/menu.component';
 import { FooterComponent } from './footer/footer.component';
 import { IconsComponent } from './icons/icons.component';
 import { DiscussionComponent } from './discussion/discussion.component';
+import { DiscussionPollComponent } from './discussion-poll/discussion-poll.component';
+import { ProjectorComponent } from './projector/projector.component';
+import { TranscriptComponent } from './transcript/transcript.component';
+import { ErrorMessageComponent } from './error-message/error-message.component';
 
 import { ChatService } from './services/chat.service';
 import { MemberService } from './services/member.service';
@@ -42,13 +47,18 @@ import { AlertModule } from 'ngx-bootstrap';
     FooterComponent,
     IconsComponent,
     GeneralLoginComponent,
-    DiscussionComponent
+    DiscussionComponent,
+    DiscussionPollComponent,
+    ProjectorComponent,
+    TranscriptComponent,
+    ErrorMessageComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     HttpModule,
     FormsModule,
+    BrowserAnimationsModule,
     AlertModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -61,7 +71,10 @@ import { AlertModule } from 'ngx-bootstrap';
       { path: 'chat', component: ChatComponent },
       { path: 'chat/:data', component: ChatComponent },
       { path: 'chooseicon', component: IconsComponent },
-      { path: 'discussionR', component: DiscussionComponent }
+      { path: 'discussionR', component: DiscussionComponent },
+      { path: 'discussionpoll', component: DiscussionPollComponent },
+      { path: 'projector', component: ProjectorComponent },
+      { path: 'transcript', component: TranscriptComponent }
     ])
   ],
   providers: [

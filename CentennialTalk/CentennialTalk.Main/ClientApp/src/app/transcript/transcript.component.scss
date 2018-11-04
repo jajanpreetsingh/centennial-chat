@@ -1,0 +1,27 @@
+@import '../scss/styles.scss';
+
+#discussion-section {
+  margin-top: 100px;
+  font-family: $font-primary;
+  min-height: 83vh;
+}
+
+h4, p {
+  font-family: $font-primary;
+}
+
+.message {
+  background-color: $dark-white;
+  border: 1px solid $color-primary;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 1.2em;
+  margin-bottom: 5px;
+}
+
+.message-info {
+  margin-top: 5px;
+  border-top: 1px solid $dark-grey;
+  font-size: 0.8em;
+  color: $light-grey;
+}
