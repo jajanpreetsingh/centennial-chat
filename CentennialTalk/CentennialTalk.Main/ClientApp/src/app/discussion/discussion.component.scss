@@ -1,0 +1,120 @@
+@import '../scss/styles.scss';
+@import '../scss/chat.scss';
+
+#discussion-section {
+	padding-top: 100px;
+	padding-bottom: 40px;
+}
+
+#discussion-section, h2, h3, h4, p{
+	font-family: $font-primary;
+}
+
+.participants {
+  display: inline-block;
+  padding: 5px;
+  margin: 5px;
+  background-color: $white;
+  color: $light-grey;
+  border-radius: 10px;
+  float: right;
+}
+
+#discussion {
+  height: 75vh;
+  background-color: $dark-white;
+  border: 1px solid $color-primary;
+  overflow-y: scroll;
+
+  .participants {
+    background-color: $color-primary;
+    position: sticky;
+    top: 100%;
+    left: 100%;
+  }
+}
+
+
+textarea {
+	width: 100%;
+	border: 1px solid $color-primary;
+}
+
+#input-messsage{
+	padding-top: 100px;
+}
+
+.avatar{
+	text-align: center;
+	display: inline-block;
+}
+
+.message{
+	margin-top: 10px;
+	padding: 5px;
+	min-height: 20px;
+
+	background-color: $white;
+	border: 2px solid $dark-grey;
+}
+
+.yours{
+	float: right;
+}
+
+.not-yours{
+	float: left;
+}
+
+.topic-area{
+  color: $white;
+  background-color: $color-primary;
+  width: 100%;
+  padding: 5px;
+  h4{
+    display: inline-block;
+  }
+}
+
+
+#count-stud {
+  position: absolute;
+  left: 92vw;
+  font-size: 2em;
+  bottom: 50px;
+  width: 60px;
+}
+
+@media only screen and (max-width: 768px) {
+  #count-stud {
+    visibility: hidden;
+    left: 0;
+  }
+
+  #input-messsage {
+    padding-top: 0;
+
+    h4 {
+      display: none;
+    }
+
+    p {
+      margin-top: 7px;
+      margin-bottom: 3px;
+    }
+  }
+
+  textarea {
+    height: 150px;
+  }
+
+  #discussion{
+    height: 58vh;
+  }
+}
+
+@media only screen and (max-width: 425px) {
+  textarea {
+    height: 120px;
+  }
+}

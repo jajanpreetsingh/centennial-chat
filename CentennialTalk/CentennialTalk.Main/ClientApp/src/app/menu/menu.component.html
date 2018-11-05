@@ -1,0 +1,23 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" (click)="toggleState()">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#myPage">Centennial Talk</a>
+    </div>
+    <div class="collapse navbar-collapse in" id="myNavbar" [ngClass]="{ 'in': isIn }">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#about">ABOUT</a></li>
+        <li><a href="#services">SERVICES</a></li>
+        <li (click)="goToSignup()"><a><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+        <li><a (click)="goToGeneralLogin()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+
+    </div>
+
+  </div>
+</nav>
+

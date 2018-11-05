@@ -1,0 +1,47 @@
+@import '../scss/styles.scss';
+
+
+#new-chat-section {
+  padding-bottom: 50px;
+  padding-top: 100px;
+
+  input {
+    margin: 10px 2px;
+  }
+
+  input[type="checkbox"] {
+    margin-left: -20px;
+    margin-top: 4px;
+  }
+}
+h2, h4, h5, #new-chat-section {
+  font-family:$font-primary;
+}
+
+
+.open-question, .multiple-answer-question {
+  input {
+    width: initial;
+    display: inline-block;
+  }
+
+  span {
+    display: inline-block;
+    background-color: $color-primary;
+    color: $white;
+    padding: 5px;
+    border-top-right-radius: 1px;
+    border-bottom-right-radius: 1px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+}
+
+.submit-btn {
+  margin: 20px 0;
+}
+
+hr {
+  margin: 2px 5px;
+  border-color: $color-primary;
+}

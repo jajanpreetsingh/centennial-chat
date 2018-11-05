@@ -1,0 +1,147 @@
+<app-menu></app-menu>
+
+<div class="container-fluid" id="discussion-section">
+  <div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-6">
+      <div class="topic-area">
+        <h4>What are the strengths of your program?</h4>
+        <span class="participants">10</span>
+      </div>
+      <div id="discussion">
+        <div class="comments-container">
+          <ul id="comments-list" class="comments-list">
+            <li>
+              <div class="comment-main-level">
+
+                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/magneto.svg" alt="image"  [@fiftyAnimation]='stateFifty'></div>
+
+                <div class="comment-box col-sm-10">
+                  <div class="comment-head">
+                    <h6 class="comment-name by-author">Elena</h6>
+                    <span>20 minutes ago</span>
+                    <i class="fa fa-thumbs-o-up"></i>
+                    <span class="f-right">5</span>
+                    <i class="fa fa-thumbs-o-down"></i>
+                    <span class="f-right">5</span>
+                  </div>
+                  <div class="comment-content"  [@seventyFiveAnimation]='stateSeventyFive'>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li>
+              <div class="comment-main-level your-message">
+                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/captain-america.svg" alt="image"  [@fiftyAnimation]='stateFifty'></div>
+
+                <div class="comment-box col-sm-10">
+                  <div class="comment-head">
+                    <h6 class="comment-name">Tim</h6>
+                    <span>15 minutes ago</span>
+                    <i class="fa fa-thumbs-o-up"></i>
+                    <span class="f-right">5</span>
+                    <i class="fa fa-thumbs-o-down"></i>
+                    <span class="f-right">5</span>
+                  </div>
+                  <div class="comment-content" [@seventyFiveAnimation]='stateSeventyFive'>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
+                  </div>
+                </div>
+
+              </div>
+            </li>
+
+            <li>
+              <div class="comment-main-level">
+
+                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/batman.svg" alt="image"  [@fiftyAnimation]='stateFifty'></div>
+
+                <div class="comment-box col-sm-10">
+                  <div class="comment-head">
+                    <h6 class="comment-name">John</h6>
+                    <span>14 minutes ago</span>
+                    <i class="fa fa-thumbs-o-up"></i>
+                    <span class="f-right">5</span>
+                    <i class="fa fa-thumbs-o-down"></i>
+                    <span class="f-right">5</span>
+                  </div>
+                  <div class="comment-content" [@seventyFiveAnimation]='stateSeventyFive'>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    Velit omnis animi et iure laudantium vitae, praesentium optio,
+                    sapiente distinctio illo?
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li>
+              <div class="comment-main-level">
+
+                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/deadpool.svg" alt="image"  [@fiftyAnimation]='stateFifty'></div>
+
+                <div class="comment-box col-sm-10">
+                  <div class="comment-head">
+                    <h6 class="comment-name">Jane</h6>
+                    <span>14 minutes ago</span>
+                    <i class="fa fa-thumbs-o-up"></i>
+                    <span class="f-right">5</span>
+                    <i class="fa fa-thumbs-o-down"></i>
+                    <span class="f-right">5</span>
+                  </div>
+                  <div class="comment-content" [@seventyFiveAnimation]='stateSeventyFive'>
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                    when an unknown printer took a galley of type and scrambled it to make a type
+                    specimen book.
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="comment-main-level your-message">
+                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/captain-america.svg" alt="image" [@fiftyAnimation]='stateFifty'></div>
+
+                <div class="comment-box col-sm-10">
+                  <div class="comment-head">
+                    <h6 class="comment-name">Tim</h6>
+                    <span>15 minutes ago</span>
+                    <i class="fa fa-thumbs-o-up"></i>
+                    <span class="f-right">5</span>
+                    <i class="fa fa-thumbs-o-down"></i>
+                    <span class="f-right">5</span>
+                  </div>
+                  <div class="comment-content" [@seventyFiveAnimation]='stateSeventyFive'>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
+                  </div>
+                </div>
+
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4" id="input-messsage">
+      <h4>Answer</h4>
+      <p>Characters remaining 250</p>
+      <form>
+        <textarea rows="10" cols="45" name="text"></textarea>
+        <button class="btn btn-lg">Post</button>
+        <button class="btn btn-lg" (click)="animateMeFifty()">test 50%</button>
+        <button class="btn btn-lg" (click)="animateMeSeventyFive()">test 75%</button>
+      </form>
+    </div>
+    <div class="col-sm-1">
+
+
+    </div>
+  </div>
+  <div id="count-stud">
+    <i class="fa fa-user" aria-hidden="true"></i>
+    35
+  </div>
+</div>
+
+<app-footer></app-footer>
