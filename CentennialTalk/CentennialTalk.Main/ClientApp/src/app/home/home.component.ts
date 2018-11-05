@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FileService } from '../services/file.service';
 const speech = require('@google-cloud/speech');
+import { Router } from '@angular/router';
 
 declare var MediaRecorder: any;
 const fs = require('fs');
@@ -12,14 +13,14 @@ const client = new speech.SpeechClient();
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
   mediaRecorder: any;
 
   blob: any;
 
-  constructor(private fileService: FileService) {
+  constructor(private fileService: FileService, private router: Router) {
   }
 
   ngOnInit() {
@@ -94,6 +95,10 @@ export class HomeComponent implements OnInit {
 
   stop() {
     this.mediaRecorder.stop();
+  }
+
+  goToGeneralLogin() {
+    this.router.navigate(['/general-login']);
   }
 }
 //const audioUrl = URL.createObjectURL(audioBlob);

@@ -1,0 +1,87 @@
+@import '../scss/styles.scss';
+@import '../scss/chat.scss';
+
+#discussion-section {
+  padding-top: 100px;
+  padding-bottom: 40px;
+}
+
+#discussion-section, h2, h3, h4, p {
+  font-family: $font-primary;
+}
+
+#manage-section {
+  span {
+    display: inline-block;
+    background-color: $color-primary;
+    color: $white;
+    padding: 5px;
+    border-top-right-radius: 1px;
+    border-bottom-right-radius: 1px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    margin-right: 5px;
+  }
+}
+
+.participants {
+  display: inline-block;
+  padding: 5px;
+  margin: 5px;
+  background-color: $white;
+  color: $light-grey;
+  border-radius: 10px;
+  float: right;
+}
+
+.topic-area{
+  color: $white;
+  background-color: $color-primary;
+  width: 100%;
+  padding: 5px;
+  h4{
+    display: inline-block;
+  }
+}
+
+textarea {
+  width: 100%;
+  border: 1px solid $color-primary;
+}
+
+#discussion {
+  height: 67vh;
+  background-color: $dark-white;
+  border: 1px solid $color-primary;
+  overflow-y: scroll;
+
+  .participants {
+    background-color: $color-primary;
+    position: sticky;
+    top: 100%;
+    left: 100%;
+  }
+}
+
+
+.avatar {
+  text-align: center;
+  display: inline-block;
+}
+
+.message {
+  margin-top: 10px;
+  padding: 5px;
+  min-height: 20px;
+  background-color: $white;
+  border: 2px solid $dark-grey;
+}
+
+.yours {
+  float: right;
+}
+
+.not-yours {
+  float: left;
+}
+

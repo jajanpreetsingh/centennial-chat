@@ -6,7 +6,7 @@ import { UtilityService } from '../services/utility.service';
 @Component({
   selector: 'app-new-chat',
   templateUrl: './new-chat.component.html',
-  styleUrls: ['./new-chat.component.css']
+  styleUrls: ['./new-chat.component.scss']
 })
 
 export class NewChatComponent implements OnInit, OnDestroy {
@@ -46,7 +46,7 @@ export class NewChatComponent implements OnInit, OnDestroy {
 
         this.utilityService.setLocalChatData(this.chatData);
 
-        this.utilityService.navigateToPath('/chat');
+        this.utilityService.navigateToPath('/projector');
       }
       else {
         this.chatData = new ChatModel();
