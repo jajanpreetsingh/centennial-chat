@@ -11,13 +11,13 @@ namespace CentennialTalk.Main.Controllers
     [Route("api/file")]
     public class FileController : BaseController
     {
-        private const string fileName = "D:\\data\\soundMessage.raw";
+        private const string fileName = "D:\\data\\soundMessage.wav";
 
         [HttpPost("save")]
         public async Task<IActionResult> SaveToFile([FromForm] IFormFile speech)
         {
-            var totalSize = speech.Length;
-            var fileBytes = new byte[speech.Length];
+            long totalSize = speech.Length;
+            byte[] fileBytes = new byte[speech.Length];
 
             using (Stream fileStream = speech.OpenReadStream())
             {
@@ -51,8 +51,8 @@ namespace CentennialTalk.Main.Controllers
 
                 RecognitionConfig config = new RecognitionConfig()
                 {
-                    Encoding = RecognitionConfig.Types.AudioEncoding.Linear16,
-                    SampleRateHertz = 16000,
+                    //Encoding = RecognitionConfig.Types.AudioEncoding.Linear16,
+                    //SampleRateHertz = 16000,
                     LanguageCode = "en-US",
                 };
 

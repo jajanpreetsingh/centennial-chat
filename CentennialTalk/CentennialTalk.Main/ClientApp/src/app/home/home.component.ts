@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
   }
 
   start() {
-    navigator.mediaDevices.getUserMedia({ audio: true })
+    navigator.mediaDevices.getUserMedia({ audio: { sampleRate: 16000 } })
       .then(stream => {
         this.mediaRecorder = new MediaRecorder(stream);
         this.mediaRecorder.start();
@@ -34,15 +34,8 @@ export class HomeComponent implements OnInit {
 
         this.mediaRecorder.addEventListener("stop", () => {
           const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
-          const audioUrl = URL.createObjectURL(audioBlob);
 
           this.fileService.saveFile(audioBlob).subscribe(res => { console.log(res); });
-
-          //var fileReader = new FileReader();
-          //fileReader.onload = this.handleBlob.bind(this);
-          //fileReader.readAsArrayBuffer(audioBlob);
-          const audio = new Audio(audioUrl);
-          audio.play();
         });
       });
   }
@@ -63,3 +56,9 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/general-login']);
   }
 }
+//const audioUrl = URL.createObjectURL(audioBlob);
+//var fileReader = new FileReader();
+//fileReader.onload = this.handleBlob.bind(this);
+//fileReader.readAsArrayBuffer(audioBlob);
+//const audio = new Audio(audioUrl);
+//audio.play();
