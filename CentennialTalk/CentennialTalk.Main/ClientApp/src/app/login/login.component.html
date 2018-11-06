@@ -1,18 +1,15 @@
-
-
-    <div class="col-sm-3">
-      <div class="panel panel-default text-center">
-        <div class="panel-heading">
-          <h1>Moderator</h1>
-        </div>
-        <div class="panel-body">
-          <i class="fa fa-user-circle-o" aria-hidden="true"> </i>
-          <form (ngSubmit)="onModeratorLogin()">
-            <input name="user" class="form-control" type="text" placeholder="username" [(ngModel)]="login.username">
-            <input name="password" class="form-control" type="password" placeholder="password" [(ngModel)]="login.password">
-            <button class="btn btn-lg" type="submit">Login</button>
-          </form>
-        </div>
-      </div>
+<div class="col-sm-3">
+  <div class="panel panel-default text-center">
+    <div class="panel-heading">
+      <h1>Moderator</h1>
     </div>
-
+    <div class="panel-body">
+      <i class="fa fa-user-circle-o" aria-hidden="true"> </i>
+      <form (ngSubmit)="onModeratorLogin()">
+        <input name="user" class="form-control" type="text" placeholder="username" [(ngModel)]="login.username">
+        <input name="password" class="form-control" type="password" placeholder="password" [(ngModel)]="login.password">
+        <button class="btn btn-lg" type="submit">Login</button>
+      </form>
+    </div>
+  </div>
+</div>

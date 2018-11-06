@@ -1,8 +1,8 @@
-<app-menu></app-menu>
-<div class="container-fluid" id="chat-section">
-  <h2>{{chatData.title}}</h2>
-    <div class="row">
-      <div class="dialog-section col-sm-6">
+<div class="container">
+  <h3 class=" text-center">{{chatData.title}}</h3>
+  <div class="messaging">
+    <div class="inbox_msg">
+      <div class="inbox_people">
         <div class="headind_srch">
           <div class="recent_heading">
             <h4>Recent</h4>
@@ -48,7 +48,7 @@
           </div>
         </div>
       </div>
-      <div class="input-section  col-sm-6">
+      <div class="mesgs">
         <div class="msg_history">
 
           <div *ngFor="let message of hubInstance.messages">
@@ -80,16 +80,15 @@
           <div class="type_msg">
             <div class="input_msg_write">
               <input type="text" class="write_msg" [(ngModel)]="message" placeholder="type your message" />
-
             </div>
             <button (click)="sendMessage()" type="button">Send</button>
-                    
+
             <button (click)="startListening()" type="button">Start speech</button>
-                    
+
             <button (click)="stopListening()" type="button">Stop Speech</button>
           </div>
         </div>
       </div>
     </div>
   </div>
-<app-footer></app-footer>
+</div>

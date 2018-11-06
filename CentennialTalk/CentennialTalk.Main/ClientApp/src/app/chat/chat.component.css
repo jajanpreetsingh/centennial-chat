@@ -1,23 +1,21 @@
-@import '../scss/styles.scss';
-
-#chat-section{
-  padding: 80px 50px 50px 50px;
-  font-family: $font-primary;
+.container {
+  max-width: 1170px;
+  margin: auto;
 }
 
 img {
   max-width: 100%;
 }
 
-.dialog-section {
-  background: $dark-white none repeat scroll 0 0;
+.inbox_people {
+  background: #f8f8f8 none repeat scroll 0 0;
   float: left;
   overflow: hidden;
   width: 40%;
   border-right: 1px solid #c4c4c4;
 }
 
-.row {
+.inbox_msg {
   border: 1px solid #c4c4c4;
   clear: both;
   overflow: hidden;
@@ -36,6 +34,7 @@ img {
   display: inline-block;
   text-align: right;
   width: 60%;
+  padding:
 }
 
 .headind_srch {
@@ -151,7 +150,7 @@ img {
   width: 57%;
 }
 
-.input-section {
+.mesgs {
   float: left;
   padding: 30px 15px 0 25px;
   width: 60%;
@@ -203,6 +202,10 @@ img {
   right: 0;
   top: 11px;
   width: 33px;
+}
+
+.messaging {
+  padding: 0 0 50px 0;
 }
 
 .msg_history {

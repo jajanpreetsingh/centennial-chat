@@ -10,7 +10,7 @@ import { MessageModel } from '../../models/message.model';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.scss']
+  styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
   chatData: ChatModel = new ChatModel();

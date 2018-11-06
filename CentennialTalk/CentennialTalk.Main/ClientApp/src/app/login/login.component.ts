@@ -28,7 +28,6 @@ export class LoginComponent implements OnInit {
 
         //this.utilityService.getJwtData();
 
-
         this.router.navigate(['/new']);
       }
       else {
@@ -40,4 +39,7 @@ export class LoginComponent implements OnInit {
       });
   }
 
+  goToSignup() {
+    this.router.navigate(['/signup']);
+  }
 }
