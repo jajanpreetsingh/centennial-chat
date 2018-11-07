@@ -15,8 +15,7 @@
   padding: 15px;
   background-color: $dark-white;
 
-  img {
-    height: 120px;
+  .col-sm-2 {
     transition: all .2s ease-in-out;
     cursor: pointer;
 
@@ -24,6 +23,9 @@
       background-color: $color-primary;
       border-radius: 5px;
       transform: scale(1.1);
+      h4{
+        color: $white;
+      }
     }
 
     &:active, &:target {
@@ -31,6 +33,10 @@
       border-radius: 5px;
       transform: scale(1.1);
     }
+  }
+
+  img {
+    height: 120px;
   }
 }
 

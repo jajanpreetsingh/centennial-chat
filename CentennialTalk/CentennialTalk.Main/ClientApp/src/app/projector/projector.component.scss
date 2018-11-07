@@ -11,6 +11,13 @@
 }
 
 #manage-section {
+  padding: 15px;
+  border: 2px solid $dark-grey;
+
+  hr{
+    border-color: $light-grey;
+  }
+
   span {
     display: inline-block;
     background-color: $color-primary;
