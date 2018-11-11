@@ -46,7 +46,7 @@ export class NewChatComponent implements OnInit, OnDestroy {
 
         this.utilityService.setLocalChatData(this.chatData);
 
-        this.utilityService.navigateToPath('/chat');
+        this.utilityService.navigateToPath('/projector');
       }
       else {
         this.chatData = new ChatModel();

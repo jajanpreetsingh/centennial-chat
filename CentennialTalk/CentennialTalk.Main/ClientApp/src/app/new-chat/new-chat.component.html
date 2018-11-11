@@ -1,4 +1,4 @@
-<div class="container col-sm-6">
+<!--<div class="container col-sm-6">
   <div class="login-container">
     <div id="output"></div>
     <div class="avatar"></div>
@@ -16,4 +16,69 @@
 <div class="container col-sm-6">
   <app-join-chat>
   </app-join-chat>
+</div>-->
+
+<app-menu></app-menu>
+
+<div class="container-fluid" id="new-chat-section">
+  <form (ngSubmit)="onSubmitNewChat()">
+    <div class="row">
+      <div class="col-sm-2"></div>
+      <div class="col-sm-8">
+        <h2>Create New Chat Room</h2>
+        <h4>Enter Room Name:</h4>
+        <input name="title" class="form-control" type="text" placeholder="Title" (change)="onChangeModerator()" [(ngModel)]="chatData.title">
+        <div class="row">
+          <div class="col-sm-6">
+            <h4>Enter Period:</h4>
+            <input name="startDate" class="form-control" type="datetime-local">
+            <input name="endDate" class="form-control" type="datetime-local">
+          </div>
+          <div class="col-sm-6">
+            <h4>Use Link Below to Share It with Students:</h4>
+            <div class="alert alert-info">
+              <h5><a>https://CentennailTalk.ca/RoomName/SomeCode</a></h5>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <h4>Pre-populate Open-ended Questions:</h4>
+          <div class="open-question"><span>Q1</span> <input type="text" placeholder="question" class="form-control" /></div>
+          <hr />
+          <div class="open-question"><span>Q2</span> <input type="text" placeholder="question" class="form-control" /></div>
+          <hr />
+          <div class="open-question"><span>Q3</span> <input type="text" placeholder="question" class="form-control" /></div>
+
+          <button class="btn">Add More</button>
+        </div>
+        <div class="col-sm-6">
+          <h4>Choose your Poll Type:</h4>
+          <div class="multiple-answer-question">
+            <span>Q1</span> <input type="text" placeholder="question" class="form-control" />
+            <div class="checkbox">
+              <label><input type="checkbox" value="">Multiple answers</label>
+            </div>
+            <h5>Answers:</h5>
+            <div>
+              <span>A1</span><input type="text" placeholder="answer" class="form-control" />
+            </div>
+            <div>
+              <span>A2</span><input type="text" placeholder="answer" class="form-control" />
+            </div>
+            <div>
+              <span>A3</span><input type="text" placeholder="answer" class="form-control" />
+            </div>
+          </div>
+
+          <button class="btn">Add More</button>
+        </div>
+        <br />
+        <button class="btn btn-lg submit-btn" type="submit">Start</button>
+      </div>
+      <div class="col-sm-2"></div>
+    </div>
+
+  </form>
 </div>
+
+<app-footer></app-footer>

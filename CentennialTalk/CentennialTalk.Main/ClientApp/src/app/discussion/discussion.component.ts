@@ -1,5 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
+import { v4 as uuid } from 'uuid';
+import { SpeechService } from '../services/speech.service';
+import { HubService } from '../services/hub.service';
+import { ChatModel } from '../../models/chat.model';
+import { UtilityService } from '../services/utility.service';
+import { MessageService } from '../services/message.service';
+import { MessageModel } from '../../models/message.model';
+
 
 @Component({
   selector: 'app-discussion',
@@ -32,7 +40,13 @@ import { trigger, state, style, transition, animate, keyframes } from '@angular/
     ]),
   ]
 })
-export class DiscussionComponent {
+export class DiscussionComponent implements OnInit {
+  chatData: ChatModel = new ChatModel();
+
+  message: string;
+
+  hubInstance: HubService;
+
   stateFifty: string = 'small';
   stateSeventyFive: string = 'fixed';
 
@@ -44,6 +58,47 @@ export class DiscussionComponent {
     this.stateSeventyFive = (this.stateSeventyFive === 'fixed' ? 'shaked' : 'fixed');
   }
 
+  constructor(private speechService: SpeechService,
+    private hubService: HubService, private utilityService: UtilityService) {
+    this.hubInstance = this.hubService;
+  }
+
+  ngOnInit() {
+    this.chatData = this.utilityService.getLocalChatData();
+
+    this.hubService.initChatHub();
+  }
+
+  startListening() {
+    this.speechService.startListening();
+  }
+
+  stopListening() {
+    this.speechService.stopListening();
+    this.message = this.speechService.recordTranscript;
+  }
+
+  playAudio(m: MessageModel) {
+    let textToTranslate = m.sender + " says, " + m.content;
+
+    window.speechSynthesis.speak(new SpeechSynthesisUtterance(textToTranslate));
+  }
+
+  sendMessage() {
+    var content = this.message;
+
+    var mid = uuid();
+
+    var messageObj = {
+      messageId: mid,
+      content: content,
+      chatCode: this.chatData.chatCode,
+      sender: this.chatData.username,
+      replyId: mid,
+    };
+
+    this.hubService.sendMessage(messageObj);
+  }
 }
 
 
