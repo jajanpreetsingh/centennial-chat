@@ -30,6 +30,8 @@ namespace CentennialTalk.Models
 
         public DateTime JoiningTime { get; set; }
 
+        public string IconPath { get; set; }
+
         public GroupMember()
         {
             Messages = new List<Message>();
