@@ -7,6 +7,7 @@ import { ChatModel } from '../../models/chat.model';
 import { UtilityService } from '../services/utility.service';
 import { MessageService } from '../services/message.service';
 import { MessageModel } from '../../models/message.model';
+import { AccountService } from '../services/account.service';
 
 
 @Component({
@@ -50,21 +51,13 @@ export class DiscussionComponent implements OnInit {
   stateFifty: string = 'small';
   stateSeventyFive: string = 'fixed';
 
-  animateMeFifty() {
-    this.stateFifty = (this.stateFifty === 'small' ? 'large' : 'small');
-  }
-
-  animateMeSeventyFive() {
-    this.stateSeventyFive = (this.stateSeventyFive === 'fixed' ? 'shaked' : 'fixed');
-  }
-
   constructor(private speechService: SpeechService,
-    private hubService: HubService, private utilityService: UtilityService) {
+    private hubService: HubService, private accountService: AccountService) {
     this.hubInstance = this.hubService;
   }
 
   ngOnInit() {
-    this.chatData = this.utilityService.getLocalChatData();
+    this.chatData = this.accountService.getLocalChatData();
 
     this.hubService.initChatHub();
   }
@@ -98,6 +91,14 @@ export class DiscussionComponent implements OnInit {
     };
 
     this.hubService.sendMessage(messageObj);
+  }
+
+  animateMeFifty() {
+    this.stateFifty = (this.stateFifty === 'small' ? 'large' : 'small');
+  }
+
+  animateMeSeventyFive() {
+    this.stateSeventyFive = (this.stateSeventyFive === 'fixed' ? 'shaked' : 'fixed');
   }
 }
 

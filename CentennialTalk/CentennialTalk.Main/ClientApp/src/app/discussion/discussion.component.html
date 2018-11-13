@@ -11,94 +11,48 @@
       <div id="discussion">
         <div class="comments-container">
           <ul id="comments-list" class="comments-list">
-            <li>
-              <div class="comment-main-level">
 
-                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/magneto.svg" alt="image"  [@fiftyAnimation]='stateFifty'></div>
+            <li *ngFor="let message of hubInstance.messages">
+              <div *ngIf="!message.isMine" class="comment-main-level">
 
-                <div class="comment-box col-sm-10">
-                  <div class="comment-head">
-                    <h6 class="comment-name by-author">Elena</h6>
-                    <span>20 minutes ago</span>
-                    <i class="fa fa-thumbs-o-up"></i>
-                    <span class="f-right">5</span>
-                    <i class="fa fa-thumbs-o-down"></i>
-                    <span class="f-right">5</span>
-                  </div>
-                  <div class="comment-content"  [@seventyFiveAnimation]='stateSeventyFive'>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
-                  </div>
-                </div>
-              </div>
-            </li>
-
-            <li>
-              <div class="comment-main-level your-message">
-                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/captain-america.svg" alt="image"  [@fiftyAnimation]='stateFifty'></div>
+                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/magneto.svg" alt="{{message.sender}}" [@fiftyAnimation]='stateFifty'></div>
 
                 <div class="comment-box col-sm-10">
                   <div class="comment-head">
-                    <h6 class="comment-name">Tim</h6>
-                    <span>15 minutes ago</span>
+                    <h6 class="comment-name by-author">{{message.sender}}</h6>
+                    <span>Sent on : {{message.sendDate}}</span>
                     <i class="fa fa-thumbs-o-up"></i>
                     <span class="f-right">5</span>
                     <i class="fa fa-thumbs-o-down"></i>
                     <span class="f-right">5</span>
                   </div>
                   <div class="comment-content" [@seventyFiveAnimation]='stateSeventyFive'>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
+                    {{message.content}}
                   </div>
                 </div>
               </div>
-            </li>
 
-            <li>
-              <div class="comment-main-level">
+              <div *ngIf="message.isMine" class="comment-main-level your-message">
 
-                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/batman.svg" alt="image"  [@fiftyAnimation]='stateFifty'></div>
+                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/magneto.svg" alt="{{message.sender}}" [@fiftyAnimation]='stateFifty'></div>
 
                 <div class="comment-box col-sm-10">
                   <div class="comment-head">
-                    <h6 class="comment-name">John</h6>
-                    <span>14 minutes ago</span>
+                    <h6 class="comment-name by-author">{{message.sender}}</h6>
+                    <span>Sent on : {{message.sendDate}}</span>
                     <i class="fa fa-thumbs-o-up"></i>
                     <span class="f-right">5</span>
                     <i class="fa fa-thumbs-o-down"></i>
                     <span class="f-right">5</span>
                   </div>
                   <div class="comment-content" [@seventyFiveAnimation]='stateSeventyFive'>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Velit omnis animi et iure laudantium vitae, praesentium optio,
-                    sapiente distinctio illo?
+                    {{message.content}}
                   </div>
                 </div>
               </div>
             </li>
 
-            <li>
-              <div class="comment-main-level">
-
-                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/deadpool.svg" alt="image"  [@fiftyAnimation]='stateFifty'></div>
-
-                <div class="comment-box col-sm-10">
-                  <div class="comment-head">
-                    <h6 class="comment-name">Jane</h6>
-                    <span>14 minutes ago</span>
-                    <i class="fa fa-thumbs-o-up"></i>
-                    <span class="f-right">5</span>
-                    <i class="fa fa-thumbs-o-down"></i>
-                    <span class="f-right">5</span>
-                  </div>
-                  <div class="comment-content" [@seventyFiveAnimation]='stateSeventyFive'>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                    when an unknown printer took a galley of type and scrambled it to make a type
-                    specimen book.
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li>
+            <!--<li>
               <div class="comment-main-level your-message">
                 <div class="comment-avatar col-sm-1"><img src="../../assets/icons/captain-america.svg" alt="image" [@fiftyAnimation]='stateFifty'></div>
 
@@ -116,12 +70,12 @@
                   </div>
                 </div>
               </div>
-            </li>
+            </li>-->
           </ul>
         </div>
       </div>
     </div>
-    <div class="col-sm-4" id="input-messsage">
+    <div class="col-sm-4" id="input-messsage" [(ngModel)]="message">
       <h4>Answer</h4>
       <p>Characters remaining 250</p>
       <form>

@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ChatService } from '../services/chat.service';
 import { ChatModel } from '../../models/chat.model';
 import { UtilityService } from '../services/utility.service';
+import { AccountService } from '../services/account.service';
 
 @Component({
   selector: 'app-new-chat',
@@ -12,12 +13,12 @@ import { UtilityService } from '../services/utility.service';
 export class NewChatComponent implements OnInit, OnDestroy {
   chatData: ChatModel = new ChatModel();
 
-  constructor(private chatService: ChatService, private utilityService: UtilityService) {
+  constructor(private chatService: ChatService, private utilityService: UtilityService, private accountService: AccountService) {
   }
 
   ngOnInit() {
-    if (this.utilityService.isJwtValid()) {
-      let login = this.utilityService.getLocalCredentials();
+    if (this.accountService.isJwtValid()) {
+      let login = this.accountService.getLocalCredentials();
 
       if (login == null)
         this.utilityService.navigateToPath('/home');
@@ -43,10 +44,14 @@ export class NewChatComponent implements OnInit, OnDestroy {
         this.chatData.moderator = res.data.moderator;
         this.chatData.title = res.data.title;
         this.chatData.chatCode = res.data.chatCode;
+        this.chatData.expirationDate = res.data.expirationDate;
+        this.chatData.activationDate = res.data.activationDate;
 
-        this.utilityService.setLocalChatData(this.chatData);
+        this.accountService.setLocalChatData(this.chatData);
 
-        this.utilityService.navigateToPath('/projector');
+        //this.utilityService.navigateToPath('/projector');
+
+        this.utilityService.navigateToPath('/discussion');
       }
       else {
         this.chatData = new ChatModel();

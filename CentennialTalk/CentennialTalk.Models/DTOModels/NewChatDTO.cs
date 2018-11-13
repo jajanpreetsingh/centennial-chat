@@ -6,7 +6,11 @@ namespace CentennialTalk.Models.DTOModels
     public class NewChatDTO
     {
         public string moderator;
-
         public string title;
+        public string activationDate;
+        public string expirationDate;
+
+        public QuestionDTO[] openQuestions;
+        public QuestionDTO[] pollQuestions;
     }
 }

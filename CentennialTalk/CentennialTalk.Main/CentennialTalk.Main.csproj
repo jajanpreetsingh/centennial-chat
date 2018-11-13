@@ -38,7 +38,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\models\globals.ts" />
     <None Remove="ClientApp\src\models\member.model.ts" />
+    <None Remove="ClientApp\src\models\response.model.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,10 +50,13 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\src\assets\images\" />
+    <Folder Include="Logs\" />
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\models\globals.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\member.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\models\response.model.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

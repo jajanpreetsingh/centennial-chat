@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { LoginModel } from '../../models/login.model';
+import { Globals } from '../../models/globals';
+import { AccountService } from '../services/account.service';
+import { UtilityService } from '../services/utility.service';
 
 @Component({
   selector: 'app-menu',
@@ -7,18 +10,46 @@ import { Router } from '@angular/router';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
+  loggedIn: boolean = false;
+  login: LoginModel = new LoginModel();
   isIn: boolean = false;
-  constructor(private router: Router) { }
+
+  constructor(private globals: Globals,
+    private accountService: AccountService, private utilityService: UtilityService) {
+    this.loggedIn = this.globals.isLoggedIn;
+  }
 
   ngOnInit() {
   }
 
   goToSignup() {
-    this.router.navigate(['/signup']);
+    this.utilityService.navigateToPath('/signup');
   }
 
   goToGeneralLogin() {
-    this.router.navigate(['/general-login']);
+    this.utilityService.navigateToPath('/general-login');
+  }
+
+  logoutToHome() {
+    console.log("logging out");
+
+    this.accountService.tryLogout().subscribe(res => {
+
+      console.log(res);
+
+      if (res.code == 200) {
+
+        this.accountService.setJwtToken('');
+        this.accountService.setLocalCredentials(null);
+
+        this.globals.loginData = null;
+
+        this.utilityService.navigateToPath('/home');
+      }
+      else {
+        console.log("Login failed");
+      }
+    });
   }
 
   toggleState() {

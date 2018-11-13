@@ -6,10 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./error-message.component.scss']
 })
 export class ErrorMessageComponent {
-
   close() {
     //this code should close message
   }
 }
-
-

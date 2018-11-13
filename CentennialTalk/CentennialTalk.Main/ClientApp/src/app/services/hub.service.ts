@@ -8,6 +8,7 @@ import { ChatModel } from '../../models/chat.model';
 import { MessageModel } from '../../models/message.model';
 import { UtilityService } from './utility.service';
 import { MemberModel } from '../../models/member.model';
+import { AccountService } from './account.service';
 
 @Injectable()
 export class HubService {
@@ -23,10 +24,10 @@ export class HubService {
   members: MemberModel[] = [];
 
   constructor(private messageService: MessageService, private datePipe: DatePipe,
-    private memberService: MemberService, private utilityService: UtilityService) { }
+    private memberService: MemberService, private utilityService: UtilityService, private accountService: AccountService) { }
 
   initChatHub() {
-    this.chatData = this.utilityService.getLocalChatData();
+    this.chatData = this.accountService.getLocalChatData();
 
     if (this.chatData == null || this.chatData.chatCode == '') {
       this.utilityService.navigateToPath('home');

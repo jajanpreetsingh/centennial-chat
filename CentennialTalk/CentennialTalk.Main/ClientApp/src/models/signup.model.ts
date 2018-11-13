@@ -5,3 +5,4 @@ export class SignupModel {
   isValid() {
   }
 }
+//"@auth0/angular-jwt": "^2.0.0",

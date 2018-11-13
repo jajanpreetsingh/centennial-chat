@@ -57,8 +57,6 @@ namespace CentennialTalk.Main.Controllers
             if (!chat.IsLinkOpen)
                 return GetJson(new ResponseDTO(ResponseCode.OK, "Chat is already closed"));
 
-            chat.IsLinkOpen = false;
-
             uowService.SaveChanges();
 
             return GetJson(new ResponseDTO(ResponseCode.OK, "Success"));

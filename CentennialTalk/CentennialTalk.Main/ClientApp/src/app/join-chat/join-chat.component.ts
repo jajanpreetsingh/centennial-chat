@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ChatService } from '../services/chat.service';
 import { ChatModel } from '../../models/chat.model';
 import { UtilityService } from '../services/utility.service';
+import { AccountService } from '../services/account.service';
 
 @Component({
   selector: 'app-join-chat',
@@ -14,12 +15,12 @@ export class JoinChatComponent implements OnInit {
   isLoggedIn: boolean;
 
   constructor(private chatService: ChatService,
-    private utilityService: UtilityService) {
+    private utilityService: UtilityService, private accountService: AccountService) {
   }
 
   ngOnInit() {
-    if (this.utilityService.isJwtValid()) {
-      let cred = this.utilityService.getLocalCredentials();
+    if (this.accountService.isJwtValid()) {
+      let cred = this.accountService.getLocalCredentials();
 
       if (cred != null)
         this.chatData.username = cred.username;
@@ -37,7 +38,7 @@ export class JoinChatComponent implements OnInit {
         this.chatData.moderator = res.data.moderator;
         this.chatData.title = res.data.title;
 
-        this.utilityService.setLocalChatData(this.chatData);
+        this.accountService.setLocalChatData(this.chatData);
 
         this.utilityService.navigateToPath('/chat');
       }

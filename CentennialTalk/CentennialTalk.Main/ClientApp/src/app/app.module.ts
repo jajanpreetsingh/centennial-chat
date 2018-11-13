@@ -7,7 +7,6 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { ChatComponent } from './chat/chat.component';
 import { NewChatComponent } from './new-chat/new-chat.component';
 import { JoinChatComponent } from './join-chat/join-chat.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
@@ -31,12 +30,12 @@ import { SpeechService } from './services/speech.service';
 import { AccountService } from './services/account.service';
 import { UtilityService } from './services/utility.service';
 import { HubService } from './services/hub.service';
+import { Globals } from '../models/globals';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    ChatComponent,
     NewChatComponent,
     JoinChatComponent,
     SignUpComponent,
@@ -49,7 +48,7 @@ import { HubService } from './services/hub.service';
     ErrorMessageComponent,
     IconsComponent,
     ProjectorComponent,
-    TranscriptComponent
+    TranscriptComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -82,6 +81,7 @@ import { HubService } from './services/hub.service';
     AccountService,
     UtilityService,
     HubService,
+    Globals
   ],
   bootstrap: [AppComponent]
 })

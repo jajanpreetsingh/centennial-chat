@@ -1,4 +1,4 @@
-<app-error-message></app-error-message>
+<!--<app-error-message></app-error-message>-->
 <app-menu></app-menu>
 <div id="welcome-login" class="container-fluid">
   <div class="container-fluid">
@@ -6,7 +6,8 @@
       <!--<app-new-chat></app-new-chat>-->
       <div class="col-sm-1"></div>
       <div class="col-sm-1"></div>
-      <app-login></app-login>
+      <app-login *ngIf="!loggedIn"></app-login>
+      <app-new-chat *ngIf="loggedIn"></app-new-chat>
       <div class="col-sm-1"></div>
       <div class="col-sm-1"></div>
       <app-join-chat></app-join-chat>
