@@ -21,7 +21,7 @@
 <app-menu></app-menu>
 
 <div class="container-fluid" id="new-chat-section">
-  <form (ngSubmit)="onSubmitNewChat()">
+  <form>
     <div class="row">
       <div class="col-sm-2"></div>
       <div class="col-sm-8">
@@ -44,37 +44,31 @@
         <div class="col-sm-6">
           <h4>Pre-populate Open-ended Questions:</h4>
 
-          <div class="open-question"><span>Q</span> <input type="text" placeholder="question" class="form-control" /></div>
-          <hr />
-          <div class="open-question"><span>Q</span> <input type="text" placeholder="question" class="form-control" /></div>
-          <hr />
-          <div class="open-question"><span>Q</span> <input type="text" placeholder="question" class="form-control" /></div>
+          <div *ngFor="let question of chatData.openQuestions">
+            <div class="open-question"><span>Q</span> <input type="text" value="{{question.content}}" placeholder="question" class="form-control" /></div>
+            <hr />
+          </div>
 
-          <button class="btn">Add More</button>
+          <button class="btn" (click)="addOpenQuestion()">Add Open Questions</button>
         </div>
-        <div class="col-sm-6">
+        <div *ngFor="let question of chatData.pollQuestions" class="col-sm-6">
           <h4>Choose your Poll Type:</h4>
           <div class="multiple-answer-question">
-            <span>Q1</span> <input type="text" placeholder="question" class="form-control" />
+            <span>Q</span> <input type="text" value="{{question.content}}" placeholder="question" class="form-control" />
             <div class="checkbox">
               <label><input type="checkbox" value="">Multiple answers</label>
             </div>
             <h5>Answers:</h5>
-            <div>
-              <span>A1</span><input type="text" placeholder="answer" class="form-control" />
+            <div *ngFor="let option of question.options">
+              <span>A</span><input type="text" value="{{option}}" placeholder="answer" class="form-control" />
             </div>
-            <div>
-              <span>A2</span><input type="text" placeholder="answer" class="form-control" />
-            </div>
-            <div>
-              <span>A3</span><input type="text" placeholder="answer" class="form-control" />
-            </div>
-          </div>
+            <button (click)="addMoreOptions(question)" class="btn">Add More Options</button>
 
-          <button class="btn">Add More</button>
+          </div>
         </div>
+        <button (click)="addPollQuestion()" class="btn">Add Polling Questions</button>
         <br />
-        <button class="btn btn-lg submit-btn" type="submit">Start</button>
+        <button class="btn btn-lg submit-btn" type="button" (click)="onSubmitNewChat()">Start</button>
       </div>
       <div class="col-sm-2"></div>
     </div>

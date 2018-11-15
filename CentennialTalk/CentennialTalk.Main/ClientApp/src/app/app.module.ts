@@ -64,7 +64,7 @@ import { Globals } from '../models/globals';
       { path: 'signup', component: SignUpComponent },
       { path: 'chat', component: DiscussionComponent },
       { path: 'chat/:data', component: DiscussionComponent },
-      { path: 'discussionR', component: DiscussionComponent },
+      { path: 'discussion', component: DiscussionComponent },
       { path: 'discussionpoll', component: DiscussionPollComponent },
       { path: 'general-login', component: GeneralLoginComponent },
       { path: 'projector', component: ProjectorComponent },

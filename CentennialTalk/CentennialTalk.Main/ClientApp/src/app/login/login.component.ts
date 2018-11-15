@@ -29,6 +29,8 @@ export class LoginComponent implements OnInit {
 
         this.accountService.setLocalCredentials(this.login);
 
+        console.log(this.accountService.getGlobals());
+
         this.utility.navigateToPath('');
       }
       else {
