@@ -1,10 +1,11 @@
 @import '../scss/styles.scss';
 
 #img-header {
-  height: 50vh;
+  margin-top: 30px !important;
+  height: 70vh;
   background-image: url("../../assets/images/home-header.jpg");
   background-position: center;
-  background-size: contain;
+  background-size: cover;
   margin: 0 -15px;
   border-bottom: 2px solid $color-primary;
 }
@@ -36,8 +37,13 @@ button.blue-bg {
   background-color: $dark-white;
   padding-bottom: 40px;
 
+  h2 {
+    color: $blue;
+  }
+
   h4 {
-    font-weight: 300;
+    font-weight: 400;
+    color: $blue;
   }
 
   .col-sm-12 {
@@ -45,7 +51,6 @@ button.blue-bg {
 
     h4:nth-child(3) {
       font-weight: 600;
-      color: $color-primary;
     }
   }
 }
@@ -118,6 +123,12 @@ p {
   animation-duration: 1s;
   -webkit-animation-duration: 1s;
   visibility: visible;
+  h4{
+    margin-bottom: 10px;
+  }
+  p{
+    font-size: 1.3em;
+  }
 }
 @keyframes slide {
   0% {
