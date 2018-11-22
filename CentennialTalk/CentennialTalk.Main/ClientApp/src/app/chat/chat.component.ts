@@ -49,14 +49,15 @@ export class ChatComponent implements OnInit {
 
     var mid = uuid();
 
-    var messageObj = {
-      messageId: mid,
-      content: content,
-      chatCode: this.chatData.chatCode,
-      sender: this.chatData.username,
-      replyId: mid,
-    };
+    //let messageObj: MessageModel = new MessageModel();
+    
+    //  messageId: mid,
+    //  content: content,
+    //  chatCode: this.chatData.chatCode,
+    //  sender: this.chatData.username,
+    //  replyId: mid,
+    //};
 
-    this.hubService.sendMessage(messageObj);
+    //this.hubService.sendMessage(messageObj);
   }
 }

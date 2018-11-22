@@ -50,10 +50,16 @@ export class AccountService {
   }
 
   setLocalCredentials(login: LoginModel) {
-    if (login != null)
+    if (login != null) {
       localStorage.setItem(StorageKeys[StorageKeys.Login], JSON.stringify(login));
 
-    this.globals.loginData = login;
+      this.globals.loginData = login;
+    }
+    else {
+      localStorage.setItem(StorageKeys[StorageKeys.Login], '');
+
+      this.globals.loginData = null;
+    }
   }
 
   isJwtValid() {

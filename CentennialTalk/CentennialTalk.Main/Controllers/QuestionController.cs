@@ -2,8 +2,6 @@
 using CentennialTalk.ServiceContract;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace CentennialTalk.Main.Controllers
 {
     [Route("api/question")]
@@ -12,8 +10,7 @@ namespace CentennialTalk.Main.Controllers
         private readonly IQuestionService questionService;
         private readonly IUnitOfWorkService uowService;
 
-        public QuestionController(IQuestionService questionService,
-            IUnitOfWorkService uowService)
+        public QuestionController(IQuestionService questionService, IUnitOfWorkService uowService)
         {
             this.questionService = questionService;
             this.uowService = uowService;
@@ -31,6 +28,32 @@ namespace CentennialTalk.Main.Controllers
         public IActionResult AddQuestionToChat([FromBody]QuestionDTO question)
         {
             ResponseDTO res = questionService.AddQuestionToChat(question);
+
+            bool saved = uowService.SaveChanges();
+
+            if (!saved)
+                return GetJson(new ResponseDTO(ResponseCode.ERROR, "Error saving question"));
+
+            return GetJson(res);
+        }
+
+        [HttpPost("published")]
+        public IActionResult QuestionPublished([FromBody]QuestionDTO question)
+        {
+            ResponseDTO res = questionService.PublishQuestion(question);
+
+            bool saved = uowService.SaveChanges();
+
+            if (!saved)
+                return GetJson(new ResponseDTO(ResponseCode.ERROR, "Error saving question"));
+
+            return GetJson(res);
+        }
+
+        [HttpPost("archived")]
+        public IActionResult QuestionArchived([FromBody]QuestionDTO question)
+        {
+            ResponseDTO res = questionService.ArchiveQuestion(question);
 
             bool saved = uowService.SaveChanges();
 

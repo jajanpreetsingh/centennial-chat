@@ -2,6 +2,8 @@ export class QuestionModel {
   content: string;
   selectMultiple: boolean;
   options: string[];
-  isPollingQuestion: boolean
+  isPollingQuestion: boolean;
   chatCode: string;
+  isPublished: boolean;
+  isArchived: boolean;
 }

@@ -5,7 +5,9 @@ import { ChatModel } from './chat.model';
 @Injectable()
 export class Globals {
   get isLoggedIn(): boolean {
-    return this.loginData != null;
+    return this.loginData != null
+      && this.loginData.username != null
+      && this.loginData.username != "";
   };
 
   loginData: LoginModel;

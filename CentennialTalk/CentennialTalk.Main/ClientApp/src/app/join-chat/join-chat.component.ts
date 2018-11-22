@@ -13,14 +13,14 @@ import { Globals } from '../../models/globals';
 export class JoinChatComponent implements OnInit {
   chatData: ChatModel = new ChatModel();
 
-  isLoggedIn: boolean = false;
+  loggedin: boolean = false;
 
   constructor(private chatService: ChatService,
     private utilityService: UtilityService, private accountService: AccountService, private globals: Globals) {
 
     console.log("from join chat : " + this.globals.isLoggedIn);
 
-    this.isLoggedIn = this.globals.isLoggedIn;
+    this.loggedin = this.globals.isLoggedIn;
   }
 
   ngOnInit() {
@@ -30,7 +30,7 @@ export class JoinChatComponent implements OnInit {
       if (cred != null)
         this.chatData.username = cred.username;
 
-      this.isLoggedIn = this.globals.isLoggedIn;
+      this.loggedin = this.globals.isLoggedIn;
     }
   }
 

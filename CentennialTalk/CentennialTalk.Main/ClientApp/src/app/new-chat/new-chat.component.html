@@ -31,8 +31,8 @@
         <div class="row">
           <div class="col-sm-6">
             <h4>Enter Period:</h4>
-            <input name="startDate" class="form-control" type="datetime-local" [(ngModel)]="chatData.activationDate">
-            <input name="endDate" class="form-control" type="datetime-local" [(ngModel)]="chatData.expirationDate">
+            <input name="activationDate" class="form-control" type="datetime-local" [(ngModel)]="chatData.activationDate">
+            <input name="expirationDate" class="form-control" type="datetime-local" [(ngModel)]="chatData.expirationDate">
           </div>
           <div class="col-sm-6">
             <h4>Use Link Below to Share It with Students:</h4>
@@ -44,31 +44,60 @@
         <div class="col-sm-6">
           <h4>Pre-populate Open-ended Questions:</h4>
 
-          <div *ngFor="let question of chatData.openQuestions">
-            <div class="open-question"><span>Q</span> <input type="text" value="{{question.content}}" placeholder="question" class="form-control" /></div>
+          <div>
+            <div class="open-question">
+              <span>Q</span>
+              <input [(ngModel)]="openQuestion" name="openQuestion" type="text" placeholder="question" class="form-control" />
+            </div>
             <hr />
           </div>
 
-          <button class="btn" (click)="addOpenQuestion()">Add Open Questions</button>
+          <div *ngFor="let question of chatData.openQuestions">
+            <div class="open-question"><span>Q</span> <input type="text" disabled="disabled" value="{{question.content}}" placeholder="question" class="form-control" /></div>
+            <hr />
+          </div>
+          <button class="btn" (click)="addOpenQuestion()">Add Question</button>
         </div>
-        <div *ngFor="let question of chatData.pollQuestions" class="col-sm-6">
+
+        <div class="col-sm-6">
           <h4>Choose your Poll Type:</h4>
           <div class="multiple-answer-question">
-            <span>Q</span> <input type="text" value="{{question.content}}" placeholder="question" class="form-control" />
+            <span>Q</span>
+            <input [(ngModel)]="pollQuestion" name="pollQuestion" type="text" placeholder="question" class="form-control" />
             <div class="checkbox">
-              <label><input type="checkbox" value="">Multiple answers</label>
+              <label><input [(ngModel)]="allowMultiple" name="allowMultiple" type="checkbox" />Multiple answers</label>
             </div>
             <h5>Answers:</h5>
-            <div *ngFor="let option of question.options">
-              <span>A</span><input type="text" value="{{option}}" placeholder="answer" class="form-control" />
+            <div *ngFor="let option of pollOptions; let i = index; trackBy: maintainFocus">
+              <span>A</span><input type="text" [(ngModel)]="pollOptions[i]" name="pollOptions[i]" value="{{option}}" placeholder="answer" class="form-control" />
             </div>
-            <button (click)="addMoreOptions(question)" class="btn">Add More Options</button>
+            <button (click)="addOption()" class="btn">Add Option</button>
+            <button (click)="removeOption()" class="btn">Remove Option</button>
+            <button (click)="addPollQuestion()" class="btn">Add Polling Questions</button>
+          </div>
 
+          <div *ngFor="let question of chatData.pollQuestions">
+            <h4>Choose your Poll Type:</h4>
+            <div class="multiple-answer-question">
+              <span>Q</span> <input type="text" disabled="disabled" value="{{question.content}}" placeholder="question" class="form-control" />
+              <div class="checkbox">
+                <label><input disabled="disabled" type="checkbox" value="{{question.selectMultiple}}">Multiple answers</label>
+              </div>
+              <h5>Answers:</h5>
+              <div *ngFor="let option of question.options">
+                <span>A</span><input disabled="disabled" type="text" value="{{option}}" placeholder="answer" class="form-control" />
+              </div>
+              <!--<button (click)="addMoreOptions(question)" class="btn">Add More Options</button>-->
+            </div>
           </div>
         </div>
-        <button (click)="addPollQuestion()" class="btn">Add Polling Questions</button>
+
+
+
+
         <br />
         <button class="btn btn-lg submit-btn" type="button" (click)="onSubmitNewChat()">Start</button>
+        <button class="btn btn-lg submit-btn" type="button" (click)="refreshData()">Refresh</button>
       </div>
       <div class="col-sm-2"></div>
     </div>

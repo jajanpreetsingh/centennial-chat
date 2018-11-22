@@ -4,11 +4,8 @@ import { v4 as uuid } from 'uuid';
 import { SpeechService } from '../services/speech.service';
 import { HubService } from '../services/hub.service';
 import { ChatModel } from '../../models/chat.model';
-import { UtilityService } from '../services/utility.service';
-import { MessageService } from '../services/message.service';
 import { MessageModel } from '../../models/message.model';
 import { AccountService } from '../services/account.service';
-
 
 @Component({
   selector: 'app-discussion',
@@ -28,15 +25,15 @@ import { AccountService } from '../services/account.service';
       transition('fixed <=> shaked', animate('1000ms ease-in', keyframes([
         style({ opacity: 0, transform: 'translateX(-50%)', offset: 0.0 }),
         style({ opacity: 1, background: 'linear-gradient(to right, #FFF, #744DA8)', transform: 'translateY(11%)', offset: 0.1 }),
-        style({ opacity: 1, background: 'linear-gradient(to right, #744DA8, #1FB3E0)',transform: 'translateX(30%)', offset: 0.2 }),
-        style({ opacity: 1, background: 'linear-gradient(to right, #1FB3E0, #49C219)',transform: 'translateY(-29%)', offset: 0.3 }),
-        style({ opacity: 1, background: 'linear-gradient(to right, #49C219, #F4DC2A)',transform: 'translateX(-25%)', offset: 0.4 }),
-        style({ opacity: 0.6, background: 'linear-gradient(to right, #F4DC2A, #EEB417)',transform: 'translateY(44%)', offset: 0.5 }),
-        style({ opacity: 1, background: 'linear-gradient(to right, #EEB417, #D65129)',transform: 'scale(1.5)', offset: 0.7 }),
-        style({ opacity: 0.2, background: 'linear-gradient(to right, #D65129, #D6CDCA)',transform: 'scale(1.2)', offset: 0.8 }),
+        style({ opacity: 1, background: 'linear-gradient(to right, #744DA8, #1FB3E0)', transform: 'translateX(30%)', offset: 0.2 }),
+        style({ opacity: 1, background: 'linear-gradient(to right, #1FB3E0, #49C219)', transform: 'translateY(-29%)', offset: 0.3 }),
+        style({ opacity: 1, background: 'linear-gradient(to right, #49C219, #F4DC2A)', transform: 'translateX(-25%)', offset: 0.4 }),
+        style({ opacity: 0.6, background: 'linear-gradient(to right, #F4DC2A, #EEB417)', transform: 'translateY(44%)', offset: 0.5 }),
+        style({ opacity: 1, background: 'linear-gradient(to right, #EEB417, #D65129)', transform: 'scale(1.5)', offset: 0.7 }),
+        style({ opacity: 0.2, background: 'linear-gradient(to right, #D65129, #D6CDCA)', transform: 'scale(1.2)', offset: 0.8 }),
         style({ opacity: 1, background: 'linear-gradient(to right, #D6CDCA, #FFF)', transform: 'translateX(0)', offset: 0.9 }),
         style({ opacity: 1, transform: 'scale(1)', offset: 0.95 }),
-        style({ opacity: 1, transform: 'translateY(0)', offset: 1.0  })
+        style({ opacity: 1, transform: 'translateY(0)', offset: 1.0 })
       ])))
     ]),
   ]
@@ -82,13 +79,13 @@ export class DiscussionComponent implements OnInit {
 
     var mid = uuid();
 
-    var messageObj = {
-      messageId: mid,
-      content: content,
-      chatCode: this.chatData.chatCode,
-      sender: this.chatData.username,
-      replyId: mid,
-    };
+    let messageObj: MessageModel = new MessageModel()
+
+    messageObj.messageId = mid;
+    messageObj.content = content;
+    messageObj.chatCode = this.chatData.chatCode;
+    messageObj.sender = this.chatData.username;
+    messageObj.replyId = mid;
 
     this.hubService.sendMessage(messageObj);
   }
@@ -101,5 +98,3 @@ export class DiscussionComponent implements OnInit {
     this.stateSeventyFive = (this.stateSeventyFive === 'fixed' ? 'shaked' : 'fixed');
   }
 }
-
-

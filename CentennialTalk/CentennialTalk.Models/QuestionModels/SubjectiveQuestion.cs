@@ -26,10 +26,13 @@ namespace CentennialTalk.Models.QuestionModels
         {
             return new QuestionDTO()
             {
+                id = QuestionId.ToString(),
                 chatCode = ChatCode,
                 content = Content,
                 isPollingQuestion = false,
-                selectMultiple = false
+                selectMultiple = false,
+                isArchived = IsArchived,
+                isPublished = IsPublished,
             };
         }
     }

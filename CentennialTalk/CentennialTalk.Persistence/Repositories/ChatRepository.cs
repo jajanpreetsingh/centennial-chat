@@ -24,9 +24,9 @@ namespace CentennialTalk.Persistence.Repositories
             return discussion;
         }
 
-        public Discussion GetChatByCode(string code, bool includeExtendedMembers = false)
+        public Discussion GetChatByCode(string code, bool includeMembers = false)
         {
-            if (!includeExtendedMembers)
+            if (!includeMembers)
 
                 return dbContext.Discussions
                     .Where(x => x.DiscussionCode == code)

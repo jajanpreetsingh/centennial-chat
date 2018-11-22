@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Globals } from '../../models/globals';
+import { AccountService } from '../services/account.service';
 
 @Component({
   selector: 'app-general-login',
@@ -9,8 +10,12 @@ import { Globals } from '../../models/globals';
 export class GeneralLoginComponent implements OnInit {
   loggedIn: boolean = false;
 
-  constructor(private globals: Globals) {
+  constructor(private accountService: AccountService, private globals: Globals) {
+    globals.loginData = this.accountService.getLocalCredentials();
+
     this.loggedIn = this.globals.isLoggedIn;
+
+    console.log("from general login : " + this.loggedIn);
   }
 
   ngOnInit() {

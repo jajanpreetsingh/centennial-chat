@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
 
   blob: any;
 
-  constructor(private fileService: FileService, private router: Router) {
+  constructor(private fileService: FileService, private router: Router) { 
   }
 
   ngOnInit() {

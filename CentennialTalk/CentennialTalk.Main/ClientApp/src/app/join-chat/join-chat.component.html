@@ -1,8 +1,8 @@
 <div class="col-sm-3">
   <div class="panel panel-default text-center">
     <div class="panel-heading">
-      <h1 *ngIf="loggedIn==false">Student</h1>
-      <h1 *ngIf="loggedIn!=false">Moderator</h1>
+      <h1 *ngIf="!loggedin">Student</h1>
+      <h1 *ngIf="loggedin">Moderator</h1>
     </div>
     <div class="panel-body">
       <div class="hexagon">
@@ -12,7 +12,7 @@
         <input name="user" class="form-control" type="text" placeholder="username" [(ngModel)]="chatData.username">
         <input name="chatCode" class="form-control" type="text" placeholder="Chat code" [(ngModel)]="chatData.chatCode">
         <button class="btn btn-lg" type="submit">Join</button>
-        <button *ngIf="loggedIn!=false" class="btn btn-lg" (click)="goToNewChatPage()" type="button">New Chat</button>
+        <button *ngIf="loggedin" class="btn btn-lg" (click)="goToNewChatPage()" type="button">New Chat</button>
       </form>
     </div>
   </div>

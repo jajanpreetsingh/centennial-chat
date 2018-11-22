@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginModel } from '../../models/login.model';
 import { AccountService } from '../services/account.service';
 import { UtilityService } from '../services/utility.service';
+import { detectChanges } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-login',
@@ -29,9 +30,7 @@ export class LoginComponent implements OnInit {
 
         this.accountService.setLocalCredentials(this.login);
 
-        console.log(this.accountService.getGlobals());
-
-        this.utility.navigateToPath('');
+        window.location.reload();
       }
       else {
         console.log("Login failed");

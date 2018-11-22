@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { ChatService } from '../services/chat.service';
 import { ChatModel } from '../../models/chat.model';
 import { UtilityService } from '../services/utility.service';
@@ -14,6 +14,13 @@ import { QuestionModel } from '../../models/question.model';
 export class NewChatComponent implements OnInit, OnDestroy {
   chatData: ChatModel = new ChatModel();
 
+  openQuestion: string = '';
+  pollQuestion: string = '';
+
+  allowMultiple: boolean = false;
+
+  pollOptions: string[] = [];
+
   constructor(private chatService: ChatService, private utilityService: UtilityService, private accountService: AccountService) {
   }
 
@@ -26,20 +33,27 @@ export class NewChatComponent implements OnInit, OnDestroy {
       else {
         this.chatData.username = login.username;
         this.chatData.moderator = login.username;
-
-        let q = new QuestionModel();
-
-        if (this.chatData.openQuestions == null || this.chatData.openQuestions.length <= 0)
-          this.chatData.openQuestions = [q];
       }
     }
+  }
+
+  maintainFocus(index: number, obj: any): number {
+    return index;
+  }
+
+  refreshData() {
+    console.log(this.chatData);
   }
 
   addOpenQuestion() {
     if (this.chatData.openQuestions == null || this.chatData.openQuestions.length <= 0)
       this.chatData.openQuestions = [];
 
-    this.chatData.openQuestions.push(new QuestionModel());
+    let q = new QuestionModel();
+    q.content = this.openQuestion;
+    q.isPollingQuestion = false;
+
+    this.chatData.openQuestions.push(q);
   }
 
   addPollQuestion() {
@@ -47,24 +61,36 @@ export class NewChatComponent implements OnInit, OnDestroy {
       this.chatData.pollQuestions = [];
 
     let q = new QuestionModel();
+    q.selectMultiple = this.allowMultiple;
+    q.content = this.pollQuestion;
+
     q.options = [];
-    q.options.push('');
-    q.options.push('');
+
+    console.log(this.pollOptions);
+
+    if (this.pollOptions != null && this.pollOptions.length > 0)
+      this.pollOptions.forEach(x => q.options.push(x));
+
+    q.isPollingQuestion = true;
 
     this.chatData.pollQuestions.push(q);
 
-    console.log(this.chatData.pollQuestions);
+    this.pollOptions = [];
   }
 
-  addMoreOptions(ques: QuestionModel) {
+  addOption() {
+    if (this.pollOptions == null)
+      this.pollOptions = [];
 
-    if (ques == null)
-      return;
+    this.pollOptions.push('');
+  }
 
-    if (ques.options == null)
-      ques.options = [];
+  removeOption() {
+    if (this.pollOptions == null)
+      this.pollOptions = [];
 
-    ques.options.push('');
+    if (this.pollOptions.length > 0)
+      this.pollOptions.pop();
   }
 
   onChangeModerator() {
@@ -72,12 +98,7 @@ export class NewChatComponent implements OnInit, OnDestroy {
   }
 
   onSubmitNewChat() {
-    this.chatService.createNewChat(
-      {
-        "moderator": this.chatData.moderator,
-        "title": this.chatData.title
-      }
-    ).subscribe(res => {
+    this.chatService.createNewChat(this.chatData).subscribe(res => {
       if (res.code == 200) {
         this.chatData.moderator = res.data.moderator;
         this.chatData.title = res.data.title;

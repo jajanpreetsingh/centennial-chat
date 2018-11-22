@@ -34,8 +34,6 @@ namespace CentennialTalk.Persistence.Migrations
 
                     b.Property<DateTime>("ExpirationDate");
 
-                    b.Property<bool>("IsLinkOpen");
-
                     b.Property<DateTime>("LastUpdated");
 
                     b.Property<string>("Title")
@@ -132,13 +130,19 @@ namespace CentennialTalk.Persistence.Migrations
                     b.Property<Guid>("QuestionId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("ArchiveDate");
+
                     b.Property<string>("ChatCode");
 
                     b.Property<string>("Content");
 
                     b.Property<Guid?>("DiscussionId");
 
+                    b.Property<bool>("IsArchived");
+
                     b.Property<bool>("IsPublished");
+
+                    b.Property<DateTime>("PublishDate");
 
                     b.Property<bool>("SelectMultiple");
 
@@ -173,13 +177,19 @@ namespace CentennialTalk.Persistence.Migrations
                     b.Property<Guid>("QuestionId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("ArchiveDate");
+
                     b.Property<string>("ChatCode");
 
                     b.Property<string>("Content");
 
                     b.Property<Guid?>("DiscussionId");
 
+                    b.Property<bool>("IsArchived");
+
                     b.Property<bool>("IsPublished");
+
+                    b.Property<DateTime>("PublishDate");
 
                     b.Property<int>("Type");
 
