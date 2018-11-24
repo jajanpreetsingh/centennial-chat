@@ -20,10 +20,11 @@
                   <div class="comment-head">
                     <h6 class="comment-name by-author">Elena</h6>
                     <span>20 minutes ago</span>
-                    <i class="fa fa-thumbs-o-up" [@seventyFiveAnimation]='stateSeventyFive'   [@fiftyAnimation]='stateFifty'></i>
+                    <i class="fa fa-thumbs-o-up" [@seventyFiveAnimation]='stateSeventyFive' [@fiftyAnimation]='stateFifty'></i>
                     <span class="f-right">5</span>
-                    <i class="fa fa-thumbs-o-down" [@seventyFiveAnimation]='stateSeventyFive'   [@fiftyAnimation]='stateFifty'></i>
+                    <i class="fa fa-thumbs-o-down" [@seventyFiveAnimation]='stateSeventyFive' [@fiftyAnimation]='stateFifty'></i>
                     <span class="f-right">5</span>
+                    <i class="fa fa-volume-up" aria-hidden="true"></i>
                   </div>
                   <div class="comment-content">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
@@ -40,10 +41,11 @@
                   <div class="comment-head">
                     <h6 class="comment-name">Tim</h6>
                     <span>15 minutes ago</span>
-                    <i class="fa fa-thumbs-o-up" [@seventyFiveAnimation]='stateSeventyFive'   [@fiftyAnimation]='stateFifty'></i>
+                    <i class="fa fa-thumbs-o-up" [@seventyFiveAnimation]='stateSeventyFive' [@fiftyAnimation]='stateFifty'></i>
                     <span class="f-right">5</span>
-                    <i class="fa fa-thumbs-o-down" [@seventyFiveAnimation]='stateSeventyFive'   [@fiftyAnimation]='stateFifty'></i>
+                    <i class="fa fa-thumbs-o-down" [@seventyFiveAnimation]='stateSeventyFive' [@fiftyAnimation]='stateFifty'></i>
                     <span class="f-right">5</span>
+                    <i class="fa fa-volume-up" aria-hidden="true"></i>
                   </div>
                   <div class="comment-content">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
@@ -62,10 +64,11 @@
                   <div class="comment-head">
                     <h6 class="comment-name">John</h6>
                     <span>14 minutes ago</span>
-                    <i class="fa fa-thumbs-o-up" [@seventyFiveAnimation]='stateSeventyFive'   [@fiftyAnimation]='stateFifty'></i>
+                    <i class="fa fa-thumbs-o-up" [@seventyFiveAnimation]='stateSeventyFive' [@fiftyAnimation]='stateFifty'></i>
                     <span class="f-right">5</span>
-                    <i class="fa fa-thumbs-o-down" [@seventyFiveAnimation]='stateSeventyFive'   [@fiftyAnimation]='stateFifty'></i>
+                    <i class="fa fa-thumbs-o-down" [@seventyFiveAnimation]='stateSeventyFive' [@fiftyAnimation]='stateFifty'></i>
                     <span class="f-right">5</span>
+                    <i class="fa fa-volume-up" aria-hidden="true"></i>
                   </div>
                   <div class="comment-content">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -85,10 +88,11 @@
                   <div class="comment-head">
                     <h6 class="comment-name">Jane</h6>
                     <span>14 minutes ago</span>
-                    <i class="fa fa-thumbs-o-up" [@seventyFiveAnimation]='stateSeventyFive'   [@fiftyAnimation]='stateFifty'></i>
+                    <i class="fa fa-thumbs-o-up" [@seventyFiveAnimation]='stateSeventyFive' [@fiftyAnimation]='stateFifty'></i>
                     <span class="f-right">5</span>
-                    <i class="fa fa-thumbs-o-down" [@seventyFiveAnimation]='stateSeventyFive'   [@fiftyAnimation]='stateFifty'></i>
+                    <i class="fa fa-thumbs-o-down" [@seventyFiveAnimation]='stateSeventyFive' [@fiftyAnimation]='stateFifty'></i>
                     <span class="f-right">5</span>
+                    <i class="fa fa-volume-up" aria-hidden="true"></i>
                   </div>
                   <div class="comment-content">
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry.
@@ -107,10 +111,11 @@
                   <div class="comment-head">
                     <h6 class="comment-name">Tim</h6>
                     <span>15 minutes ago</span>
-                    <i class="fa fa-thumbs-o-up" [@seventyFiveAnimation]='stateSeventyFive'   [@fiftyAnimation]='stateFifty'></i>
+                    <i class="fa fa-thumbs-o-up" [@seventyFiveAnimation]='stateSeventyFive' [@fiftyAnimation]='stateFifty'></i>
                     <span class="f-right">5</span>
-                    <i class="fa fa-thumbs-o-down" [@seventyFiveAnimation]='stateSeventyFive'   [@fiftyAnimation]='stateFifty'></i>
+                    <i class="fa fa-thumbs-o-down" [@seventyFiveAnimation]='stateSeventyFive' [@fiftyAnimation]='stateFifty'></i>
                     <span class="f-right">5</span>
+                    <i class="fa fa-volume-up" aria-hidden="true"></i>
                   </div>
                   <div class="comment-content">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
@@ -127,8 +132,12 @@
       <h4>Answer</h4>
       <p>Characters remaining 250</p>
       <form>
+        <div>
         <textarea rows="10" cols="45" name="text"></textarea>
+        <i class="fa fa-microphone" aria-hidden="true"></i>
+        </div>
         <button class="btn btn-lg">Post</button>
+
         <button class="btn btn-lg" (click)="animateMeFifty()">test 50%</button>
         <button class="btn btn-lg" (click)="animateMeSeventyFive()">test 75%</button>
       </form>

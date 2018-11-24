@@ -40,8 +40,12 @@ textarea {
 	border: 1px solid $color-primary;
 }
 
-#input-messsage{
-	padding-top: 100px;
+#input-messsage {
+  padding-top: 100px;
+
+  div {
+    position: relative;
+  }
 }
 
 .avatar{
@@ -85,6 +89,29 @@ textarea {
   width: 60px;
 }
 
+.fa-microphone {
+  width: 30px;
+  height: 30px;
+  font-size: 1.1em;
+  color: $white;
+  border: 1px solid $light-grey;
+  background-color: $light-grey;
+  padding: 6px;
+  border-radius: 50px;
+  position: absolute;
+  z-index: 9999;
+  right: 8px;
+  bottom: 10px;
+  text-align: center;
+  cursor: pointer;
+
+  &:hover {
+    border: 1px solid $dark-grey;
+    background-color: $color-primary;
+  }
+}
+
+
 @media only screen and (max-width: 768px) {
   #count-stud {
     visibility: hidden;
@@ -108,7 +135,7 @@ textarea {
     height: 150px;
   }
 
-  #discussion{
+  #discussion {
     height: 58vh;
   }
 }
