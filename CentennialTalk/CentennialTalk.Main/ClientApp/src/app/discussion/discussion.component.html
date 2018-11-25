@@ -129,18 +129,20 @@
       </div>
     </div>
     <div class="col-sm-4" id="input-messsage">
-      <h4>Answer</h4>
-      <p>Characters remaining 250</p>
-      <form>
-        <div>
-        <textarea rows="10" cols="45" name="text"></textarea>
-        <i class="fa fa-microphone" aria-hidden="true"></i>
-        </div>
-        <button class="btn btn-lg">Post</button>
+      <div class="fitted-container">
+        <h4>Answer</h4>
+        <p>Characters remaining 250</p>
+        <form>
+          <div id="textarea-container">
+            <textarea rows="10" cols="45" name="text"></textarea>
+            <i class="fa fa-microphone" aria-hidden="true"></i>
+          </div>
+          <button class="btn btn-lg">Post</button>
 
-        <button class="btn btn-lg" (click)="animateMeFifty()">test 50%</button>
-        <button class="btn btn-lg" (click)="animateMeSeventyFive()">test 75%</button>
-      </form>
+          <button class="btn btn-lg" (click)="animateMeFifty()">test 50%</button>
+          <button class="btn btn-lg" (click)="animateMeSeventyFive()">test 75%</button>
+        </form>
+      </div>
     </div>
     <div class="col-sm-1">
 

@@ -15,21 +15,21 @@ h2 {
 }
 
 .blue-bg {
-  background-color: $blue;
+  background-color: $color-secondary;
   h2{
     margin-top: 0;
   }
 }
 
 button.blue-bg {
-  background-color: $blue !important;
+  background-color: $color-secondary !important;
   width: initial!important;
   margin-top: 20px;
 
   &:hover {
-    color: $blue !important;
+    color: $color-secondary !important;
     background-color: $white !important;
-    border: 1px solid $blue !important;
+    border: 1px solid $color-secondary !important;
   }
 }
 
@@ -37,13 +37,9 @@ button.blue-bg {
   background-color: $dark-white;
   padding-bottom: 40px;
 
-  h2 {
-    color: $blue;
-  }
 
   h4 {
     font-weight: 400;
-    color: $blue;
   }
 
   .col-sm-12 {
@@ -67,8 +63,10 @@ button.blue-bg {
   }
 
   padding: 30px 0;
-  background-color: $blue;
+  background-color: $color-secondary;
   color: $white;
+  border-top: 1px solid $color-primary;
+  border-bottom: 1px solid $color-primary;
 
   #instructions {
     display: -ms-flex;
@@ -114,7 +112,7 @@ p {
 }
 
 .fa {
-  color: $color-primary;
+  color: $color-secondary;
 }
 
 .slide {

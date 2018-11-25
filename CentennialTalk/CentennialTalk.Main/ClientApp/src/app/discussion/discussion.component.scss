@@ -14,8 +14,8 @@
   display: inline-block;
   padding: 5px;
   margin: 5px;
-  background-color: $white;
-  color: $light-grey;
+  background-color: $color-primary;
+  color: $white;
   border-radius: 10px;
   float: right;
 }
@@ -27,7 +27,6 @@
   overflow-y: scroll;
 
   .participants {
-    background-color: $color-primary;
     position: sticky;
     top: 100%;
     left: 100%;
@@ -43,8 +42,15 @@ textarea {
 #input-messsage {
   padding-top: 100px;
 
-  div {
+  #textarea-container {
     position: relative;
+  }
+
+  .fitted-container{
+    padding: 10px;
+    background-color: $color-secondary;
+    border: 1px solid $color-primary;
+    border-radius: 5px;
   }
 }
 
@@ -70,12 +76,17 @@ textarea {
 	float: left;
 }
 
-.topic-area{
-  color: $white;
-  background-color: $color-primary;
+.topic-area {
+  background-color: $color-secondary;
+  border: 1px solid $color-primary;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom: none;
+  color: $color-primary;
   width: 100%;
   padding: 5px;
-  h4{
+
+  h4 {
     display: inline-block;
   }
 }
@@ -107,7 +118,8 @@ textarea {
 
   &:hover {
     border: 1px solid $dark-grey;
-    background-color: $color-primary;
+    background-color: $color-secondary;
+    color: $color-primary;
   }
 }
 

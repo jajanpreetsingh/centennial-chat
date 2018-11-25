@@ -1,10 +1,11 @@
 @import '../scss/styles.scss';
 
 .panel {
-  border-radius: 0 !important;
   transition: box-shadow 0.5s;
-  background: none;
-  border: none;
+  background-color: rgba(212,223,56,.9);
+  padding: 10px;
+  border: 1px solid $color-primary;
+  border-radius: 5px;
 }
 
 .panel:hover {
