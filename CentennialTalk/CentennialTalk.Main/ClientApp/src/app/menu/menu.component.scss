@@ -2,7 +2,7 @@
 
 .navbar {
   margin-bottom: 0;
-  background-color: $color-primary;
+  background-color: $blue;
   z-index: 9999;
   border: 0;
   font-size: 12px !important;
@@ -20,7 +20,7 @@
 }
 
 .navbar-nav li a:hover, .navbar-nav li.active a {
-  color: $color-primary !important;
+  color: $blue !important;
   background-color: $white !important;
 }
 

@@ -54,7 +54,13 @@ namespace CentennialTalk.Models
 
             Questions = new List<SubjectiveQuestion>();
 
+            if (newChat.openQuestions != null && newChat.openQuestions.Length > 0)
+                newChat.openQuestions.ToList().ForEach(x => Questions.Add(new SubjectiveQuestion(x)));
+
             Polls = new List<PollingQuestion>();
+
+            if (newChat.pollQuestions != null && newChat.pollQuestions.Length > 0)
+                newChat.pollQuestions.ToList().ForEach(x => Polls.Add(new PollingQuestion(x)));
 
             DiscussionId = new Guid();
 
@@ -90,7 +96,7 @@ namespace CentennialTalk.Models
             var chars = "ABCefghiDEFGHTUVWXY01234ZabcdjklmKLMNOnopqrstuvwxyz567IJPQRS89";
             var stringChars = new char[8];
 
-            int seed = moderator.ToCharArray().ToList().Sum(x => (int)x);
+            int seed = (moderator + DateTime.Now.ToString()).ToCharArray().ToList().Sum(x => (int)x);
 
             Random random = new Random(seed);
 
