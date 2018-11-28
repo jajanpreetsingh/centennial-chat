@@ -3,14 +3,13 @@ import { v4 as uuid } from 'uuid';
 import { SpeechService } from '../services/speech.service';
 import { HubService } from '../services/hub.service';
 import { ChatModel } from '../../models/chat.model';
-import { UtilityService } from '../services/utility.service';
-import { MessageService } from '../services/message.service';
 import { MessageModel } from '../../models/message.model';
+import { AccountService } from '../services/account.service';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.scss']
+  styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
   chatData: ChatModel = new ChatModel();
@@ -20,12 +19,12 @@ export class ChatComponent implements OnInit {
   hubInstance: HubService;
 
   constructor(private speechService: SpeechService,
-    private hubService: HubService, private utilityService: UtilityService) {
+    private hubService: HubService, private accountService: AccountService) {
     this.hubInstance = this.hubService;
   }
 
   ngOnInit() {
-    this.chatData = this.utilityService.getLocalChatData();
+    this.chatData = this.accountService.getLocalChatData();
 
     this.hubService.initChatHub();
   }
@@ -50,14 +49,15 @@ export class ChatComponent implements OnInit {
 
     var mid = uuid();
 
-    var messageObj = {
-      messageId: mid,
-      content: content,
-      chatCode: this.chatData.chatCode,
-      sender: this.chatData.username,
-      replyId: mid,
-    };
+    //let messageObj: MessageModel = new MessageModel();
+    
+    //  messageId: mid,
+    //  content: content,
+    //  chatCode: this.chatData.chatCode,
+    //  sender: this.chatData.username,
+    //  replyId: mid,
+    //};
 
-    this.hubService.sendMessage(messageObj);
+    //this.hubService.sendMessage(messageObj);
   }
 }

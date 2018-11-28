@@ -27,7 +27,7 @@ namespace CentennialTalk.Models
 
         public DateTime LastUpdated { get; set; }
 
-        public bool IsLinkOpen { get; set; }
+        public bool IsLinkOpen { get { return ActivationDate <= DateTime.Now && ExpirationDate >= DateTime.Now; } }
 
         public DateTime ActivationDate { get; set; }
 
@@ -46,8 +46,6 @@ namespace CentennialTalk.Models
             Polls = new List<PollingQuestion>();
 
             DiscussionId = new Guid();
-
-            IsLinkOpen = true;
         }
 
         public Discussion(NewChatDTO newChat)
@@ -74,7 +72,17 @@ namespace CentennialTalk.Models
 
             CreatedDate = DateTime.Now;
 
-            IsLinkOpen = true;
+            DateTime act;
+            DateTime.TryParse(newChat.activationDate, out act);
+
+            if (act != null && act > DateTime.MinValue && act < DateTime.MaxValue)
+                ActivationDate = act;
+
+            DateTime exp;
+            DateTime.TryParse(newChat.expirationDate, out exp);
+
+            if (exp != null && exp > DateTime.MinValue && exp < DateTime.MaxValue)
+                ExpirationDate = exp;
         }
 
         private string GenerateChatCode(string moderator)

@@ -15,7 +15,7 @@ namespace CentennialTalk.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -24,6 +24,8 @@ namespace CentennialTalk.Persistence.Migrations
                     b.Property<Guid>("DiscussionId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("ActivationDate");
+
                     b.Property<DateTime>("CreatedDate");
 
                     b.Property<string>("DiscussionCode")
@@ -31,8 +33,6 @@ namespace CentennialTalk.Persistence.Migrations
                         .HasMaxLength(8);
 
                     b.Property<DateTime>("ExpirationDate");
-
-                    b.Property<bool>("IsLinkOpen");
 
                     b.Property<DateTime>("LastUpdated");
 
@@ -57,6 +57,8 @@ namespace CentennialTalk.Persistence.Migrations
                     b.Property<string>("ConnectionId");
 
                     b.Property<Guid?>("DiscussionId");
+
+                    b.Property<string>("IconPath");
 
                     b.Property<bool>("IsConnected");
 
@@ -128,13 +130,19 @@ namespace CentennialTalk.Persistence.Migrations
                     b.Property<Guid>("QuestionId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("ArchiveDate");
+
                     b.Property<string>("ChatCode");
 
                     b.Property<string>("Content");
 
                     b.Property<Guid?>("DiscussionId");
 
+                    b.Property<bool>("IsArchived");
+
                     b.Property<bool>("IsPublished");
+
+                    b.Property<DateTime>("PublishDate");
 
                     b.Property<bool>("SelectMultiple");
 
@@ -169,13 +177,19 @@ namespace CentennialTalk.Persistence.Migrations
                     b.Property<Guid>("QuestionId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("ArchiveDate");
+
                     b.Property<string>("ChatCode");
 
                     b.Property<string>("Content");
 
                     b.Property<Guid?>("DiscussionId");
 
+                    b.Property<bool>("IsArchived");
+
                     b.Property<bool>("IsPublished");
+
+                    b.Property<DateTime>("PublishDate");
 
                     b.Property<int>("Type");
 

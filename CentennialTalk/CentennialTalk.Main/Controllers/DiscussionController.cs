@@ -21,6 +21,9 @@ namespace CentennialTalk.Main.Controllers
         [HttpPost("new")]
         public IActionResult New([FromBody]NewChatDTO newChat)
         {
+            if(string.IsNullOrWhiteSpace(newChat.title))
+                return GetJson(new ResponseDTO(ResponseCode.OK, "Unable to create chat with incomplete data"));
+
             Discussion chat = chatService.CreateNewChat(newChat);
 
             uowService.SaveChanges();
@@ -56,8 +59,6 @@ namespace CentennialTalk.Main.Controllers
 
             if (!chat.IsLinkOpen)
                 return GetJson(new ResponseDTO(ResponseCode.OK, "Chat is already closed"));
-
-            chat.IsLinkOpen = false;
 
             uowService.SaveChanges();
 

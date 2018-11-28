@@ -4,6 +4,7 @@ using CentennialTalk.Models.QuestionModels;
 using CentennialTalk.PersistenceContract;
 using CentennialTalk.ServiceContract;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -29,6 +30,13 @@ namespace CentennialTalk.Service
 
             if (chat == null)
                 return new ResponseDTO(ResponseCode.ERROR, "chat does not exist");
+
+            Question ques = questionRepository.GetByChatCodeNContent(questionDTO.chatCode, questionDTO.content);
+
+            if (ques != null)
+            {
+                return new ResponseDTO(ResponseCode.ERROR, "Question with same content already exists in chat");
+            }
 
             if (questionDTO.isPollingQuestion)
             {
@@ -68,6 +76,34 @@ namespace CentennialTalk.Service
                 return new ResponseDTO(ResponseCode.OK, "No questions exist for this chat");
 
             return new ResponseDTO(ResponseCode.OK, questions);
+        }
+
+        public ResponseDTO PublishQuestion(QuestionDTO question)
+        {
+            Question ques = questionRepository.GetById(Guid.Parse(question.id));
+
+            if (ques == null)
+            {
+                return new ResponseDTO(ResponseCode.ERROR, "Question doesnot exist");
+            }
+
+            ques.IsPublished = true;
+
+            return new ResponseDTO(ResponseCode.OK, "Question updated successfully");
+        }
+
+        public ResponseDTO ArchiveQuestion(QuestionDTO question)
+        {
+            Question ques = questionRepository.GetById(Guid.Parse(question.id));
+
+            if (ques == null)
+            {
+                return new ResponseDTO(ResponseCode.ERROR, "Question doesnot exist");
+            }
+
+            ques.IsArchived = true;
+
+            return new ResponseDTO(ResponseCode.OK, "Question updated successfully");
         }
     }
 }

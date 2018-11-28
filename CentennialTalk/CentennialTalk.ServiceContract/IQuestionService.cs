@@ -8,5 +8,9 @@ namespace CentennialTalk.ServiceContract
         ResponseDTO AddQuestionToChat(QuestionDTO questionDTO);
 
         ResponseDTO GetChatQuestions(string chatCode);
+
+        ResponseDTO PublishQuestion(QuestionDTO question);
+
+        ResponseDTO ArchiveQuestion(QuestionDTO question);
     }
 }

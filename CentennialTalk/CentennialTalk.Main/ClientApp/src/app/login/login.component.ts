@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginModel } from '../../models/login.model';
 import { AccountService } from '../services/account.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { UtilityService } from '../services/utility.service';
+import { detectChanges } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-login',
@@ -12,24 +12,25 @@ import { UtilityService } from '../services/utility.service';
 export class LoginComponent implements OnInit {
   login: LoginModel = new LoginModel();
 
-  constructor(private accountService: AccountService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router, private utilityService: UtilityService) { }
+  constructor(private accountService: AccountService, private utility: UtilityService) { }
 
   ngOnInit() {
   }
 
   onModeratorLogin() {
+
+    console.log(this.login);
+
     this.accountService.tryModeratorLogin(this.login).subscribe(res => {
+
+      console.log(res);
       if (res.code == 200) {
-        this.utilityService.setJwtToken(res.data);
 
-        this.utilityService.setLocalCredentials(this.login);
+        this.accountService.setJwtToken(res.data);
 
-        //this.utilityService.getJwtData();
+        this.accountService.setLocalCredentials(this.login);
 
-
-        this.router.navigate(['/new']);
+        window.location.reload();
       }
       else {
         console.log("Login failed");
@@ -40,4 +41,7 @@ export class LoginComponent implements OnInit {
       });
   }
 
+  goToSignup() {
+    this.utility.navigateToPath(['/signup']);
+  }
 }

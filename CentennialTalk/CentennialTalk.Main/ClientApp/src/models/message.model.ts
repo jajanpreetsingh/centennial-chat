@@ -4,6 +4,6 @@ export class MessageModel {
   sender: string;
   chatCode: string;
   replyId: string;
-  sentDate: Date;
+  sentDate: string;
   isMine: boolean;
 }

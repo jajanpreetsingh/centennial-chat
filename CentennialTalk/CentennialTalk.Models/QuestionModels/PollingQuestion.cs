@@ -41,11 +41,14 @@ namespace CentennialTalk.Models.QuestionModels
         {
             return new QuestionDTO()
             {
+                id = QuestionId.ToString(),
                 chatCode = ChatCode,
                 content = Content,
                 isPollingQuestion = true,
                 options = Options == null ? null : Options.Select(x => x.Text).ToArray(),
-                selectMultiple = SelectMultiple
+                selectMultiple = SelectMultiple,
+                isArchived = IsArchived,
+                isPublished = IsPublished,
             };
         }
     }

@@ -15,6 +15,8 @@ namespace CentennialTalk.Main
         public const string userJoinedEvent = "userJoined";
         public const string userLeftEvent = "userLeft";
         public const string recieveMessageEvent = "messageReceived";
+        public const string questionPublished = "questionPublished";
+        public const string questionArchived = "questionArchived";
 
         public List<string> ChatGroups;
 
@@ -79,6 +81,20 @@ namespace CentennialTalk.Main
             MessageDTO data = JsonConvert.DeserializeObject<MessageDTO>(messageData);
 
             return Clients.Group(data.chatCode).SendAsync(recieveMessageEvent, data);
+        }
+
+        public Task PublishQuestion(string questionData)
+        {
+            QuestionDTO ques = JsonConvert.DeserializeObject<QuestionDTO>(questionData);
+
+            return Clients.Group(ques.chatCode).SendAsync(questionPublished, ques);
+        }
+
+        public Task ArchiveQuestion(string questionData)
+        {
+            QuestionDTO ques = JsonConvert.DeserializeObject<QuestionDTO>(questionData);
+
+            return Clients.Group(ques.chatCode).SendAsync(questionArchived, ques);
         }
     }
 }

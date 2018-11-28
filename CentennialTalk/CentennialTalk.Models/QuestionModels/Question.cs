@@ -12,13 +12,26 @@ namespace CentennialTalk.Models.QuestionModels
 
         public bool IsPublished { get; set; }
 
+        public DateTime PublishDate { get; set; }
+
+        public bool IsArchived { get; set; }
+
+        public DateTime ArchiveDate { get; set; }
+
         public string ChatCode { get; set; }
+
+        public TimeSpan DiscussionDuration
+        {
+            get
+            {
+                return ArchiveDate - PublishDate;
+            }
+        }
 
         public QuestionType Type { get; set; }
 
         public Question()
         {
-            IsPublished = false;
         }
     }
 

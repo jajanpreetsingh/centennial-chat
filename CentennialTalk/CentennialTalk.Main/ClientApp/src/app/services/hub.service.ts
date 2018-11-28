@@ -8,6 +8,8 @@ import { ChatModel } from '../../models/chat.model';
 import { MessageModel } from '../../models/message.model';
 import { UtilityService } from './utility.service';
 import { MemberModel } from '../../models/member.model';
+import { AccountService } from './account.service';
+import { QuestionModel } from '../../models/question.model';
 
 @Injectable()
 export class HubService {
@@ -23,10 +25,11 @@ export class HubService {
   members: MemberModel[] = [];
 
   constructor(private messageService: MessageService, private datePipe: DatePipe,
-    private memberService: MemberService, private utilityService: UtilityService) { }
+    private memberService: MemberService, private utilityService: UtilityService,
+    private accountService: AccountService, private questionService: UtilityService) { }
 
   initChatHub() {
-    this.chatData = this.utilityService.getLocalChatData();
+    this.chatData = this.accountService.getLocalChatData();
 
     if (this.chatData == null || this.chatData.chatCode == '') {
       this.utilityService.navigateToPath('home');
@@ -96,10 +99,10 @@ export class HubService {
       });
   }
 
-  onUserJoined(username) {
+  onUserJoined(username: string) {
     console.log(username + ' joined');
 
-    let index = this.members.indexOf(username);
+    let index = this.members.findIndex(x => x.username == username);
 
     if (index > -1)
       this.members[index].isConnected = true;
@@ -113,10 +116,10 @@ export class HubService {
     }
   }
 
-  onUserLeft(username) {
+  onUserLeft(username: string) {
     console.log(username + ' left');
 
-    let index = this.members.indexOf(username);
+    let index = this.members.findIndex(x => x.username == username);
 
     if (index > -1)
       this.members[index].isConnected = false;
@@ -130,7 +133,7 @@ export class HubService {
     }
   }
 
-  onMessageReceived(messageData) {
+  onMessageReceived(messageData: MessageModel) {
     if (messageData.chatCode == this.chatData.chatCode) {
       messageData.isMine = messageData.sender == this.chatData.username;
 
@@ -138,7 +141,20 @@ export class HubService {
     }
   }
 
-  sendMessage(messageObj) {
+  publishQuestion(question: QuestionModel) {
+    this.hubConnection.invoke('PublishQuestion', JSON.stringify(question)).then(() => {
+    });
+  }
+
+  archiveQuestion(question: QuestionModel) {
+    this.hubConnection.invoke('ArchiveQuestion', JSON.stringify(question)).then(() => {
+
+
+
+    });
+  }
+
+  sendMessage(messageObj: MessageModel) {
     messageObj.sentDate = this.datePipe.transform(Date.now(), 'yyyy-MM-dd HH:mm:ss');
 
     this.hubConnection.invoke('Send', JSON.stringify(messageObj));
@@ -171,6 +187,20 @@ export class HubService {
     this.hubConnection.on('messageReceived', data => {
       this.onMessageReceived(data);
     });
+
+    this.hubConnection.on('questionPublished', data => {
+      this.onQuestionPublished(data);
+    });
+
+    this.hubConnection.on('questionArchived', data => {
+      this.onQuestionArchived(data);
+    });
+  }
+
+  onQuestionArchived(data: any): any {
+  }
+
+  onQuestionPublished(data: any): any {
   }
 
   fetchPreviousMessages() {

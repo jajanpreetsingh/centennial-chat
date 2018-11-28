@@ -1,4 +1,4 @@
-<app-error-message></app-error-message>
+<!--<app-error-message></app-error-message>-->
 <app-menu></app-menu>
 <div id="welcome-login" class="container-fluid">
   <div class="container-fluid">
@@ -6,7 +6,8 @@
       <!--<app-new-chat></app-new-chat>-->
       <div class="col-sm-1"></div>
       <div class="col-sm-1"></div>
-      <app-login></app-login>
+      <app-login *ngIf="!loggedIn"></app-login>
+      <!--<app-new-chat *ngIf="loggedIn"></app-new-chat>-->
       <div class="col-sm-1"></div>
       <div class="col-sm-1"></div>
       <app-join-chat></app-join-chat>
@@ -49,6 +50,10 @@
         <polygon points="50 1 95 25 95 75 50 99 5 75 5 25" fill="url(#img3)" />
       </svg>
       <h4>Use AI Technology</h4>
+    <div class="col-sm-2">
+      <p>
+        Eliminate note- taking bias even if you have “soft talkers”.
+      </p>
     </div>
     <div class="col-sm-3">
       <svg viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">

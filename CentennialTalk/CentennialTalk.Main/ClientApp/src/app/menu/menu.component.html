@@ -12,12 +12,10 @@
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#about">ABOUT</a></li>
         <li><a href="#services">SERVICES</a></li>
-        <li (click)="goToSignup()"><a><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-        <li><a (click)="goToGeneralLogin()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <li (click)="goToSignup()" *ngIf="!loggedIn"><a><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+        <li><a (click)="goToGeneralLogin()" *ngIf="!loggedIn"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <li><a (click)="logoutToHome()" *ngIf="loggedIn"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
       </ul>
-
     </div>
-
   </div>
 </nav>
-
