@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-projector',
@@ -6,6 +7,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./projector.component.scss']
 })
 export class ProjectorComponent {
+
+  constructor(private router: Router) {
+  }
+
+  goToTranscript() {
+    this.router.navigate(['/transcript']);
+  }
 }
 
 

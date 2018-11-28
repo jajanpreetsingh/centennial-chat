@@ -1,10 +1,11 @@
 @import '../scss/styles.scss';
 
 #img-header {
-  height: 50vh;
+  margin-top: 30px !important;
+  height: 70vh;
   background-image: url("../../assets/images/home-header.jpg");
   background-position: center;
-  background-size: contain;
+  background-size: cover;
   margin: 0 -15px;
   border-bottom: 2px solid $color-primary;
 }
@@ -14,28 +15,31 @@ h2 {
 }
 
 .blue-bg {
-  background-color: $blue;
+  background-color: $color-secondary;
+  h2{
+    margin-top: 0;
+  }
 }
 
 button.blue-bg {
-  background-color: $blue !important;
+background-color: $blue !important;
   width: initial !important;
   margin-top: 20px;
   &:hover
 
-{
+
+  &:hover{
   color: $blue !important;
   background-color: $white !important;
   border: 1px solid $blue !important;
-}
 }
 
 #white-section {
   background-color: $dark-white;
   padding-bottom: 40px;
-  h4
+  
 
-{
+  h4 {
   font-weight: 300;
 }
 
@@ -43,6 +47,10 @@ button.blue-bg {
   padding: 20px;
   h4: nth-child(3)
 
+    h4:nth-child(3) {
+      font-weight: 600;
+    }
+  }
 {
   font-weight: 400;
   color: $color-primary;
@@ -57,11 +65,14 @@ button.blue-bg {
 #blue-section {
   .fa
 
-{
+  padding: 30px 0;
+  background-color: $color-secondary;
+  {
   color: $white;
   font-size: 6em;
-}
-
+};
+  border-top: 1px solid $color-primary;
+  border-bottom: 1px solid $color-primary;
 padding: 30px 0;
 background-color: $blue;
 color: $white;
@@ -111,7 +122,7 @@ p {
 }
 
 .fa {
-  color: $color-primary;
+  color: $color-secondary;
 }
 
 .slide {
@@ -120,6 +131,12 @@ p {
   animation-duration: 1s;
   -webkit-animation-duration: 1s;
   visibility: visible;
+  h4{
+    margin-bottom: 10px;
+  }
+  p{
+    font-size: 1.3em;
+  }
 }
 
 @keyframes slide {

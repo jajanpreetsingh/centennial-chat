@@ -14,8 +14,8 @@
   display: inline-block;
   padding: 5px;
   margin: 5px;
-  background-color: $white;
-  color: $light-grey;
+  background-color: $color-primary;
+  color: $white;
   border-radius: 10px;
   float: right;
 }
@@ -27,7 +27,6 @@
   overflow-y: scroll;
 
   .participants {
-    background-color: $color-primary;
     position: sticky;
     top: 100%;
     left: 100%;
@@ -39,8 +38,19 @@ textarea {
 	border: 1px solid $color-primary;
 }
 
-#input-messsage{
-	padding-top: 100px;
+#input-messsage {
+  padding-top: 100px;
+
+  #textarea-container {
+    position: relative;
+  }
+
+  .fitted-container{
+    padding: 10px;
+    background-color: $color-secondary;
+    border: 1px solid $color-primary;
+    border-radius: 5px;
+  }
 }
 
 .avatar{
@@ -65,12 +75,17 @@ textarea {
 	float: left;
 }
 
-.topic-area{
-  color: $white;
-  background-color: $color-primary;
+.topic-area {
+  background-color: $color-secondary;
+  border: 1px solid $color-primary;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom: none;
+  color: $color-primary;
   width: 100%;
   padding: 5px;
-  h4{
+
+  h4 {
     display: inline-block;
   }
 }
@@ -82,6 +97,30 @@ textarea {
   bottom: 50px;
   width: 60px;
 }
+
+.fa-microphone {
+  width: 30px;
+  height: 30px;
+  font-size: 1.1em;
+  color: $white;
+  border: 1px solid $light-grey;
+  background-color: $light-grey;
+  padding: 6px;
+  border-radius: 50px;
+  position: absolute;
+  z-index: 9999;
+  right: 8px;
+  bottom: 10px;
+  text-align: center;
+  cursor: pointer;
+
+  &:hover {
+    border: 1px solid $dark-grey;
+    background-color: $color-secondary;
+    color: $color-primary;
+  }
+}
+
 
 @media only screen and (max-width: 768px) {
   #count-stud {
@@ -106,7 +145,7 @@ textarea {
     height: 150px;
   }
 
-  #discussion{
+  #discussion {
     height: 58vh;
   }
 }
