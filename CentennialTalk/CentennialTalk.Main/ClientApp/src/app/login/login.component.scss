@@ -2,10 +2,9 @@
 
 .panel {
   transition: box-shadow 0.5s;
-  background-color: rgba(212,223,56,.9);
+  background: none;
   padding: 10px;
-  border: 1px solid $color-primary;
-  border-radius: 5px;
+  border: none;
 }
 
 .panel:hover {
