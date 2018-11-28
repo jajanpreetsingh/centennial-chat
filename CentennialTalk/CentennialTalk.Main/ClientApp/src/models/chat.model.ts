@@ -6,8 +6,8 @@ export class ChatModel {
   username: string;
   title: string;
   connectionId: string;
-  activationDate: string;
-  expirationDate: string;
+  activationDate: Date;
+  expirationDate: Date;
   openQuestions: QuestionModel[];
   pollQuestions: QuestionModel[];
 }

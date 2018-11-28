@@ -1,192 +1,66 @@
 @import '../scss/styles.scss';
 
-#img-header {
-  margin-top: 30px !important;
-  height: 70vh;
-  background-image: url("../../assets/images/home-header.jpg");
-  background-position: center;
-  background-size: cover;
-  margin: 0 -15px;
-  border-bottom: 2px solid $color-primary;
-}
-
-h2 {
-  padding: 20px;
-}
-
-.blue-bg {
-  background-color: $color-secondary;
-  h2{
-    margin-top: 0;
-  }
-}
-
-button.blue-bg {
-background-color: $blue !important;
-  width: initial !important;
-  margin-top: 20px;
-  &:hover
-
-
-  &:hover{
-  color: $blue !important;
-  background-color: $white !important;
-  border: 1px solid $blue !important;
-}
-
-#white-section {
-  background-color: $dark-white;
+#discussion-section {
+  padding-top: 100px;
   padding-bottom: 40px;
-  
-
-  h4 {
-  font-weight: 300;
+  min-height: 95vh;
 }
 
-.col-sm-12 {
-  padding: 20px;
-  h4: nth-child(3)
-
-    h4:nth-child(3) {
-      font-weight: 600;
-    }
-  }
-{
-  font-weight: 400;
-  color: $color-primary;
-}
-}
-}
-
-#video-section {
-  margin-top: 20px 0;
-}
-
-#blue-section {
-  .fa
-
-  padding: 30px 0;
-  background-color: $color-secondary;
-  {
-  color: $white;
-  font-size: 6em;
-};
-  border-top: 1px solid $color-primary;
-  border-bottom: 1px solid $color-primary;
-padding: 30px 0;
-background-color: $blue;
-color: $white;
-
-#instructions {
-  display: -ms-flex;
-  display: -webkit-flex;
-  display: flex;
-}
-
-h4 {
-  color: $white;
-}
-
-.col-sm-2 {
-  flex: 1;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  &:nth-child(2n)
-
-{
-  border: 1px solid $white;
-  border-radius: 10px;
-}
-}
-}
-
-h2, h4, p {
+#discussion-section, h2, h3, h4, p {
   font-family: $font-primary;
 }
 
-h4 {
-  font-size: 19px;
-  line-height: 1.375em;
-  color: $dark-grey;
-  font-weight: 400;
-  margin-bottom: 30px;
+.participants {
+  display: inline-block;
+  padding: 5px;
+  margin: 5px;
+  background-color: $light-grey;
+  color: $white;
+  border-radius: 10px;
 }
 
-p {
-  color: $light-grey;
+#discussion {
+  background-color: $dark-white;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border: 1px solid $color-primary;
 }
 
-.fa {
-  color: $color-secondary;
-}
+.btn {
+  background-color: $color-secondary !important;
+  border: 1px solid $color-primary !important;
 
-.slide {
-  animation-name: slide;
-  -webkit-animation-name: slide;
-  animation-duration: 1s;
-  -webkit-animation-duration: 1s;
-  visibility: visible;
-  h4{
-    margin-bottom: 10px;
-  }
-  p{
-    font-size: 1.3em;
+
+  &:hover {
+    background-color: $white !important;
+    color: $color-secondary !important;
+    border: 1px solid $color-secondary !important;
   }
 }
 
-@keyframes slide {
-  0% {
-    opacity: 0;
-    transform: translateY(70%);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0%);
-  }
+.header {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  background-color: $color-secondary;
+  border-bottom: 1px solid $color-primary;
+  color: $color-primary;
+  width: 100%;
 }
 
-@-webkit-keyframes slide {
-  0% {
-    opacity: 0;
-    -webkit-transform: translateY(70%);
-  }
-
-  100% {
-    opacity: 1;
-    -webkit-transform: translateY(0%);
-  }
+.radio {
+  font-size: 1.1em;
 }
 
-#services {
-  margin: 20px 0;
+.question {
+  width: 100%;
+  border-bottom: 1px solid $dark-grey;
 }
 
-@media only screen and (max-width: 768px) {
-  #blue-section {
-    .col-sm-1
-
-{
-  padding: 0;
-  width: 0;
-}
-}
+.question-area {
+  margin-bottom: 50px;
+  border-bottom: 1px solid $dark-grey;
 }
 
-@media only screen and (max-width: 570px) {
-  #blue-section {
-    .col-sm-2:nth-child(2n+1)
-
-{
-  visibility: hidden;
-  width: 0px !important;
-  padding: 0;
-  flex: initial;
-}
-}
+.poll-body {
+  padding: 10px;
 }

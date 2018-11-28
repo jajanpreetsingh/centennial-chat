@@ -21,6 +21,8 @@ export class NewChatComponent implements OnInit, OnDestroy {
 
   pollOptions: string[] = [];
 
+  act
+
   constructor(private chatService: ChatService, private utilityService: UtilityService, private accountService: AccountService) {
   }
 
@@ -35,9 +37,14 @@ export class NewChatComponent implements OnInit, OnDestroy {
         this.chatData.moderator = login.username;
       }
     }
+
+    this.chatData.activationDate = new Date();
+
+    this.chatData.expirationDate = new Date();
   }
 
   maintainFocus(index: number, obj: any): number {
+    console.log("maintain focus : "+obj);
     return index;
   }
 
@@ -79,10 +86,10 @@ export class NewChatComponent implements OnInit, OnDestroy {
   }
 
   addOption() {
-    if (this.pollOptions == null)
+    if (this.pollOptions == null && this.pollOptions.length<=0)
       this.pollOptions = [];
 
-    this.pollOptions.push('');
+    this.pollOptions.push("");
   }
 
   removeOption() {
