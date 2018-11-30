@@ -61,6 +61,38 @@ textarea {
   border: 1px solid $color-primary;
 }
 
+
+
+#textarea-container {
+  position: relative;
+
+  .fa-microphone {
+    width: 30px;
+    height: 30px;
+    font-size: 1.1em;
+    color: $white;
+    border: 1px solid $light-grey;
+    background-color: $light-grey;
+    padding: 6px;
+    border-radius: 50px;
+    position: absolute;
+    z-index: 9999;
+    right: 8px;
+    bottom: 10px;
+    text-align: center;
+    cursor: pointer;
+
+    &:hover {
+      border: 1px solid $dark-grey;
+      background-color: $color-secondary;
+      color: $color-primary;
+    }
+  }
+}
+
+
+
+
 #discussion {
   height: 67vh;
   background-color: $dark-white;

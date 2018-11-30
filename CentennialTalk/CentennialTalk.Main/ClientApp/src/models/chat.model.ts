@@ -1,4 +1,5 @@
 import { QuestionModel } from './question.model';
+import { MemberModel } from './member.model';
 
 export class ChatModel {
   chatCode: string;
@@ -10,4 +11,6 @@ export class ChatModel {
   expirationDate: Date;
   openQuestions: QuestionModel[];
   pollQuestions: QuestionModel[];
+
+  members: MemberModel[];
 }

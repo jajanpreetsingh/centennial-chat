@@ -10,6 +10,7 @@ import { UtilityService } from './utility.service';
 import { MemberModel } from '../../models/member.model';
 import { AccountService } from './account.service';
 import { QuestionModel } from '../../models/question.model';
+import { QuestionService } from './question.service';
 
 @Injectable()
 export class HubService {
@@ -24,9 +25,11 @@ export class HubService {
 
   members: MemberModel[] = [];
 
+  publishedQuestion: QuestionModel;
+
   constructor(private messageService: MessageService, private datePipe: DatePipe,
     private memberService: MemberService, private utilityService: UtilityService,
-    private accountService: AccountService, private questionService: UtilityService) { }
+    private accountService: AccountService, private questionService: QuestionService) { }
 
   initChatHub() {
     this.chatData = this.accountService.getLocalChatData();
@@ -49,7 +52,7 @@ export class HubService {
   }
 
   onConnectionStart(data) {
-    console.log('connection id', data);
+    //console.log('connection id', data);
 
     this.connectionId = data;
 
@@ -100,7 +103,7 @@ export class HubService {
   }
 
   onUserJoined(username: string) {
-    console.log(username + ' joined');
+    //console.log(username + ' joined');
 
     let index = this.members.findIndex(x => x.username == username);
 
@@ -143,14 +146,28 @@ export class HubService {
 
   publishQuestion(question: QuestionModel) {
     this.hubConnection.invoke('PublishQuestion', JSON.stringify(question)).then(() => {
+      this.questionService.markPublished(question).subscribe(res => {
+
+        if (res.code == 200) {
+
+        }
+        else {
+          console.log(res.data);
+        }
+      });
     });
   }
 
   archiveQuestion(question: QuestionModel) {
     this.hubConnection.invoke('ArchiveQuestion', JSON.stringify(question)).then(() => {
+      this.questionService.markArchived(question).subscribe(res => {
+        if (res.code == 200) {
 
-
-
+        }
+        else {
+          console.log(res.data);
+        }
+      });
     });
   }
 
@@ -198,17 +215,59 @@ export class HubService {
   }
 
   onQuestionArchived(data: any): any {
+    this.publishedQuestion = null;
+
+    console.log("marking archived");
+
+    let ques: QuestionModel = this.chatData.pollQuestions.find(x => x.id == data.id);
+
+    if (ques == null) {
+      ques = this.chatData.openQuestions.find(x => x.id == data.id);
+
+      if (ques) {
+        console.log("marking archived");
+        this.chatData.openQuestions.find(x => x.id == data.id).archiveDate = data.archiveDate;
+        this.chatData.openQuestions.find(x => x.id == data.id).isArchived = data.isArchived;
+        console.log(this.chatData.openQuestions);
+      }
+    }
+    else {
+      console.log("marking archived");
+      this.chatData.pollQuestions.find(x => x.id == data.id).archiveDate = data.archiveDate;
+      this.chatData.pollQuestions.find(x => x.id == data.id).isArchived = data.isArchived;
+      console.log(this.chatData.pollQuestions);
+    }
   }
 
-  onQuestionPublished(data: any): any {
+  onQuestionPublished(data: QuestionModel): any {
+    this.publishedQuestion = data;
+
+    let ques: QuestionModel = this.chatData.pollQuestions.find(x => x.id == data.id);
+
+    if (ques == null) {
+      ques = this.chatData.openQuestions.find(x => x.id == data.id);
+
+      if (ques) {
+        console.log("marking published");
+        this.chatData.openQuestions.find(x => x.id == data.id).publishDate = data.publishDate;
+        this.chatData.openQuestions.find(x => x.id == data.id).isPublished = data.isPublished;
+
+        console.log(this.chatData.openQuestions);
+      }
+    }
+    else {
+      console.log("marking published");
+      this.chatData.pollQuestions.find(x => x.id == data.id).publishDate = data.publishDate;
+      this.chatData.pollQuestions.find(x => x.id == data.id).isPublished = data.isPublished;
+
+      console.log(this.chatData.pollQuestions);
+    }
   }
 
   fetchPreviousMessages() {
     console.log('chat code to get message', this.chatData.chatCode);
     this.messageService.getChatMessages(this.chatData.chatCode).subscribe(res => {
       let messageArray = res.data;
-
-      console.log('prev messages', res.data);
 
       if (messageArray != null && messageArray.length > 0)
         for (var i = 0; i < messageArray.length; i++) {

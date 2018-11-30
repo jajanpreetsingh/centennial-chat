@@ -87,12 +87,18 @@ namespace CentennialTalk.Main
         {
             QuestionDTO ques = JsonConvert.DeserializeObject<QuestionDTO>(questionData);
 
+            ques.isPublished = true;
+            ques.publishDate = DateTime.Now.ToString();
+
             return Clients.Group(ques.chatCode).SendAsync(questionPublished, ques);
         }
 
         public Task ArchiveQuestion(string questionData)
         {
             QuestionDTO ques = JsonConvert.DeserializeObject<QuestionDTO>(questionData);
+
+            ques.isArchived = true;
+            ques.archiveDate = DateTime.Now.ToString();
 
             return Clients.Group(ques.chatCode).SendAsync(questionArchived, ques);
         }

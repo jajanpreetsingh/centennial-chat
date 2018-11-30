@@ -20,6 +20,8 @@ namespace CentennialTalk.Models.QuestionModels
             Type = QuestionType.SUBJECTIVE;
 
             Content = dto.content;
+
+            ChatCode = dto.chatCode;
         }
 
         public QuestionDTO GetDTO()
@@ -33,6 +35,8 @@ namespace CentennialTalk.Models.QuestionModels
                 selectMultiple = false,
                 isArchived = IsArchived,
                 isPublished = IsPublished,
+                archiveDate = ArchiveDate.ToString(),
+                publishDate = PublishDate.ToString(),
             };
         }
     }

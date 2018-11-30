@@ -51,6 +51,10 @@ export class DiscussionComponent implements OnInit {
 
   hubInstance: HubService;
 
+  isListening: boolean = false;
+
+  selectedOptions: string[] = [];
+
   stateFifty: string = 'small';
   stateSeventyFive: string = 'fixed';
 
@@ -67,17 +71,40 @@ export class DiscussionComponent implements OnInit {
 
   startListening() {
     this.speechService.startListening();
+    this.isListening = true;
   }
 
   stopListening() {
     this.speechService.stopListening();
     this.message = this.speechService.recordTranscript;
+
+    this.isListening = false
   }
 
   playAudio(m: MessageModel) {
     let textToTranslate = m.sender + " says, " + m.content;
 
     window.speechSynthesis.speak(new SpeechSynthesisUtterance(textToTranslate));
+  }
+
+  onOptionSelect(option: string) {
+    console.log("option selected : " + option);
+
+    let index: number = this.selectedOptions.indexOf(option);
+
+    if (this.hubInstance.publishedQuestion.selectMultiple) {
+
+      if (index >= 0)
+        this.selectedOptions.splice(index, 1);
+      else
+        this.selectedOptions.push(option);
+    }
+    else {
+      this.selectedOptions = [];
+      this.selectedOptions.push(option);
+    }
+
+    console.log(this.selectedOptions);
   }
 
   sendMessage() {

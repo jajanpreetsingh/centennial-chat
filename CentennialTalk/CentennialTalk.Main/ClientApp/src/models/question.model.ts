@@ -1,4 +1,5 @@
 export class QuestionModel {
+  id: string
   content: string;
   selectMultiple: boolean;
   options: string[];
@@ -6,4 +7,6 @@ export class QuestionModel {
   chatCode: string;
   isPublished: boolean;
   isArchived: boolean;
+  publishDate: Date;
+  archiveDate: Date;
 }

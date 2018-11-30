@@ -39,6 +39,9 @@ export class JoinChatComponent implements OnInit {
   }
 
   onSubmitJoinChat() {
+
+    console.log(this.chatData.username + " : " + this.chatData.chatCode);
+
     this.chatService.joinChat(
       {
         "username": this.chatData.username,
@@ -46,12 +49,21 @@ export class JoinChatComponent implements OnInit {
       }
     ).subscribe(res => {
       if (res.code == 200) {
-        this.chatData.moderator = res.data.moderator;
-        this.chatData.title = res.data.title;
+        this.chatData = res.data;
+
+        console.log(this.chatData)
 
         this.accountService.setLocalChatData(this.chatData);
 
-        this.utilityService.navigateToPath('/chat');
+        if (this.globals.isLoggedIn) {
+          console.log("going to projector....");
+          this.utilityService.navigateToPath('/projector');
+        }
+        else {
+          console.log("going to discussion....");
+          this.utilityService.navigateToPath('/discussion');
+        }
+
       }
       else {
         this.chatData = new ChatModel();

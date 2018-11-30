@@ -25,6 +25,8 @@ namespace CentennialTalk.Models.QuestionModels
 
             SelectMultiple = dto.selectMultiple;
 
+            ChatCode = dto.chatCode;
+
             Content = dto.content;
 
             if (dto.options != null && dto.options.Length > 0)
@@ -49,6 +51,8 @@ namespace CentennialTalk.Models.QuestionModels
                 selectMultiple = SelectMultiple,
                 isArchived = IsArchived,
                 isPublished = IsPublished,
+                archiveDate = ArchiveDate.ToString(),
+                publishDate = PublishDate.ToString(),
             };
         }
     }

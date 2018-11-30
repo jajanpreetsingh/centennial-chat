@@ -10,130 +10,69 @@
       <div id="discussion">
         <div class="comments-container">
           <ul id="comments-list" class="comments-list">
-            <li>
-              <div class="comment-main-level">
+            <li *ngFor="let message of hubInstance.messages">
+              <div *ngIf="!message.isMine" class="comment-main-level">
 
                 <div class="comment-avatar col-sm-1"><img src="../../assets/icons/magneto.svg" alt="image"></div>
 
                 <div class="comment-box col-sm-10">
                   <div class="comment-head">
-                    <h6 class="comment-name by-author">Elena</h6>
-                    <span>20 minutes ago</span>
+                    <h6 class="comment-name by-author">{{message.sender}}</h6>
+                    <span>Sent on : {{message.sendDate}}</span>
                     <i class="fa fa-thumbs-o-up"></i>
                     <span class="f-right">5</span>
                     <i class="fa fa-thumbs-o-down"></i>
                     <span class="f-right">5</span>
+                    <i class="fa fa-volume-up" (click)="playAudio(message)" aria-hidden="true"></i>
                   </div>
-                  <div class="comment-content">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
-                  </div>
+                  <div class="comment-content">{{message.content}}</div>
                 </div>
               </div>
-            </li>
 
-            <li>
-              <div class="comment-main-level your-message">
+              <div *ngIf="message.isMine" class="comment-main-level your-message">
                 <div class="comment-avatar col-sm-1"><img src="../../assets/icons/captain-america.svg" alt="image"></div>
 
                 <div class="comment-box col-sm-10">
                   <div class="comment-head">
-                    <h6 class="comment-name">Tim</h6>
-                    <span>15 minutes ago</span>
+                    <h6 class="comment-name">{{message.sender}}</h6>
+                    <span>Sent on : {{message.sendDate}}</span>
                     <i class="fa fa-thumbs-o-up"></i>
                     <span class="f-right">5</span>
                     <i class="fa fa-thumbs-o-down"></i>
                     <span class="f-right">5</span>
+                    <i class="fa fa-volume-up" (click)="playAudio(message)" aria-hidden="true"></i>
                   </div>
-                  <div class="comment-content">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
-                  </div>
+                  <div class="comment-content">{{message.content}}</div>
                 </div>
-
-              </div>
-            </li>
-
-            <li>
-              <div class="comment-main-level">
-
-                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/batman.svg" alt="image"></div>
-
-                <div class="comment-box col-sm-10">
-                  <div class="comment-head">
-                    <h6 class="comment-name">John</h6>
-                    <span>14 minutes ago</span>
-                    <i class="fa fa-thumbs-o-up"></i>
-                    <span class="f-right">5</span>
-                    <i class="fa fa-thumbs-o-down"></i>
-                    <span class="f-right">5</span>
-                  </div>
-                  <div class="comment-content">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Velit omnis animi et iure laudantium vitae, praesentium optio,
-                    sapiente distinctio illo?
-                  </div>
-                </div>
-              </div>
-            </li>
-
-            <li>
-              <div class="comment-main-level">
-
-                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/deadpool.svg" alt="image"></div>
-
-                <div class="comment-box col-sm-10">
-                  <div class="comment-head">
-                    <h6 class="comment-name">Jane</h6>
-                    <span>14 minutes ago</span>
-                    <i class="fa fa-thumbs-o-up"></i>
-                    <span class="f-right">5</span>
-                    <i class="fa fa-thumbs-o-down"></i>
-                    <span class="f-right">5</span>
-                  </div>
-                  <div class="comment-content">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                    when an unknown printer took a galley of type and scrambled it to make a type
-                    specimen book.
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="comment-main-level your-message">
-                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/captain-america.svg" alt="image"></div>
-
-                <div class="comment-box col-sm-10">
-                  <div class="comment-head">
-                    <h6 class="comment-name">Tim</h6>
-                    <span>15 minutes ago</span>
-                    <i class="fa fa-thumbs-o-up"></i>
-                    <span class="f-right">5</span>
-                    <i class="fa fa-thumbs-o-down"></i>
-                    <span class="f-right">5</span>
-                  </div>
-                  <div class="comment-content">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
-                  </div>
-                </div>
-
               </div>
             </li>
           </ul>
         </div>
       </div>
-      <textarea></textarea>
-      <button class="btn btn-lg btn-green">Start</button>
+      <div id="textarea-container">
+        <textarea [(ngModel)]="message" name="message" placeholder="Enter your message here"></textarea>
+        <i *ngIf="!isListening" (click)="startListening()" class="fa fa-microphone" aria-hidden="true"></i>
+        <i *ngIf="isListening" (click)="stopListening()" class="fa fa-microphone" aria-hidden="true"></i>
+      </div>
+      <button (click)="sendMessage()" class="btn btn-lg btn-green">Post</button>
     </div>
     <div class="col-sm-6" id="manage-section">
-      <h4><span>Q1</span>What are the strengths of your program?</h4>
-      <hr />
-      <h4><span>Q2</span>Why did you choose this program?</h4>
-      <button class="btn">Start</button>
-      <hr />
-      <h4><span>Q3</span>College services</h4>
-      <button class="btn">Start</button>
-      <hr />
-      <button class="btn btn-lg btn-green"  (click)="goToTranscript()">See Transcript</button>
+
+      <div *ngFor="let question of chatData.openQuestions">
+        <h4><span>Q</span>{{question.content}}</h4>
+        <button *ngIf="(!question.isPublished)" (click)="publishQuestion(question)" class="btn">Start</button>
+        <button *ngIf="(question.isPublished && !question.isArchived)" (click)="archiveQuestion(question)" class="btn">End</button>
+        <hr />
+      </div>
+
+      <div *ngFor="let question of chatData.pollQuestions">
+        <h4><span>Q</span>{{question.content}}</h4>
+        <button *ngIf="(!question.isPublished)" (click)="publishQuestion(question)" class="btn">Start</button>
+        <button *ngIf="(question.isPublished && !question.isArchived)" (click)="archiveQuestion(question)" class="btn">End</button>
+        <hr />
+      </div>
+
+      <button class="btn btn-lg btn-green" (click)="goToTranscript()">See Transcript</button>
     </div>
   </div>
 </div>

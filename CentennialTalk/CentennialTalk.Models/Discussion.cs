@@ -3,7 +3,6 @@ using CentennialTalk.Models.QuestionModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Dynamic;
 using System.Linq;
 
 namespace CentennialTalk.Models
@@ -52,21 +51,31 @@ namespace CentennialTalk.Models
         {
             Members = new List<GroupMember>();
 
-            Questions = new List<SubjectiveQuestion>();
-
-            if (newChat.openQuestions != null && newChat.openQuestions.Length > 0)
-                newChat.openQuestions.ToList().ForEach(x => Questions.Add(new SubjectiveQuestion(x)));
-
-            Polls = new List<PollingQuestion>();
-
-            if (newChat.pollQuestions != null && newChat.pollQuestions.Length > 0)
-                newChat.pollQuestions.ToList().ForEach(x => Polls.Add(new PollingQuestion(x)));
-
             DiscussionId = new Guid();
 
             DiscussionCode = GenerateChatCode(newChat.moderator);
 
-            GroupMember mod = new GroupMember(newChat.moderator, DiscussionCode, true);
+            Questions = new List<SubjectiveQuestion>();
+
+            if (newChat.openQuestions != null && newChat.openQuestions.Length > 0)
+                newChat.openQuestions.ToList().ForEach(x =>
+                {
+                    x.chatCode = DiscussionCode;
+                    Questions.Add(new SubjectiveQuestion(x));
+                });
+
+            Polls = new List<PollingQuestion>();
+
+            if (newChat.pollQuestions != null && newChat.pollQuestions.Length > 0)
+                newChat.pollQuestions.ToList().ForEach(x =>
+                {
+                    x.chatCode = DiscussionCode;
+                    Polls.Add(new PollingQuestion(x));
+                });
+
+            GroupMember mod = new GroupMember(newChat, DiscussionCode);
+
+            mod.IsModerator = true;
 
             Title = string.IsNullOrWhiteSpace(newChat.title)
                     ? string.Format("Discussion by {0}", mod.Username)
@@ -96,7 +105,7 @@ namespace CentennialTalk.Models
             var chars = "ABCefghiDEFGHTUVWXY01234ZabcdjklmKLMNOnopqrstuvwxyz567IJPQRS89";
             var stringChars = new char[8];
 
-            int seed = (moderator + DateTime.Now.ToString()).ToCharArray().ToList().Sum(x => (int)x);
+            int seed = (moderator + DateTime.Now.ToString()).ToCharArray().ToList().Sum(x => x);
 
             Random random = new Random(seed);
 
@@ -110,11 +119,23 @@ namespace CentennialTalk.Models
 
         public object GetResponseDTO()
         {
-            ExpandoObject dto = new ExpandoObject();
+            DiscussionDTO dto = new DiscussionDTO();
 
-            dto.TryAdd("chatCode", DiscussionCode);
-            dto.TryAdd("title", Title);
-            dto.TryAdd("moderator", Members.FirstOrDefault(x => x.IsModerator).Username);
+            dto.chatCode = DiscussionCode;
+            dto.title = Title;
+
+            GroupMember mod = Members.FirstOrDefault(x => x.IsModerator);
+
+            if (mod != null)
+                dto.moderator = mod.Username;
+
+            dto.activationDate = ActivationDate.ToString();
+            dto.expirationDate = ExpirationDate.ToString();
+
+            dto.pollQuestions = Polls.ToList().Select(x => x.GetDTO()).ToArray();
+            dto.openQuestions = Questions.ToList().Select(x => x.GetDTO()).ToArray();
+
+            dto.members = Members.ToList().Select(x => x.GetDTO()).ToArray();
 
             return dto;
         }

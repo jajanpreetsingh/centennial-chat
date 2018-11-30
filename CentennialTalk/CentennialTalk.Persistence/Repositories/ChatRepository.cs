@@ -24,9 +24,9 @@ namespace CentennialTalk.Persistence.Repositories
             return discussion;
         }
 
-        public Discussion GetChatByCode(string code, bool includeMembers = false)
+        public Discussion GetChatByCode(string code, bool includeExtended = false)
         {
-            if (!includeMembers)
+            if (!includeExtended)
 
                 return dbContext.Discussions
                     .Where(x => x.DiscussionCode == code)
@@ -35,8 +35,9 @@ namespace CentennialTalk.Persistence.Repositories
             return dbContext.Discussions
                     .Where(x => x.DiscussionCode == code)
                     .Include(x => x.Members)
-                    .Include(x => x.Polls)
                     .Include(x => x.Questions)
+                    .Include(x => x.Polls)
+                    .ThenInclude(y => y.Options)
                     .FirstOrDefault();
         }
     }

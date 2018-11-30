@@ -37,7 +37,7 @@ namespace CentennialTalk.Models.QuestionModels
 
     public enum QuestionType
     {
-        POLLING,
-        SUBJECTIVE
+        POLLING = 1,
+        SUBJECTIVE = 2
     }
 }

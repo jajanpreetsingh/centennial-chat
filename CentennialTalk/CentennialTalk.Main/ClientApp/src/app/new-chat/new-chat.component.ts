@@ -4,6 +4,7 @@ import { ChatModel } from '../../models/chat.model';
 import { UtilityService } from '../services/utility.service';
 import { AccountService } from '../services/account.service';
 import { QuestionModel } from '../../models/question.model';
+import { Response } from '../../models/response.model';
 
 @Component({
   selector: 'app-new-chat',
@@ -44,7 +45,7 @@ export class NewChatComponent implements OnInit, OnDestroy {
   }
 
   maintainFocus(index: number, obj: any): number {
-    console.log("maintain focus : "+obj);
+    console.log("maintain focus : " + obj);
     return index;
   }
 
@@ -59,6 +60,7 @@ export class NewChatComponent implements OnInit, OnDestroy {
     let q = new QuestionModel();
     q.content = this.openQuestion;
     q.isPollingQuestion = false;
+    q.chatCode = this.chatData.chatCode;
 
     this.chatData.openQuestions.push(q);
   }
@@ -70,6 +72,7 @@ export class NewChatComponent implements OnInit, OnDestroy {
     let q = new QuestionModel();
     q.selectMultiple = this.allowMultiple;
     q.content = this.pollQuestion;
+    q.chatCode = this.chatData.chatCode;
 
     q.options = [];
 
@@ -86,7 +89,7 @@ export class NewChatComponent implements OnInit, OnDestroy {
   }
 
   addOption() {
-    if (this.pollOptions == null && this.pollOptions.length<=0)
+    if (this.pollOptions == null && this.pollOptions.length <= 0)
       this.pollOptions = [];
 
     this.pollOptions.push("");
@@ -107,17 +110,16 @@ export class NewChatComponent implements OnInit, OnDestroy {
   onSubmitNewChat() {
     this.chatService.createNewChat(this.chatData).subscribe(res => {
       if (res.code == 200) {
-        this.chatData.moderator = res.data.moderator;
-        this.chatData.title = res.data.title;
-        this.chatData.chatCode = res.data.chatCode;
-        this.chatData.expirationDate = res.data.expirationDate;
-        this.chatData.activationDate = res.data.activationDate;
+
+        this.chatData = res.data;
+
+        console.log(this.chatData)
 
         this.accountService.setLocalChatData(this.chatData);
 
         //this.utilityService.navigateToPath('/projector');
 
-        this.utilityService.navigateToPath('/discussion');
+        this.utilityService.navigateToPath('/projector');
       }
       else {
         this.chatData = new ChatModel();

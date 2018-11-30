@@ -1,6 +1,5 @@
 ﻿using CentennialTalk.Models;
 using CentennialTalk.Models.DTOModels;
-using CentennialTalk.Models.QuestionModels;
 using CentennialTalk.PersistenceContract;
 using CentennialTalk.ServiceContract;
 using Microsoft.Extensions.Logging;
@@ -55,7 +54,7 @@ namespace CentennialTalk.Service
         {
             try
             {
-                Discussion chat = GetChatByCode(joinChat.chatCode);
+                Discussion chat = chatRepository.GetChatByCode(joinChat.chatCode, true);
 
                 ResponseCode code = ResponseCode.ERROR;
 

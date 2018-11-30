@@ -31,6 +31,7 @@ import { AccountService } from './services/account.service';
 import { UtilityService } from './services/utility.service';
 import { HubService } from './services/hub.service';
 import { Globals } from '../models/globals';
+import { QuestionService } from './services/question.service';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { Globals } from '../models/globals';
       { path: 'discussionpoll', component: DiscussionPollComponent },
       { path: 'general-login', component: GeneralLoginComponent },
       { path: 'projector', component: ProjectorComponent },
-      { path: 'transcript', component: TranscriptComponent }
+      { path: 'transcript', component: TranscriptComponent },
+      { path: 'icon', component: IconsComponent }
     ])
   ],
   providers: [
@@ -81,6 +83,7 @@ import { Globals } from '../models/globals';
     AccountService,
     UtilityService,
     HubService,
+    QuestionService,
     Globals
   ],
   bootstrap: [AppComponent]

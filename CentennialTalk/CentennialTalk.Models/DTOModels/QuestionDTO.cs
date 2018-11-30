@@ -10,5 +10,8 @@
         public string chatCode;
         public bool isPublished;
         public bool isArchived;
+
+        public string publishDate;
+        public string archiveDate;
     }
 }

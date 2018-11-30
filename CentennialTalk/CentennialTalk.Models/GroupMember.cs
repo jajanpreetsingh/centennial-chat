@@ -39,7 +39,7 @@ namespace CentennialTalk.Models
             GroupMemberId = new Guid();
         }
 
-        public GroupMember(string username, string chatCode, bool isModerator = false)
+        public GroupMember(NewChatDTO newChat, string chatCode)
         {
             Messages = new List<Message>();
 
@@ -47,9 +47,11 @@ namespace CentennialTalk.Models
 
             ChatCode = chatCode;
 
-            Username = username;
+            Username = newChat.moderator;
 
-            IsModerator = isModerator;
+            IconPath = newChat.icon;
+
+            IsModerator = true;
         }
 
         public GroupMember(JoinChatDTO joinChat)
@@ -62,12 +64,24 @@ namespace CentennialTalk.Models
 
             Username = joinChat.username;
 
+            IconPath = joinChat.icon;
+
             IsModerator = joinChat.isModerator;
         }
 
         public void SetConnectionId(string connId)
         {
             ConnectionId = connId;
+        }
+
+        public MemberDTO GetDTO()
+        {
+            return new MemberDTO()
+            {
+                username = Username,
+                iconName = IconPath,
+                isConnected = IsConnected
+            };
         }
     }
 }

@@ -7,5 +7,9 @@ namespace CentennialTalk.Models.QuestionModels
         public Guid QuestionId { get; set; }
 
         public Guid MemberId { get; set; }
+
+        public string Content { get; set; }
+
+        public int OptionId { get; set; }
     }
 }

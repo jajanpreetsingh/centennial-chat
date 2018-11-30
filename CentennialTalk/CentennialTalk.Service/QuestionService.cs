@@ -88,6 +88,7 @@ namespace CentennialTalk.Service
             }
 
             ques.IsPublished = true;
+            ques.PublishDate = DateTime.Now;
 
             return new ResponseDTO(ResponseCode.OK, "Question updated successfully");
         }
@@ -102,6 +103,7 @@ namespace CentennialTalk.Service
             }
 
             ques.IsArchived = true;
+            ques.ArchiveDate = DateTime.Now;
 
             return new ResponseDTO(ResponseCode.OK, "Question updated successfully");
         }

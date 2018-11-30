@@ -11,7 +11,7 @@
       <form (ngSubmit)="onSubmitJoinChat()">
         <input name="user" class="form-control" type="text" placeholder="username" [(ngModel)]="chatData.username">
         <input name="chatCode" class="form-control" type="text" placeholder="Chat code" [(ngModel)]="chatData.chatCode">
-        <button class="btn btn-lg" type="submit">Join</button>
+        <button class="btn btn-lg" (click)="onSubmitJoinChat()" type="submit">Join</button>
         <button *ngIf="loggedin" class="btn btn-lg" (click)="goToNewChatPage()" type="button">New Chat</button>
       </form>
     </div>
