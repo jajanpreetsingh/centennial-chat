@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FileService } from '../services/file.service';
 import { Router } from '@angular/router';
+import { AccountService } from '../services/account.service';
 
 declare var MediaRecorder: any;
 
@@ -14,10 +15,13 @@ export class HomeComponent implements OnInit {
 
   blob: any;
 
-  constructor(private fileService: FileService, private router: Router) { 
+  constructor(private fileService: FileService, private router: Router,
+    private accountService: AccountService) {
+    this.accountService.setIcon('');
   }
 
   ngOnInit() {
+    this.accountService.setIcon('');
   }
 
   start() {

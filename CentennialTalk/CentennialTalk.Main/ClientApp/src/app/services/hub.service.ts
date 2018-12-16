@@ -147,9 +147,7 @@ export class HubService {
   publishQuestion(question: QuestionModel) {
     this.hubConnection.invoke('PublishQuestion', JSON.stringify(question)).then(() => {
       this.questionService.markPublished(question).subscribe(res => {
-
         if (res.code == 200) {
-
         }
         else {
           console.log(res.data);
@@ -162,7 +160,6 @@ export class HubService {
     this.hubConnection.invoke('ArchiveQuestion', JSON.stringify(question)).then(() => {
       this.questionService.markArchived(question).subscribe(res => {
         if (res.code == 200) {
-
         }
         else {
           console.log(res.data);
@@ -214,27 +211,36 @@ export class HubService {
     });
   }
 
-  onQuestionArchived(data: any): any {
+  onQuestionArchived(data: QuestionModel): any {
     this.publishedQuestion = null;
 
-    console.log("marking archived");
+    let quesIndex: number = this.chatData.pollQuestions.findIndex(x => x.id == data.id);
 
-    let ques: QuestionModel = this.chatData.pollQuestions.find(x => x.id == data.id);
+    if (quesIndex < 0) {
+      quesIndex = this.chatData.openQuestions.findIndex(x => x.id == data.id);
 
-    if (ques == null) {
-      ques = this.chatData.openQuestions.find(x => x.id == data.id);
-
-      if (ques) {
+      if (quesIndex >= 0) {
         console.log("marking archived");
-        this.chatData.openQuestions.find(x => x.id == data.id).archiveDate = data.archiveDate;
-        this.chatData.openQuestions.find(x => x.id == data.id).isArchived = data.isArchived;
+        //this.chatData.openQuestions.find(x => x.id == data.id).archiveDate = data.archiveDate;
+        //this.chatData.openQuestions.find(x => x.id == data.id).isArchived = data.isArchived;
+
+        this.chatData.openQuestions.splice(quesIndex, 1);
+
+        this.chatData.openQuestions.push(data);
+
         console.log(this.chatData.openQuestions);
       }
     }
     else {
       console.log("marking archived");
-      this.chatData.pollQuestions.find(x => x.id == data.id).archiveDate = data.archiveDate;
-      this.chatData.pollQuestions.find(x => x.id == data.id).isArchived = data.isArchived;
+
+      //this.chatData.pollQuestions.find(x => x.id == data.id).archiveDate = data.archiveDate;
+      //this.chatData.pollQuestions.find(x => x.id == data.id).isArchived = data.isArchived;
+
+      this.chatData.pollQuestions.splice(quesIndex, 1);
+
+      this.chatData.pollQuestions.push(data);
+
       console.log(this.chatData.pollQuestions);
     }
   }
@@ -242,23 +248,32 @@ export class HubService {
   onQuestionPublished(data: QuestionModel): any {
     this.publishedQuestion = data;
 
-    let ques: QuestionModel = this.chatData.pollQuestions.find(x => x.id == data.id);
+    let quesIndex: number = this.chatData.pollQuestions.findIndex(x => x.id == data.id);
 
-    if (ques == null) {
-      ques = this.chatData.openQuestions.find(x => x.id == data.id);
+    if (quesIndex < 0) {
+      quesIndex = this.chatData.openQuestions.findIndex(x => x.id == data.id);
 
-      if (ques) {
+      if (quesIndex >= 0) {
         console.log("marking published");
-        this.chatData.openQuestions.find(x => x.id == data.id).publishDate = data.publishDate;
-        this.chatData.openQuestions.find(x => x.id == data.id).isPublished = data.isPublished;
+        //this.chatData.openQuestions.find(x => x.id == data.id).archiveDate = data.archiveDate;
+        //this.chatData.openQuestions.find(x => x.id == data.id).isArchived = data.isArchived;
+
+        this.chatData.openQuestions.splice(quesIndex, 1);
+
+        this.chatData.openQuestions.push(data);
 
         console.log(this.chatData.openQuestions);
       }
     }
     else {
       console.log("marking published");
-      this.chatData.pollQuestions.find(x => x.id == data.id).publishDate = data.publishDate;
-      this.chatData.pollQuestions.find(x => x.id == data.id).isPublished = data.isPublished;
+
+      //this.chatData.pollQuestions.find(x => x.id == data.id).archiveDate = data.archiveDate;
+      //this.chatData.pollQuestions.find(x => x.id == data.id).isArchived = data.isArchived;
+
+      this.chatData.pollQuestions.splice(quesIndex, 1);
+
+      this.chatData.pollQuestions.push(data);
 
       console.log(this.chatData.pollQuestions);
     }

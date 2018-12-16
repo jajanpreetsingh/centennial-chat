@@ -13,5 +13,7 @@ namespace CentennialTalk.PersistenceContract
         Question GetByChatCodeNContent(string chatCode, string content);
 
         Question GetById(Guid id);
+
+        int SaveAnswers(List<UserAnswer> answers);
     }
 }

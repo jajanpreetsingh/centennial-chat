@@ -5,17 +5,17 @@ import { Router, Params } from '@angular/router';
 export class UtilityService {
   constructor(private router: Router) { }
 
-  navigateWithData(path, data) {
+  navigateWithData(path: string, data: any) {
     this.router.navigate([path], data);
   }
 
-  navigateToPath(path) {
+  navigateToPath(path: string) {
     this.router.navigate([path]);
   }
 
-  showErrorAlert(message) {
+  showErrorAlert(message: string) {
   }
 
-  showSuccessAlert(message) {
+  showSuccessAlert(message: string) {
   }
 }

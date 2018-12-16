@@ -6,11 +6,14 @@
     </div>
     <div class="panel-body">
       <div class="hexagon">
-        <i class="fa fa-user-plus fa-5x" aria-hidden="true"> </i>
+        <i *ngIf="!chatData.username" class="fa fa-user-plus fa-5x" aria-hidden="true"> </i>
+
+        <img *ngIf="chatData.username" src="../../assets/icons/{{chatData.username}}.svg" alt="image">
       </div>
       <form (ngSubmit)="onSubmitJoinChat()">
-        <input name="user" class="form-control" type="text" placeholder="username" [(ngModel)]="chatData.username">
+        <input name="user" disabled="disabled" class="form-control" type="text" placeholder="username" [(ngModel)]="chatData.username">
         <input name="chatCode" class="form-control" type="text" placeholder="Chat code" [(ngModel)]="chatData.chatCode">
+        <button class="btn btn-lg" (click)="goToIconPage()" type="submit">Choose Icon</button>
         <button class="btn btn-lg" (click)="onSubmitJoinChat()" type="submit">Join</button>
         <button *ngIf="loggedin" class="btn btn-lg" (click)="goToNewChatPage()" type="button">New Chat</button>
       </form>

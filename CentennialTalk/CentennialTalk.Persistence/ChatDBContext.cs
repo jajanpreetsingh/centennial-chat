@@ -20,7 +20,7 @@ namespace CentennialTalk.Persistence
 
         public DbSet<SubjectiveQuestion> Questions { get; set; }
 
-        //public DbSet<IdentityUser> ApplicationUsers { get; set; }
+        public DbSet<UserAnswer> Answers { get; set; }
 
         public ChatDBContext(DbContextOptions contextOptions) : base(contextOptions)
         {

@@ -3,6 +3,7 @@ using CentennialTalk.Models.DTOModels;
 using CentennialTalk.PersistenceContract;
 using CentennialTalk.ServiceContract;
 using Microsoft.Extensions.Logging;
+using SautinSoft.Document;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -98,6 +99,20 @@ namespace CentennialTalk.Service
 
                 return null;
             }
+        }
+
+        public DocumentCore CreateWordDocument(string chatCode)
+        {
+            Discussion chat = chatRepository.GetChatByCode(chatCode, true);
+
+            if (chat == null)
+                return null;
+
+            DocumentCore docx = new DocumentCore();
+
+
+
+            return docx;
         }
 
         public List<Discussion> GetOpenChatGroups()

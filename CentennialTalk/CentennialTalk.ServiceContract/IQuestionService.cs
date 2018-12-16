@@ -12,5 +12,7 @@ namespace CentennialTalk.ServiceContract
         ResponseDTO PublishQuestion(QuestionDTO question);
 
         ResponseDTO ArchiveQuestion(QuestionDTO question);
+
+        ResponseDTO SaveAnswer(UserAnswerDTO answer);
     }
 }

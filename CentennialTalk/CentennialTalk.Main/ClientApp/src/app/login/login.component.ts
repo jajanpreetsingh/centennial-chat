@@ -42,6 +42,6 @@ export class LoginComponent implements OnInit {
   }
 
   goToSignup() {
-    this.utility.navigateToPath(['/signup']);
+    this.utility.navigateToPath('/signup');
   }
 }

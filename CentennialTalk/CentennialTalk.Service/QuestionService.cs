@@ -107,5 +107,55 @@ namespace CentennialTalk.Service
 
             return new ResponseDTO(ResponseCode.OK, "Question updated successfully");
         }
+
+        public ResponseDTO SaveAnswer(UserAnswerDTO answer)
+        {
+            List<UserAnswer> answers = new List<UserAnswer>();
+
+            if (!answer.isPollingQuestion)
+            {
+                answers.Add(new UserAnswer()
+                {
+                    MemberId = Guid.Parse(answer.memberId),
+                    QuestionId = Guid.Parse(answer.questionId),
+                    Content = answer.content,
+                    ChatCode = answer.chatCode
+                });
+            }
+            else
+            {
+                if (answer.options == null || answer.options.Length <= 0)
+                    return new ResponseDTO(ResponseCode.OK, "No options were selected");
+
+                Guid qid = Guid.Parse(answer.questionId);
+                Guid mid = Guid.Parse(answer.memberId);
+
+                PollingQuestion ques = questionRepository.GetById(qid) as PollingQuestion;
+
+                if(ques==null)
+                    return new ResponseDTO(ResponseCode.ERROR, "Corresponding Question not found");
+
+                foreach (string option in answer.options)
+                {
+                    QuestionOption opt = ques.Options.FirstOrDefault(x => x.Text == option);
+
+                    if (opt == null)
+                        continue;
+
+                    answers.Add(new UserAnswer()
+                    {
+                        MemberId = mid,
+                        QuestionId = qid,
+                        Content = answer.content,
+                        ChatCode = answer.chatCode,
+                        OptionId = opt.OptionId
+                    });
+                }
+
+                questionRepository.SaveAnswers(answers);
+            }
+
+            return new ResponseDTO(ResponseCode.OK, "Answers saved succesfully");
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CentennialTalk.Models;
 using CentennialTalk.Models.DTOModels;
+using SautinSoft.Document;
 using System.Collections.Generic;
 
 namespace CentennialTalk.ServiceContract
@@ -13,5 +14,7 @@ namespace CentennialTalk.ServiceContract
         ResponseDTO JoinChat(JoinChatDTO joinChat);
 
         List<Discussion> GetOpenChatGroups();
+
+        DocumentCore CreateWordDocument(string chatCode);
     }
 }

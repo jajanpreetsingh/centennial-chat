@@ -10,6 +10,8 @@ export class Globals {
       && this.loginData.username != "";
   };
 
+  iconName: string;
+
   loginData: LoginModel;
 
   chatData: ChatModel;

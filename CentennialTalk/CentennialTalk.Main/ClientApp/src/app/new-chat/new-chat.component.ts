@@ -34,8 +34,8 @@ export class NewChatComponent implements OnInit, OnDestroy {
       if (login == null)
         this.utilityService.navigateToPath('/home');
       else {
-        this.chatData.username = login.username;
-        this.chatData.moderator = login.username;
+        this.chatData.username = this.accountService.getIcon();
+        this.chatData.moderator = this.accountService.getIcon();
       }
     }
 

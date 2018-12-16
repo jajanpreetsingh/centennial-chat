@@ -107,6 +107,13 @@ export class DiscussionComponent implements OnInit {
     console.log(this.selectedOptions);
   }
 
+  submitAnswer() {
+    if (this.hubInstance.publishedQuestion == null)
+      return;
+
+
+  }
+
   sendMessage() {
     var content = this.message;
 

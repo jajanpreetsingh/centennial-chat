@@ -17,6 +17,7 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.MessagePack" Version="1.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.0" />
+    <PackageReference Include="sautinsoft.document" Version="3.6.11.20" />
     <PackageReference Include="Serilog.Extensions.Logging.File" Version="1.1.0" />
   </ItemGroup>
 
@@ -41,6 +42,7 @@
     <None Remove="ClientApp\src\models\globals.ts" />
     <None Remove="ClientApp\src\models\member.model.ts" />
     <None Remove="ClientApp\src\models\response.model.ts" />
+    <None Remove="ClientApp\src\models\useranswer.model.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -57,6 +59,7 @@
     <TypeScriptCompile Include="ClientApp\src\models\globals.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\member.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\response.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\models\useranswer.model.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

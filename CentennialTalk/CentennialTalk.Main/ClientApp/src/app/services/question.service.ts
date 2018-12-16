@@ -16,4 +16,9 @@ export class QuestionService {
     return this.http.post("/api/question/archived", ques)
       .map(res => res.json());
   }
+
+  submitAnswer(ques: QuestionModel) {
+    return this.http.post("/api/question/answer", ques)
+      .map(res => res.json());
+  }
 }

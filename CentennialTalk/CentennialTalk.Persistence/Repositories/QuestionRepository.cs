@@ -1,5 +1,6 @@
 ﻿using CentennialTalk.Models.QuestionModels;
 using CentennialTalk.PersistenceContract;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace CentennialTalk.Persistence.Repositories
 
         public Question GetByChatCodeNContent(string chatCode, string content)
         {
-            Question ques = dbContext.Polls.FirstOrDefault(x => x.ChatCode == chatCode && x.Content == content);
+            Question ques = dbContext.Polls.Include(x => x.Options).FirstOrDefault(x => x.ChatCode == chatCode && x.Content == content);
 
             if (ques == null)
                 ques = dbContext.Questions.FirstOrDefault(x => x.ChatCode == chatCode && x.Content == content);
@@ -24,7 +25,7 @@ namespace CentennialTalk.Persistence.Repositories
 
         public Question GetById(Guid id)
         {
-            Question ques = dbContext.Polls.FirstOrDefault(x => x.QuestionId == id);
+            Question ques = dbContext.Polls.Include(x => x.Options).FirstOrDefault(x => x.QuestionId == id);
 
             if (ques == null)
                 ques = dbContext.Questions.FirstOrDefault(x => x.QuestionId == id);
@@ -40,6 +41,13 @@ namespace CentennialTalk.Persistence.Repositories
         public List<SubjectiveQuestion> GetChatSubjectiveQuestions(string chatCode)
         {
             return dbContext.Questions.Where(x => x.ChatCode == chatCode).ToList();
+        }
+
+        public int SaveAnswers(List<UserAnswer> answers)
+        {
+            dbContext.Answers.AddRange(answers);
+
+            return answers == null ? 0 : answers.Count;
         }
     }
 }

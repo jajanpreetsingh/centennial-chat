@@ -79,6 +79,16 @@ export class AccountService {
       return {};
   }
 
+  setIcon(name: string) {
+    localStorage.setItem(StorageKeys[StorageKeys.IconName], name);
+
+    this.globals.iconName = name;
+  }
+
+  getIcon() {
+    return localStorage.getItem(StorageKeys[StorageKeys.IconName]);
+  }
+
   getGlobals() {
     return this.globals;
   }
@@ -96,5 +106,6 @@ export class AccountService {
 export enum StorageKeys {
   Login,
   Chat,
-  JwtToken
+  JwtToken,
+  IconName
 }

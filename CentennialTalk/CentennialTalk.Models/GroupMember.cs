@@ -78,6 +78,7 @@ namespace CentennialTalk.Models
         {
             return new MemberDTO()
             {
+                memberId = GroupMemberId.ToString(),
                 username = Username,
                 iconName = IconPath,
                 isConnected = IsConnected

@@ -62,5 +62,18 @@ namespace CentennialTalk.Main.Controllers
 
             return GetJson(res);
         }
+
+        [HttpPost("answer")]
+        public IActionResult SubmitAnswer([FromBody]UserAnswerDTO answer)
+        {
+            ResponseDTO res = questionService.SaveAnswer(answer);
+
+            bool saved = uowService.SaveChanges();
+
+            if (!saved)
+                return GetJson(new ResponseDTO(ResponseCode.ERROR, "Error saving question"));
+
+            return GetJson(res);
+        }
     }
 }

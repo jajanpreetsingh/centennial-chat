@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AccountService } from '../services/account.service';
+import { UtilityService } from '../services/utility.service';
 
 @Component({
   selector: 'app-icons',
@@ -6,11 +8,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./icons.component.scss']
 })
 export class IconsComponent {
+  constructor(private accountService: AccountService, private utilityService: UtilityService) {
 
-  setIconName(object) {
-    let name: string = object.src;
-    console.log(object);
-    console.log(object.src);
-    console.log(name);
+  }
+
+  setIconName(name: string) {
+    console.log("icons: " + name);
+    this.accountService.setIcon(name);
+
+    this.utilityService.navigateToPath('general-login');
   }
 }

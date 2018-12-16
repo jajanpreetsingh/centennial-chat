@@ -20,6 +20,8 @@ export class JoinChatComponent implements OnInit {
 
     console.log("from join chat : " + this.globals.isLoggedIn);
 
+    this.chatData.username = this.accountService.getIcon();
+
     this.loggedin = this.globals.isLoggedIn;
   }
 
@@ -27,8 +29,7 @@ export class JoinChatComponent implements OnInit {
     if (this.accountService.isJwtValid()) {
       let cred = this.accountService.getLocalCredentials();
 
-      if (cred != null)
-        this.chatData.username = cred.username;
+      this.chatData.username = this.accountService.getIcon();
 
       this.loggedin = this.globals.isLoggedIn;
     }
@@ -36,6 +37,11 @@ export class JoinChatComponent implements OnInit {
 
   goToNewChatPage() {
     this.utilityService.navigateToPath('/new');
+  }
+
+  goToIconPage() {
+
+    this.utilityService.navigateToPath('/icon');
   }
 
   onSubmitJoinChat() {

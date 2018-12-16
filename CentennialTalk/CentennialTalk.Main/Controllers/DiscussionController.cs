@@ -2,6 +2,7 @@
 using CentennialTalk.Models.DTOModels;
 using CentennialTalk.ServiceContract;
 using Microsoft.AspNetCore.Mvc;
+using SautinSoft.Document;
 
 namespace CentennialTalk.Main.Controllers
 {
@@ -63,6 +64,14 @@ namespace CentennialTalk.Main.Controllers
             uowService.SaveChanges();
 
             return GetJson(new ResponseDTO(ResponseCode.OK, "Success"));
+        }
+
+        [HttpPost("transcript")]
+        public IActionResult DownloadTranscript(string chatCode)
+        {
+            DocumentCore doc = chatService.CreateWordDocument(chatCode);
+
+            return null;
         }
     }
 }
