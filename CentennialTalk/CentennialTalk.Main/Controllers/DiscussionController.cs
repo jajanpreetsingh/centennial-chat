@@ -2,7 +2,8 @@
 using CentennialTalk.Models.DTOModels;
 using CentennialTalk.ServiceContract;
 using Microsoft.AspNetCore.Mvc;
-using SautinSoft.Document;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace CentennialTalk.Main.Controllers
 {
@@ -11,18 +12,20 @@ namespace CentennialTalk.Main.Controllers
     {
         private readonly IChatService chatService;
         private readonly IUnitOfWorkService uowService;
+        private readonly IFileService fileService;
 
-        public DiscussionController(IChatService chatService,
+        public DiscussionController(IChatService chatService, IFileService fileService,
             IUnitOfWorkService uowService)
         {
             this.chatService = chatService;
             this.uowService = uowService;
+            this.fileService = fileService;
         }
 
         [HttpPost("new")]
         public IActionResult New([FromBody]NewChatDTO newChat)
         {
-            if(string.IsNullOrWhiteSpace(newChat.title))
+            if (string.IsNullOrWhiteSpace(newChat.title))
                 return GetJson(new ResponseDTO(ResponseCode.OK, "Unable to create chat with incomplete data"));
 
             Discussion chat = chatService.CreateNewChat(newChat);
@@ -67,11 +70,18 @@ namespace CentennialTalk.Main.Controllers
         }
 
         [HttpPost("transcript")]
-        public IActionResult DownloadTranscript(string chatCode)
+        public async Task<IActionResult> DownloadTranscript(string chatCode)
         {
-            DocumentCore doc = chatService.CreateWordDocument(chatCode);
+            string doc = fileService.CreateWordDocument(chatCode);
 
-            return null;
+            MemoryStream memory = new MemoryStream();
+            using (FileStream stream = new FileStream(doc, FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+
+            memory.Position = 0;
+            return File(memory, "application/vnd.ms-word", doc);
         }
     }
 }

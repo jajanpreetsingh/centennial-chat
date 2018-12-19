@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="IFileService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CentennialTalk.Models\CentennialTalk.Models.csproj" />
   </ItemGroup>
 

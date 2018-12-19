@@ -8,7 +8,7 @@
       <div class="hexagon">
         <i *ngIf="!chatData.username" class="fa fa-user-plus fa-5x" aria-hidden="true"> </i>
 
-        <img *ngIf="chatData.username" src="../../assets/icons/{{chatData.username}}.svg" alt="image">
+        <img *ngIf="chatData.username" src="../../assets/icons/pngs/{{chatData.username}}.png" alt="image">
       </div>
       <form (ngSubmit)="onSubmitJoinChat()">
         <input name="user" disabled="disabled" class="form-control" type="text" placeholder="username" [(ngModel)]="chatData.username">

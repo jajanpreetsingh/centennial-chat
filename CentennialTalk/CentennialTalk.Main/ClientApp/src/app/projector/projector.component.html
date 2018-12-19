@@ -4,7 +4,7 @@
   <div class="row">
     <div class="col-sm-6">
       <div class="topic-area">
-        <h4>{{chatData.title}} - {{hubInstance.publishedQuestion.content}}</h4>
+        <h4>{{chatData.title}}</h4> <h4 *ngIf="hubInstance.publishedQuestion">- {{hubInstance.publishedQuestion.content}}</h4>
         <span class="participants">10</span>
       </div>
       <div id="discussion">
@@ -13,7 +13,7 @@
             <li *ngFor="let message of hubInstance.messages">
               <div *ngIf="!message.isMine" class="comment-main-level">
 
-                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/{{message.sender}}.svg" alt="{{message.sender}}"></div>
+                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/pngs/{{message.sender}}.png" alt="{{message.sender}}"></div>
 
                 <div class="comment-box col-sm-10">
                   <div class="comment-head">
@@ -30,7 +30,7 @@
               </div>
 
               <div *ngIf="message.isMine" class="comment-main-level your-message">
-                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/{{message.sender}}.svg" alt="{{message.sender}}"></div>
+                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/pngs/{{message.sender}}.png" alt="{{message.sender}}"></div>
 
                 <div class="comment-box col-sm-10">
                   <div class="comment-head">

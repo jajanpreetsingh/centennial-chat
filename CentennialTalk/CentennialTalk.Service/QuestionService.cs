@@ -146,7 +146,7 @@ namespace CentennialTalk.Service
                     {
                         MemberId = mid,
                         QuestionId = qid,
-                        Content = answer.content,
+                        Content = opt.Text,
                         ChatCode = answer.chatCode,
                         OptionId = opt.OptionId
                     });

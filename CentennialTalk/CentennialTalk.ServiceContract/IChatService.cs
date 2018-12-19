@@ -14,7 +14,5 @@ namespace CentennialTalk.ServiceContract
         ResponseDTO JoinChat(JoinChatDTO joinChat);
 
         List<Discussion> GetOpenChatGroups();
-
-        DocumentCore CreateWordDocument(string chatCode);
     }
 }

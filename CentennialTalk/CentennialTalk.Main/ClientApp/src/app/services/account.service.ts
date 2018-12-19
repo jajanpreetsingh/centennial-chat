@@ -3,7 +3,6 @@ import { Http } from '@angular/http';
 import { JwtHelper } from 'angular2-jwt';
 import 'rxjs/add/operator/map';
 import { Globals } from '../../models/globals';
-import { Response } from '../../models/response.model';
 import { SignupModel } from '../../models/signup.model';
 import { LoginModel } from '../../models/login.model';
 import { ChatModel } from '../../models/chat.model';

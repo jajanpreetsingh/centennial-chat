@@ -49,5 +49,10 @@ namespace CentennialTalk.Persistence.Repositories
 
             return answers == null ? 0 : answers.Count;
         }
+
+        public List<UserAnswer> GetAnswersByChat(string chatCode)
+        {
+            return dbContext.Answers.Where(x => x.ChatCode == chatCode).ToList();
+        }
     }
 }
