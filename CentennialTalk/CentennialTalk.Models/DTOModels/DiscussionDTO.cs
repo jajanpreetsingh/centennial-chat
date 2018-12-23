@@ -9,6 +9,7 @@
         public string connectionId;
         public string activationDate;
         public string expirationDate;
+        //public string myMemberId;
         public QuestionDTO[] openQuestions;
         public QuestionDTO[] pollQuestions;
         public MemberDTO[] members;

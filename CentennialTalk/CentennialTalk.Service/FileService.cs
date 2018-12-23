@@ -28,121 +28,149 @@ namespace CentennialTalk.Service
 
         public string CreateWordDocument(string chatCode)
         {
-            Discussion chat = chatRepository.GetChatByCode(chatCode, true);
-
-            if (chat == null)
-                return null;
-
-            DocumentCore docx = new DocumentCore();
-
-            List<Message> messages = messageRepository.GetChatMessages(chatCode);
-
-            Section sec1 = new Section(docx);
-
-            sec1.PageSetup.PaperType = PaperType.A4;
-
-            foreach (Message m in messages)
+            try
             {
-                GroupMember mem = chat.Members.FirstOrDefault(x => x.Username == m.Sender);
+                Discussion chat = chatRepository.GetChatByCode(chatCode, true);
 
-                bool isMod = mem.IsModerator;
+                if (chat == null)
+                    return null;
 
-                Paragraph p = new Paragraph(docx,
-                    string.Format("Sent by : {0}\n" +
-                    "{1} \n " +
-                    "Sent on : {2}", m.Sender, m.Content, m.SentDate.ToString()));
+                DocumentCore docx = new DocumentCore();
 
-                p.ParagraphFormat.Alignment = isMod ? HorizontalAlignment.Right : HorizontalAlignment.Left;
+                List<Message> messages = messageRepository.GetChatMessages(chatCode);
 
-                sec1.Blocks.Add(p);
-            }
+                Section sec1 = new Section(docx);
 
-            Section sec2 = new Section(docx);
+                sec1.PageSetup.PaperType = PaperType.A4;
 
-            sec2.PageSetup.PaperType = PaperType.A4;
-
-            List<PollingQuestion> polls = quesRepository.GetChatPollingQuestions(chatCode);
-
-            List<UserAnswer> answers = quesRepository.GetAnswersByChat(chatCode);
-
-            foreach (PollingQuestion poll in polls)
-            {
-                Paragraph pq = new Paragraph(docx);
-
-                pq.Content.End.Insert(string.Format("Polling Question(Select {0}) : {1}\n",
-                    poll.SelectMultiple ? "Multiple" : "One",
-                    poll.Content), new CharacterFormat() { Size = 12, FontColor = Color.Blue, Bold = true });
-
-                poll.Options.ToList().ForEach(o =>
+                foreach (Message m in messages)
                 {
-                    pq.Content.End.Insert(o.Text + "\n", new CharacterFormat() { Size = 12, FontColor = Color.Blue, Bold = true });
-                });
-
-                pq.ParagraphFormat.Alignment = HorizontalAlignment.Left;
-
-                foreach (GroupMember mem in chat.Members)
-                {
-                    List<UserAnswer> quesans = answers.FindAll(x => x.QuestionId == poll.QuestionId && x.MemberId == mem.GroupMemberId);
+                    GroupMember mem = chat.Members.FirstOrDefault(x => x.Username == m.Sender);
 
                     bool isMod = mem.IsModerator;
 
-                    Paragraph p = new Paragraph(docx);
+                    Paragraph p = new Paragraph(docx,
+                        string.Format("Sent by : {0}" +
+                        "{1} " +
+                        "Sent on : {2}", m.Sender, m.Content, m.SentDate.ToString()));
 
-                    p.Content.End.Insert(string.Format("{0} Answers : \n", mem.Username), new CharacterFormat() { Size = 12, FontColor = Color.Green });
+                    p.Inlines.Add(new SpecialCharacter(docx, SpecialCharacterType.LineBreak));
 
-                    quesans.ToList().ForEach(o =>
+                    p.Inlines.Add(new SpecialCharacter(docx, SpecialCharacterType.LineBreak));
+
+                    p.ParagraphFormat.Alignment = isMod ? HorizontalAlignment.Right : HorizontalAlignment.Left;
+
+                    sec1.Blocks.Add(p);
+                }
+
+                Section sec2 = new Section(docx);
+
+                sec2.PageSetup.PaperType = PaperType.A4;
+
+                List<PollingQuestion> polls = quesRepository.GetChatPollingQuestions(chatCode);
+
+                List<UserAnswer> answers = quesRepository.GetAnswersByChat(chatCode);
+
+                foreach (PollingQuestion poll in polls)
+                {
+                    Paragraph pq = new Paragraph(docx);
+
+                    pq.Content.End.Insert(string.Format("Polling Question(Select {0}) : {1}",
+                        poll.SelectMultiple ? "Multiple" : "One",
+                        poll.Content), new CharacterFormat() { Size = 12, FontColor = Color.Blue, Bold = true });
+
+                    pq.Inlines.Add(new SpecialCharacter(docx, SpecialCharacterType.LineBreak));
+
+                    poll.Options.ToList().ForEach(o =>
                     {
-                        p.Content.End.Insert(o.Content + "\n", new CharacterFormat() { Size = 12, FontColor = Color.Green });
+                        pq.Content.End.Insert(o.Text, new CharacterFormat() { Size = 12, FontColor = Color.Blue, Bold = true });
+
+                        pq.Inlines.Add(new SpecialCharacter(docx, SpecialCharacterType.LineBreak));
                     });
 
-                    p.ParagraphFormat.Alignment = HorizontalAlignment.Left;
+                    pq.ParagraphFormat.Alignment = HorizontalAlignment.Left;
 
-                    sec2.Blocks.Add(p);
+                    foreach (GroupMember mem in chat.Members)
+                    {
+                        List<UserAnswer> quesans = answers.FindAll(x => x.QuestionId == poll.QuestionId && x.MemberId == mem.GroupMemberId);
+
+                        bool isMod = mem.IsModerator;
+
+                        Paragraph p = new Paragraph(docx);
+
+                        p.Content.End.Insert(string.Format("{0} Answers : ", mem.Username), new CharacterFormat() { Size = 12, FontColor = Color.Green });
+
+                        p.Inlines.Add(new SpecialCharacter(docx, SpecialCharacterType.LineBreak));
+                        quesans.ToList().ForEach(o =>
+                        {
+                            p.Content.End.Insert(o.Content, new CharacterFormat() { Size = 12, FontColor = Color.Green });
+
+                            p.Inlines.Add(new SpecialCharacter(docx, SpecialCharacterType.LineBreak));
+                        });
+
+                        p.ParagraphFormat.Alignment = HorizontalAlignment.Left;
+
+                        sec2.Blocks.Add(p);
+                    }
+
+                    sec2.Blocks.Add(pq);
                 }
 
-                sec2.Blocks.Add(pq);
-            }
+                Section sec3 = new Section(docx);
 
-            Section sec3 = new Section(docx);
+                sec3.PageSetup.PaperType = PaperType.A4;
 
-            sec3.PageSetup.PaperType = PaperType.A4;
+                List<SubjectiveQuestion> subs = quesRepository.GetChatSubjectiveQuestions(chatCode);
 
-            List<SubjectiveQuestion> subs = quesRepository.GetChatSubjectiveQuestions(chatCode);
-
-            foreach (SubjectiveQuestion sub in subs)
-            {
-                Paragraph pq = new Paragraph(docx);
-
-                pq.Content.End.Insert(string.Format("Subjective Question : {0}\n", sub.Content),
-                    new CharacterFormat() { Size = 12, FontColor = Color.Blue, Bold = true });
-
-                pq.ParagraphFormat.Alignment = HorizontalAlignment.Left;
-
-                foreach (GroupMember mem in chat.Members)
+                foreach (SubjectiveQuestion sub in subs)
                 {
-                    UserAnswer quesans = answers.FirstOrDefault(x => x.QuestionId == sub.QuestionId && x.MemberId == mem.GroupMemberId);
+                    Paragraph pq = new Paragraph(docx);
 
-                    bool isMod = mem.IsModerator;
+                    pq.Content.End.Insert(string.Format("Subjective Question : {0}", sub.Content),
+                        new CharacterFormat() { Size = 12, FontColor = Color.Blue, Bold = true });
 
-                    Paragraph p = new Paragraph(docx);
+                    pq.Inlines.Add(new SpecialCharacter(docx, SpecialCharacterType.LineBreak));
 
-                    p.Content.End.Insert(string.Format("{0} Answers : \n", mem.Username), new CharacterFormat() { Size = 12, FontColor = Color.Green });
+                    pq.ParagraphFormat.Alignment = HorizontalAlignment.Left;
 
-                    p.Content.End.Insert(quesans.Content + "\n", new CharacterFormat() { Size = 12, FontColor = Color.Green });
+                    foreach (GroupMember mem in chat.Members)
+                    {
+                        UserAnswer quesans = answers.FirstOrDefault(x => x.QuestionId == sub.QuestionId && x.MemberId == mem.GroupMemberId);
 
-                    p.ParagraphFormat.Alignment = HorizontalAlignment.Left;
+                        bool isMod = mem.IsModerator;
 
-                    sec2.Blocks.Add(p);
+                        Paragraph p = new Paragraph(docx);
+
+                        p.Content.End.Insert(string.Format("{0} Answers : ", mem.Username), new CharacterFormat() { Size = 12, FontColor = Color.Green });
+
+                        p.Inlines.Add(new SpecialCharacter(docx, SpecialCharacterType.LineBreak));
+
+                        p.Content.End.Insert(quesans.Content, new CharacterFormat() { Size = 12, FontColor = Color.Green });
+
+                        p.Inlines.Add(new SpecialCharacter(docx, SpecialCharacterType.LineBreak));
+
+                        p.ParagraphFormat.Alignment = HorizontalAlignment.Left;
+
+                        sec2.Blocks.Add(p);
+                    }
+
+                    sec3.Blocks.Add(pq);
                 }
 
-                sec3.Blocks.Add(pq);
+                docx.Sections.Add(sec1);
+                docx.Sections.Add(sec2);
+                docx.Sections.Add(sec3);
+
+                string fileName = chat.Title + "_" + DateTime.Now.ToString();
+
+                docx.Save(fileName);
+
+                return fileName;
             }
-
-            string fileName = chat.Title + "_" + DateTime.Now.ToString();
-
-            docx.Save(fileName);
-
-            return fileName;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

@@ -49,7 +49,7 @@ namespace CentennialTalk.Models
 
             Username = newChat.moderator;
 
-            IconPath = newChat.icon;
+            IconPath = newChat.moderator;
 
             IsModerator = true;
         }
@@ -80,7 +80,6 @@ namespace CentennialTalk.Models
             {
                 memberId = GroupMemberId.ToString(),
                 username = Username,
-                iconName = IconPath,
                 isConnected = IsConnected
             };
         }

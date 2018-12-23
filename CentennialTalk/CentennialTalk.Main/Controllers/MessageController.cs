@@ -2,6 +2,7 @@
 using CentennialTalk.Models.DTOModels;
 using CentennialTalk.ServiceContract;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -25,7 +26,7 @@ namespace CentennialTalk.Main.Controllers
         {
             List<Message> messages = messageService.GetChatMessages(chatCode.value.ToString());
 
-            return GetJson(new ResponseDTO(ResponseCode.OK, messages.Select(x => x.GetResponseDTO())));
+            return GetJson(new ResponseDTO(ResponseCode.OK, messages.Select(x => x.GetResponseDTO()).ToArray()));
         }
 
         [HttpPost("send")]
@@ -37,6 +38,17 @@ namespace CentennialTalk.Main.Controllers
 
             return GetJson(new ResponseDTO(saved ? ResponseCode.OK : ResponseCode.ERROR,
                 saved ? "Message saved" : "Error while saving message"));
+        }
+
+        [HttpPost("reaction")]
+        public IActionResult React([FromBody]ReactionDTO reactDto)
+        {
+            Message message = messageService.GetMessageById(Guid.Parse(reactDto.messageId));
+
+            bool saved = message != null;
+
+            return GetJson(new ResponseDTO(saved ? ResponseCode.OK : ResponseCode.ERROR,
+                saved ? message.GetResponseDTO() : null));
         }
     }
 }

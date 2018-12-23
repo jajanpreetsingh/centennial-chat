@@ -5,7 +5,9 @@
     <div class="col-sm-6">
       <div class="topic-area">
         <h4>{{chatData.title}}</h4> <h4 *ngIf="hubInstance.publishedQuestion">- {{hubInstance.publishedQuestion.content}}</h4>
-        <span class="participants">10</span>
+        <span class="participants">
+          {{hubInstance.members.length}}
+        </span>
       </div>
       <div id="discussion">
         <div class="comments-container">
@@ -58,14 +60,14 @@
     </div>
     <div class="col-sm-6" id="manage-section">
 
-      <div *ngFor="let question of chatData.openQuestions">
+      <div *ngFor="let question of hubInstance.openQuestions">
         <h4><span>Q</span>{{question.content}}</h4>
         <button *ngIf="(question.isPublished == false)" (click)="publishQuestion(question)" class="btn">Start</button>
         <button *ngIf="(question.isPublished && !question.isArchived)" (click)="archiveQuestion(question)" class="btn">End</button>
         <hr />
       </div>
 
-      <div *ngFor="let question of chatData.pollQuestions">
+      <div *ngFor="let question of hubInstance.pollQuestions">
         <h4><span>Q</span>{{question.content}}</h4>
         <button *ngIf="(!question.isPublished)" (click)="publishQuestion(question)" class="btn">Start</button>
         <button *ngIf="(question.isPublished && !question.isArchived)" (click)="archiveQuestion(question)" class="btn">End</button>

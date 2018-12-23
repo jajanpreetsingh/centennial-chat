@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ChatService } from '../services/chat.service';
 import { ChatModel } from '../../models/chat.model';
 import { UtilityService } from '../services/utility.service';
-import { AccountService } from '../services/account.service';
-import { Globals } from '../../models/globals';
+import { AccountService, StorageKeys } from '../services/account.service';
 
 @Component({
   selector: 'app-join-chat',
@@ -13,34 +12,28 @@ import { Globals } from '../../models/globals';
 export class JoinChatComponent implements OnInit {
   chatData: ChatModel = new ChatModel();
 
-  loggedin: boolean = false;
+  loggedIn: boolean = false;
 
   constructor(private chatService: ChatService,
-    private utilityService: UtilityService, private accountService: AccountService, private globals: Globals) {
-
-    console.log("from join chat : " + this.globals.isLoggedIn);
-
-    this.chatData.username = this.accountService.getIcon();
-
-    this.loggedin = this.globals.isLoggedIn;
+    private utilityService: UtilityService, private accountService: AccountService) {
   }
 
   ngOnInit() {
-    if (this.accountService.isJwtValid()) {
-      let cred = this.accountService.getLocalCredentials();
+    this.loggedIn = this.accountService.isLoggedIn();
 
-      this.chatData.username = this.accountService.getIcon();
-
-      this.loggedin = this.globals.isLoggedIn;
-    }
+    this.chatData = this.accountService.getLocalChatData();
   }
 
   goToNewChatPage() {
     this.utilityService.navigateToPath('/new');
   }
 
-  goToIconPage() {
+  updateInputChatCode() {
+    this.accountService.setLocalData(StorageKeys.ChatCode, this.chatData.chatCode);
+}
 
+  goToIconPage() {
+    this.updateInputChatCode();
     this.utilityService.navigateToPath('/icon');
   }
 
@@ -57,11 +50,18 @@ export class JoinChatComponent implements OnInit {
       if (res.code == 200) {
         this.chatData = res.data;
 
-        console.log(this.chatData)
+        this.accountService.setLocalData(StorageKeys.ChatCode, this.chatData.chatCode);
+        this.accountService.setLocalData(StorageKeys.ChatTitle, this.chatData.title);
+        this.accountService.setLocalData(StorageKeys.ChatUsername, this.chatData.username);
+        this.accountService.setLocalData(StorageKeys.ChatModerator, this.chatData.moderator);
 
-        this.accountService.setLocalChatData(this.chatData);
+        this.accountService.setLocalData(StorageKeys.OpenQuestions, JSON.stringify(this.chatData.openQuestions));
 
-        if (this.globals.isLoggedIn) {
+        this.accountService.setLocalData(StorageKeys.PollingQuestions, JSON.stringify(this.chatData.pollQuestions));
+
+        this.accountService.setLocalData(StorageKeys.ChatMembers, JSON.stringify(this.chatData.members));
+
+        if (this.accountService.isLoggedIn()) {
           console.log("going to projector....");
           this.utilityService.navigateToPath('/projector');
         }

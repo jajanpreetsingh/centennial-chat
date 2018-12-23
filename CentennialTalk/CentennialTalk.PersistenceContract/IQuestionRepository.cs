@@ -1,4 +1,5 @@
-﻿using CentennialTalk.Models.QuestionModels;
+﻿using CentennialTalk.Models.DTOModels;
+using CentennialTalk.Models.QuestionModels;
 using System;
 using System.Collections.Generic;
 
@@ -17,5 +18,11 @@ namespace CentennialTalk.PersistenceContract
         int SaveAnswers(List<UserAnswer> answers);
 
         List<UserAnswer> GetAnswersByChat(string chatCode);
+
+        PollingQuestion GetPollById(Guid id);
+
+        SubjectiveQuestion GetOpenQuesById(Guid id);
+
+        List<UserAnswer> GetPreviousAnswers(UserAnswerDTO answer);
     }
 }

@@ -2,6 +2,6 @@ export class MemberModel {
 
   memberId: string
   username: string;
-  iconName: string;
+  //iconName: string;
   isConnected: boolean;
 }

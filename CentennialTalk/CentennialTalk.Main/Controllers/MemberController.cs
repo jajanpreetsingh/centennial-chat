@@ -42,7 +42,7 @@ namespace CentennialTalk.Main.Controllers
             if (gMembers == null || gMembers.Count <= 0)
                 return GetJson(new ResponseDTO(ResponseCode.OK, new List<string>()));
 
-            return GetJson(new ResponseDTO(ResponseCode.OK, gMembers.Select(x => x.Username)));
+            return GetJson(new ResponseDTO(ResponseCode.OK, gMembers.Select(x => x.Username).Distinct().ToArray()));
         }
     }
 }

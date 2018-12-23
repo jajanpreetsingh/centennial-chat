@@ -1,4 +1,5 @@
-﻿using CentennialTalk.Models.QuestionModels;
+﻿using CentennialTalk.Models.DTOModels;
+using CentennialTalk.Models.QuestionModels;
 using CentennialTalk.PersistenceContract;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,6 +12,11 @@ namespace CentennialTalk.Persistence.Repositories
     {
         public QuestionRepository(ChatDBContext context) : base(context)
         {
+        }
+
+        public List<UserAnswer> GetPreviousAnswers(UserAnswerDTO answer)
+        {
+            return dbContext.Answers.Where(x => x.MemberId == Guid.Parse(answer.memberId) && x.ChatCode == answer.chatCode).ToList();
         }
 
         public Question GetByChatCodeNContent(string chatCode, string content)
@@ -29,6 +35,20 @@ namespace CentennialTalk.Persistence.Repositories
 
             if (ques == null)
                 ques = dbContext.Questions.FirstOrDefault(x => x.QuestionId == id);
+
+            return ques;
+        }
+
+        public PollingQuestion GetPollById(Guid id)
+        {
+            PollingQuestion ques = dbContext.Polls.Include(x => x.Options).FirstOrDefault(x => x.QuestionId == id);
+
+            return ques;
+        }
+
+        public SubjectiveQuestion GetOpenQuesById(Guid id)
+        {
+            SubjectiveQuestion ques = dbContext.Questions.FirstOrDefault(x => x.QuestionId == id);
 
             return ques;
         }

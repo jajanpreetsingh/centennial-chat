@@ -19,5 +19,6 @@ namespace CentennialTalk.Models.DTOModels
     {
         OK = 200,
         ERROR = 500,
+        MESSAGE = 420
     }
 }

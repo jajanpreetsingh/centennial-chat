@@ -2,14 +2,13 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { JwtHelper } from 'angular2-jwt';
 import 'rxjs/add/operator/map';
-import { Globals } from '../../models/globals';
 import { SignupModel } from '../../models/signup.model';
 import { LoginModel } from '../../models/login.model';
 import { ChatModel } from '../../models/chat.model';
 
 @Injectable()
 export class AccountService {
-  constructor(private http: Http, private globals: Globals) {
+  constructor(private http: Http) {
   }
 
   tryModeratorLogin(login: LoginModel) {
@@ -27,38 +26,24 @@ export class AccountService {
       .map(res => res.json());
   }
 
-  setLocalChatData(chatData: ChatModel) {
-    localStorage.setItem(StorageKeys[StorageKeys.Chat], JSON.stringify(chatData));
+  setLocalData(key: StorageKeys, value: string): void {
+    localStorage.setItem(StorageKeys[key], JSON.stringify(value));
   }
 
-  getLocalChatData() {
-    var chatString = localStorage.getItem(StorageKeys[StorageKeys.Chat]);
+  getLocalData(key: StorageKeys): string {
+    let val = localStorage.getItem(StorageKeys[key]);
 
-    if (chatString != null && chatString != '')
-      return JSON.parse(chatString);
-    else
-      return {};
+    if (JSON.parse(val) != null)
+      return JSON.parse(val).toString();
+    return "";
   }
 
   setJwtToken(token: string) {
-    localStorage.setItem(StorageKeys[StorageKeys.JwtToken], token);
+    this.setLocalData(StorageKeys.JwtToken, token);
   }
 
   getJwtToken() {
-    return localStorage.getItem(StorageKeys[StorageKeys.JwtToken]);
-  }
-
-  setLocalCredentials(login: LoginModel) {
-    if (login != null) {
-      localStorage.setItem(StorageKeys[StorageKeys.Login], JSON.stringify(login));
-
-      this.globals.loginData = login;
-    }
-    else {
-      localStorage.setItem(StorageKeys[StorageKeys.Login], '');
-
-      this.globals.loginData = null;
-    }
+    return this.getLocalData(StorageKeys.JwtToken);
   }
 
   isJwtValid() {
@@ -69,27 +54,55 @@ export class AccountService {
       && !(new JwtHelper().isTokenExpired(token));
   }
 
-  getLocalCredentials() {
-    var loginString = localStorage.getItem(StorageKeys[StorageKeys.Login]);
-
-    if (loginString != null && loginString != '')
-      return JSON.parse(loginString);
-    else
-      return {};
+  clearAllLocalData() {
+    this.setLocalData(StorageKeys.LoginUsername, '');
+    this.setLocalData(StorageKeys.SignupUsername, '');
+    this.setLocalData(StorageKeys.SignUpEmail, '');
+    this.setLocalData(StorageKeys.ChatTitle, '');
+    this.setLocalData(StorageKeys.ChatCode, '');
+    this.setLocalData(StorageKeys.ChatUsername, '');
+    this.setLocalData(StorageKeys.ChatModerator, '');
+    this.setLocalData(StorageKeys.ChatConnectionId, '');
+    this.setLocalData(StorageKeys.PollingQuestions, '');
+    this.setLocalData(StorageKeys.OpenQuestions, '');
+    this.setLocalData(StorageKeys.ChatMembers, '');
+    this.setLocalData(StorageKeys.JwtToken, '');
   }
 
-  setIcon(name: string) {
-    localStorage.setItem(StorageKeys[StorageKeys.IconName], name);
+  isLoggedIn(): boolean {
+    let logUsr: string = this.getLocalData(StorageKeys.LoginUsername);
+    let jwt: string = this.getLocalData(StorageKeys.JwtToken);
 
-    this.globals.iconName = name;
+    let loggedin: boolean = !this.isValNull(logUsr) && !this.isValNull(jwt);
+
+    return loggedin;
   }
 
-  getIcon() {
-    return localStorage.getItem(StorageKeys[StorageKeys.IconName]);
-  }
+  getLocalChatData(): ChatModel {
+    let chat: ChatModel = new ChatModel();
 
-  getGlobals() {
-    return this.globals;
+    chat.chatCode = this.getLocalData(StorageKeys.ChatCode);
+    chat.title = this.getLocalData(StorageKeys.ChatTitle);
+    chat.moderator = this.getLocalData(StorageKeys.ChatModerator);
+    chat.username = this.getLocalData(StorageKeys.ChatUsername);
+    chat.connectionId = this.getLocalData(StorageKeys.ChatConnectionId);
+
+    let val = this.getLocalData(StorageKeys.OpenQuestions);
+
+    if (!this.isValNull(val))
+      chat.openQuestions = JSON.parse(val);
+
+    let val2 = this.getLocalData(StorageKeys.PollingQuestions);
+
+    if (!this.isValNull(val2))
+    chat.pollQuestions = JSON.parse(val2);
+
+    let val3 = this.getLocalData(StorageKeys.ChatMembers);
+
+    if (!this.isValNull(val3))
+      chat.members = JSON.parse(val3);
+
+    return chat;
   }
 
   getJwtData() {
@@ -100,11 +113,26 @@ export class AccountService {
 
     console.log(new JwtHelper().urlBase64Decode(token));
   }
+
+  isValNull(val): boolean {
+    return val === undefined || val === "" || val === '' || val === null;
+  }
 }
 
 export enum StorageKeys {
-  Login,
-  Chat,
   JwtToken,
-  IconName
+
+  LoginUsername,
+
+  SignupUsername,
+  SignUpEmail,
+
+  ChatTitle,
+  ChatCode,
+  ChatUsername,
+  ChatModerator,
+  ChatConnectionId,
+  PollingQuestions,
+  OpenQuestions,
+  ChatMembers
 }

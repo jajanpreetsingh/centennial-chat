@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { v4 as uuid } from 'uuid';
 import { HubService } from '../services/hub.service';
 import { SpeechService } from '../services/speech.service';
@@ -7,6 +6,7 @@ import { AccountService } from '../services/account.service';
 import { ChatModel } from '../../models/chat.model';
 import { MessageModel } from '../../models/message.model';
 import { QuestionModel } from '../../models/question.model';
+import { ChatService } from '../services/chat.service';
 
 @Component({
   selector: 'app-projector',
@@ -22,7 +22,7 @@ export class ProjectorComponent implements OnInit {
 
   hubInstance: HubService;
 
-  constructor(private router: Router, private speechService: SpeechService,
+  constructor(private speechService: SpeechService, private chatService: ChatService,
     private hubService: HubService, private accountService: AccountService) {
     this.hubInstance = this.hubService;
   }
@@ -76,6 +76,17 @@ export class ProjectorComponent implements OnInit {
   }
 
   goToTranscript() {
-    this.router.navigate(['/transcript']);
+    this.chatService.downloadTranscript(this.chatData.chatCode).subscribe(res => {
+      console.log(res);
+
+      let url = URL.createObjectURL(res.blob());
+      var link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", "test.docx");
+      link.style.display = "none";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
   }
 }

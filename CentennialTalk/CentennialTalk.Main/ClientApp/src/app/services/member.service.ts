@@ -11,4 +11,9 @@ export class MemberService {
     return this.http.post("/api/member/status", data)
       .map(res => res.json());
   }
+
+  getMembers(chatCode: string) {
+    return this.http.post("/api/member/members", { 'value': chatCode })
+      .map(res => res.json());
+  }
 }

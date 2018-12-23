@@ -90,7 +90,10 @@ namespace CentennialTalk.Service
 
                 code = ResponseCode.OK;
 
-                return new ResponseDTO(code, chat.GetResponseDTO());
+                DiscussionDTO dto = chat.GetResponseDTO();
+                dto.username = joinChat.username;
+
+                return new ResponseDTO(code, dto);
             }
             catch (Exception ex)
             {

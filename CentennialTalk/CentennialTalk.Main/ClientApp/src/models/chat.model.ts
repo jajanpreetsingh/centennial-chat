@@ -12,6 +12,6 @@ export class ChatModel {
   expirationDate: Date;
   openQuestions: QuestionModel[];
   pollQuestions: QuestionModel[];
-
+  //myMemberId: string;
   members: MemberModel[];
 }

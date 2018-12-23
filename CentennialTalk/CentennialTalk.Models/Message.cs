@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace CentennialTalk.Models
 {
@@ -75,6 +76,15 @@ namespace CentennialTalk.Models
             dto.replyId = RepliedMessageId;
             dto.sentDate = SentDate;
 
+            if (Reactions != null && Reactions.Count > 0)
+            {
+                dto.reactions = Reactions.Select(x => x.GetResponseDTO()).ToArray();
+
+                for (int i = 0; i < dto.reactions.Length; i++)
+                {
+                    dto.reactions[i].messageId = dto.messageId.ToString();
+                }
+            }
             return dto;
         }
     }

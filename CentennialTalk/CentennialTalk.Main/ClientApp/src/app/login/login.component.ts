@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginModel } from '../../models/login.model';
-import { AccountService } from '../services/account.service';
+import { AccountService, StorageKeys } from '../services/account.service';
 import { UtilityService } from '../services/utility.service';
-import { detectChanges } from '@angular/core/src/render3';
+//import { detectChanges } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
 
         this.accountService.setJwtToken(res.data);
 
-        this.accountService.setLocalCredentials(this.login);
+        this.accountService.setLocalData(StorageKeys.LoginUsername, this.login.username);
 
         window.location.reload();
       }

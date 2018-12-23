@@ -16,5 +16,7 @@ namespace CentennialTalk.Models.DTOModels
         public Guid replyId;
 
         public DateTime sentDate;
+
+        public ReactionDTO[] reactions;
     }
 }

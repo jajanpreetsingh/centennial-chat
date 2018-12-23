@@ -117,7 +117,7 @@ namespace CentennialTalk.Models
             return new string(stringChars);
         }
 
-        public object GetResponseDTO()
+        public DiscussionDTO GetResponseDTO()
         {
             DiscussionDTO dto = new DiscussionDTO();
 

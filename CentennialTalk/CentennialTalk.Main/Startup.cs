@@ -140,7 +140,7 @@ namespace CentennialTalk.Main
             services.AddScoped<IChatService, ChatService>();
             services.AddScoped<IMemberService, MemberService>();
             services.AddScoped<IMessageService, MessageService>();
-
+            services.AddScoped<IFileService, FileService>();
             services.AddScoped<IUnitOfWorkService, UnitOfWorkService>();
         }
 
@@ -149,6 +149,7 @@ namespace CentennialTalk.Main
             services.AddScoped<IChatRepository, ChatRepository>();
             services.AddScoped<IMemberRepository, MemberRepository>();
             services.AddScoped<IMessageRepository, MessageRepository>();
+            services.AddScoped<IQuestionRepository, QuestionRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory logger)

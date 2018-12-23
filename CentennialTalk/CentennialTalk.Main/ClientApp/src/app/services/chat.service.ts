@@ -18,4 +18,10 @@ export class ChatService {
     return this.http.post("/api/chat/join", joinChat)
       .map(res => res.json());
   }
+
+  downloadTranscript(chatCode: string) {
+
+    return this.http.post("/api/chat/transcript", chatCode)
+      .map(res => res.json());
+  }
 }

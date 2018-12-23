@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { ChatService } from '../services/chat.service';
 import { ChatModel } from '../../models/chat.model';
 import { UtilityService } from '../services/utility.service';
-import { AccountService } from '../services/account.service';
+import { AccountService, StorageKeys } from '../services/account.service';
 import { QuestionModel } from '../../models/question.model';
 import { Response } from '../../models/response.model';
 
@@ -22,21 +22,21 @@ export class NewChatComponent implements OnInit, OnDestroy {
 
   pollOptions: string[] = [];
 
-  act
+  loggedIn: boolean = false;
 
   constructor(private chatService: ChatService, private utilityService: UtilityService, private accountService: AccountService) {
   }
 
   ngOnInit() {
-    if (this.accountService.isJwtValid()) {
-      let login = this.accountService.getLocalCredentials();
+    this.loggedIn = this.accountService.isLoggedIn();
 
-      if (login == null)
-        this.utilityService.navigateToPath('/home');
-      else {
-        this.chatData.username = this.accountService.getIcon();
-        this.chatData.moderator = this.accountService.getIcon();
-      }
+    if (!this.loggedIn) {
+      this.utilityService.navigateToPath('/home');
+      this.accountService.clearAllLocalData();
+    }
+    else {
+           this.chatData.username =
+        this.chatData.moderator = this.accountService.getLocalData(StorageKeys.ChatUsername);
     }
 
     this.chatData.activationDate = new Date();
@@ -104,26 +104,30 @@ export class NewChatComponent implements OnInit, OnDestroy {
   }
 
   onChangeModerator() {
-    this.chatData.username = this.chatData.moderator;
+    this.chatData.username =
+      this.chatData.moderator = this.accountService.getLocalData(StorageKeys.ChatUsername);
   }
 
   onSubmitNewChat() {
     this.chatService.createNewChat(this.chatData).subscribe(res => {
       if (res.code == 200) {
-
         this.chatData = res.data;
 
-        console.log(this.chatData)
+        this.accountService.setLocalData(StorageKeys.ChatCode, this.chatData.chatCode);
+        this.accountService.setLocalData(StorageKeys.ChatTitle, this.chatData.title);
+        this.accountService.setLocalData(StorageKeys.ChatUsername, this.chatData.username);
+        this.accountService.setLocalData(StorageKeys.ChatModerator, this.chatData.moderator);
 
-        this.accountService.setLocalChatData(this.chatData);
+        this.accountService.setLocalData(StorageKeys.OpenQuestions, JSON.stringify(this.chatData.openQuestions));
 
-        //this.utilityService.navigateToPath('/projector');
+        this.accountService.setLocalData(StorageKeys.PollingQuestions, JSON.stringify(this.chatData.pollQuestions));
+
+        this.accountService.setLocalData(StorageKeys.ChatMembers, JSON.stringify(this.chatData.members));
 
         this.utilityService.navigateToPath('/projector');
       }
       else {
         this.chatData = new ChatModel();
-        console.log(res.data);
       }
     },
       error => {

@@ -30,7 +30,7 @@ import { SpeechService } from './services/speech.service';
 import { AccountService } from './services/account.service';
 import { UtilityService } from './services/utility.service';
 import { HubService } from './services/hub.service';
-import { Globals } from '../models/globals';
+//import { Globals } from '../models/globals';
 import { QuestionService } from './services/question.service';
 
 @NgModule({
@@ -84,7 +84,7 @@ import { QuestionService } from './services/question.service';
     UtilityService,
     HubService,
     QuestionService,
-    Globals
+    //Globals
   ],
   bootstrap: [AppComponent]
 })

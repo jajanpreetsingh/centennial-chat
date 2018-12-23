@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FileService } from '../services/file.service';
 import { Router } from '@angular/router';
-import { AccountService } from '../services/account.service';
+import { AccountService, StorageKeys } from '../services/account.service';
 
 declare var MediaRecorder: any;
 
@@ -17,11 +17,11 @@ export class HomeComponent implements OnInit {
 
   constructor(private fileService: FileService, private router: Router,
     private accountService: AccountService) {
-    this.accountService.setIcon('');
+    this.accountService.setLocalData(StorageKeys.ChatUsername, '');
   }
 
   ngOnInit() {
-    this.accountService.setIcon('');
+    this.accountService.setLocalData(StorageKeys.ChatUsername, '');
   }
 
   start() {

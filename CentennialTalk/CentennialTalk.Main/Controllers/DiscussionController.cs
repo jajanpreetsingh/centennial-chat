@@ -26,14 +26,18 @@ namespace CentennialTalk.Main.Controllers
         public IActionResult New([FromBody]NewChatDTO newChat)
         {
             if (string.IsNullOrWhiteSpace(newChat.title))
-                return GetJson(new ResponseDTO(ResponseCode.OK, "Unable to create chat with incomplete data"));
+                return GetJson(new ResponseDTO(ResponseCode.ERROR, "Unable to create chat with incomplete data"));
 
             Discussion chat = chatService.CreateNewChat(newChat);
 
             uowService.SaveChanges();
 
             if (chat != null)
-                return GetJson(new ResponseDTO(ResponseCode.OK, chat.GetResponseDTO()));
+            {
+                DiscussionDTO dto = chat.GetResponseDTO();
+                dto.username = dto.moderator;
+                return GetJson(new ResponseDTO(ResponseCode.OK, dto));
+            }
             else
                 return GetJson(new ResponseDTO(ResponseCode.ERROR, "Error creating chat"));
         }
@@ -62,7 +66,7 @@ namespace CentennialTalk.Main.Controllers
                     "No Chat with such code exists"));
 
             if (!chat.IsLinkOpen)
-                return GetJson(new ResponseDTO(ResponseCode.OK, "Chat is already closed"));
+                return GetJson(new ResponseDTO(ResponseCode.MESSAGE, "Chat is already closed"));
 
             uowService.SaveChanges();
 
@@ -70,7 +74,7 @@ namespace CentennialTalk.Main.Controllers
         }
 
         [HttpPost("transcript")]
-        public async Task<IActionResult> DownloadTranscript(string chatCode)
+        public async Task<IActionResult> Download(string chatCode)
         {
             string doc = fileService.CreateWordDocument(chatCode);
 

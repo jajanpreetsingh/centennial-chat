@@ -4,8 +4,11 @@ import { v4 as uuid } from 'uuid';
 import { SpeechService } from '../services/speech.service';
 import { HubService } from '../services/hub.service';
 import { ChatModel } from '../../models/chat.model';
-import { MessageModel } from '../../models/message.model';
-import { AccountService } from '../services/account.service';
+import { MessageModel, MemberReaction } from '../../models/message.model';
+import { AccountService, StorageKeys } from '../services/account.service';
+import { QuestionService } from '../services/question.service';
+import { UserAnswer } from '../../models/useranswer.model';
+import { MessageService } from '../services/message.service';
 
 @Component({
   selector: 'app-discussion',
@@ -58,14 +61,14 @@ export class DiscussionComponent implements OnInit {
   stateFifty: string = 'small';
   stateSeventyFive: string = 'fixed';
 
-  constructor(private speechService: SpeechService,
-    private hubService: HubService, private accountService: AccountService) {
-    this.hubInstance = this.hubService;
+  constructor(private speechService: SpeechService, private questionService: QuestionService,
+    private hubService: HubService, private accountService: AccountService, private messageService: MessageService) {
   }
 
   ngOnInit() {
-    this.chatData = this.accountService.getLocalChatData();
+    this.hubInstance = this.hubService;
 
+    this.chatData = this.accountService.getLocalChatData();
     this.hubService.initChatHub();
   }
 
@@ -111,7 +114,55 @@ export class DiscussionComponent implements OnInit {
     if (this.hubInstance.publishedQuestion == null)
       return;
 
+    let answer: UserAnswer = new UserAnswer();
 
+    answer.chatCode = this.chatData.chatCode;
+    answer.isPollingQuestion = this.hubInstance.publishedQuestion.isPollingQuestion;
+    let usrnm = this.accountService.getLocalData(StorageKeys.ChatUsername);
+
+    let member = this.hubInstance.members.find(x => x.username == usrnm);
+
+    if (member == null)
+      return;
+
+    answer.memberId = member.memberId;
+    answer.content = this.message;
+    answer.options = this.selectedOptions;
+
+    answer.questionId = this.hubInstance.publishedQuestion.id;
+    answer.selectMultiple = this.hubInstance.publishedQuestion.selectMultiple;
+
+
+    this.questionService.submitAnswer(answer).subscribe(res => {
+      if (res.code != 500) {
+
+        this.hubInstance.answeredQuestions.push(this.hubInstance.publishedQuestion.id);
+
+        this.hubInstance.publishedQuestion = null;
+      }
+    })
+  }
+
+  likeMessage(messageModel: MessageModel) {
+
+    let react = new MemberReaction();
+    react.member = this.chatData.username;
+    react.messageId = messageModel.messageId;
+    react.reaction = 1;
+    react.chatCode = this.chatData.chatCode;
+
+    this.hubInstance.sendReact(react);
+  }
+
+  dislikeMessage(messageModel: MessageModel) {
+
+    let react = new MemberReaction();
+    react.member = this.chatData.username;
+    react.messageId = messageModel.messageId;
+    react.reaction = -1;
+    react.chatCode = this.chatData.chatCode;
+
+    this.hubInstance.sendReact(react);
   }
 
   sendMessage() {
@@ -124,7 +175,7 @@ export class DiscussionComponent implements OnInit {
     messageObj.messageId = mid;
     messageObj.content = content;
     messageObj.chatCode = this.chatData.chatCode;
-    messageObj.sender = this.chatData.username;
+    messageObj.sender = this.accountService.getLocalData(StorageKeys.ChatUsername);
     messageObj.replyId = mid;
 
     this.hubService.sendMessage(messageObj);

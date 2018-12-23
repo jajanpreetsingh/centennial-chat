@@ -1,9 +1,11 @@
-﻿using CentennialTalk.Models.DTOModels;
+﻿using CentennialTalk.Models;
+using CentennialTalk.Models.DTOModels;
 using CentennialTalk.ServiceContract;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CentennialTalk.Main
@@ -12,11 +14,17 @@ namespace CentennialTalk.Main
     {
         public const string connectionStartEvent = "connectionStarted";
         public const string connectionAbortedEvent = "connectionAborted";
+
         public const string userJoinedEvent = "userJoined";
         public const string userLeftEvent = "userLeft";
+
         public const string recieveMessageEvent = "messageReceived";
-        public const string questionPublished = "questionPublished";
-        public const string questionArchived = "questionArchived";
+
+        public const string questionPublishedEvent = "questionPublished";
+        public const string questionArchivedEvent = "questionArchived";
+
+        public const string messageReactedEvent = "messageReacted";
+
 
         public List<string> ChatGroups;
 
@@ -59,12 +67,14 @@ namespace CentennialTalk.Main
         {
             var data = JsonConvert.DeserializeObject<JoinChatDTO>(chatData);
 
-            Groups.AddToGroupAsync(Context.ConnectionId, data.chatCode);
-
-            Clients.Group(data.chatCode).SendAsync(userJoinedEvent, data.username);
-
             if (!ChatGroups.Contains(data.chatCode))
                 ChatGroups.Add(data.chatCode);
+
+            Groups.AddToGroupAsync(Context.ConnectionId, data.chatCode);
+
+            MemberDTO mem = memberService.GetChatMembers(data.chatCode).FirstOrDefault().GetDTO();
+
+            Clients.Group(data.chatCode).SendAsync(userJoinedEvent, mem);
         }
 
         public void LeaveGroupChat(string chatData)
@@ -73,7 +83,9 @@ namespace CentennialTalk.Main
 
             Groups.RemoveFromGroupAsync(Context.ConnectionId, data.chatCode);
 
-            Clients.Group(data.chatCode).SendAsync(userLeftEvent, data.username);
+            MemberDTO mem = memberService.GetChatMembers(data.chatCode).FirstOrDefault().GetDTO();
+
+            Clients.Group(data.chatCode).SendAsync(userLeftEvent, mem);
         }
 
         public Task Send(string messageData)
@@ -90,7 +102,7 @@ namespace CentennialTalk.Main
             ques.isPublished = true;
             ques.publishDate = DateTime.Now.ToString();
 
-            return Clients.Group(ques.chatCode).SendAsync(questionPublished, ques);
+            return Clients.Group(ques.chatCode).SendAsync(questionPublishedEvent, ques);
         }
 
         public Task ArchiveQuestion(string questionData)
@@ -100,7 +112,21 @@ namespace CentennialTalk.Main
             ques.isArchived = true;
             ques.archiveDate = DateTime.Now.ToString();
 
-            return Clients.Group(ques.chatCode).SendAsync(questionArchived, ques);
+            return Clients.Group(ques.chatCode).SendAsync(questionArchivedEvent, ques);
+        }
+
+        public Task ReactToMessage(string reactiondata)
+        {
+            ReactionDTO reac = JsonConvert.DeserializeObject<ReactionDTO>(reactiondata);
+
+            messageService.SaveReaction(reac);
+
+            bool saved = unitOfWorkService.SaveChanges();
+
+            if (saved)
+                return Clients.Group(reac.chatCode).SendAsync(messageReactedEvent, reac);
+
+            else return null;
         }
     }
 }

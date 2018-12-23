@@ -11,7 +11,8 @@
         <div class="panel-body">
           <i class="fa fa-user-circle" aria-hidden="true"> </i>
           <form (ngSubmit)="onModeratorSignup()">
-            <input name="user" class="form-control" type="text" placeholder="username" [(ngModel)]="signup.username">
+            <input name="username" class="form-control" type="text" placeholder="username" [(ngModel)]="signup.username">
+            <input name="email" class="form-control" type="text" placeholder="email" [(ngModel)]="signup.email">
             <input name="password" class="form-control" type="password" placeholder="password" [(ngModel)]="signup.password">
             <button class="btn btn-lg" type="submit">Sign up</button>
           </form>

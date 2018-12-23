@@ -40,7 +40,7 @@ namespace CentennialTalk.Main.Controllers
         [HttpPost("published")]
         public IActionResult QuestionPublished([FromBody]QuestionDTO question)
         {
-            ResponseDTO res = questionService.PublishQuestion(question);
+            ResponseDTO res = questionService.PublishQuestion(question);//always return dto if no error
 
             bool saved = uowService.SaveChanges();
 
@@ -53,7 +53,7 @@ namespace CentennialTalk.Main.Controllers
         [HttpPost("archived")]
         public IActionResult QuestionArchived([FromBody]QuestionDTO question)
         {
-            ResponseDTO res = questionService.ArchiveQuestion(question);
+            ResponseDTO res = questionService.ArchiveQuestion(question);//always return dto if no error
 
             bool saved = uowService.SaveChanges();
 

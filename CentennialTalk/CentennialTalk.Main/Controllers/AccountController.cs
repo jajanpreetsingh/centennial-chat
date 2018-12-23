@@ -35,6 +35,7 @@ namespace CentennialTalk.Main.Controllers
             try
             {
                 IdentityUser newUser = new IdentityUser(signUpDTO.username);
+                newUser.Email = signUpDTO.email;
                 IdentityResult result = await userManager.CreateAsync(newUser, signUpDTO.password);
 
                 if (result.Succeeded)

@@ -80,36 +80,65 @@ namespace CentennialTalk.Service
 
         public ResponseDTO PublishQuestion(QuestionDTO question)
         {
-            Question ques = questionRepository.GetById(Guid.Parse(question.id));
+            PollingQuestion ques = questionRepository.GetPollById(Guid.Parse(question.id));
 
             if (ques == null)
             {
-                return new ResponseDTO(ResponseCode.ERROR, "Question doesnot exist");
+                SubjectiveQuestion sub = questionRepository.GetOpenQuesById(Guid.Parse(question.id));
+
+                if (sub == null)
+                {
+                    return new ResponseDTO(ResponseCode.ERROR, "Question doesnot exist");
+                }
+                else
+                {
+                    sub.IsPublished = true;
+                    sub.PublishDate = DateTime.Now;
+
+                    return new ResponseDTO(ResponseCode.OK, sub.GetDTO());
+                }
             }
 
             ques.IsPublished = true;
             ques.PublishDate = DateTime.Now;
 
-            return new ResponseDTO(ResponseCode.OK, "Question updated successfully");
+            return new ResponseDTO(ResponseCode.OK, ques.GetDTO());
         }
 
         public ResponseDTO ArchiveQuestion(QuestionDTO question)
         {
-            Question ques = questionRepository.GetById(Guid.Parse(question.id));
+            PollingQuestion ques = questionRepository.GetPollById(Guid.Parse(question.id));
 
             if (ques == null)
             {
-                return new ResponseDTO(ResponseCode.ERROR, "Question doesnot exist");
+                SubjectiveQuestion sub = questionRepository.GetOpenQuesById(Guid.Parse(question.id));
+
+                if (sub == null)
+                {
+                    return new ResponseDTO(ResponseCode.ERROR, "Question doesnot exist");
+                }
+                else
+                {
+                    sub.IsArchived = true;
+                    sub.ArchiveDate = DateTime.Now;
+
+                    return new ResponseDTO(ResponseCode.OK, sub.GetDTO());
+                }
             }
 
             ques.IsArchived = true;
             ques.ArchiveDate = DateTime.Now;
 
-            return new ResponseDTO(ResponseCode.OK, "Question updated successfully");
+            return new ResponseDTO(ResponseCode.OK, ques.GetDTO());
         }
 
         public ResponseDTO SaveAnswer(UserAnswerDTO answer)
         {
+            List<UserAnswer> prevans = questionRepository.GetPreviousAnswers(answer);
+
+            if (prevans != null && prevans.Count > 0)
+                return new ResponseDTO(ResponseCode.ERROR, "Your answers to this question are already recorded");
+
             List<UserAnswer> answers = new List<UserAnswer>();
 
             if (!answer.isPollingQuestion)
@@ -132,7 +161,7 @@ namespace CentennialTalk.Service
 
                 PollingQuestion ques = questionRepository.GetById(qid) as PollingQuestion;
 
-                if(ques==null)
+                if (ques == null)
                     return new ResponseDTO(ResponseCode.ERROR, "Corresponding Question not found");
 
                 foreach (string option in answer.options)

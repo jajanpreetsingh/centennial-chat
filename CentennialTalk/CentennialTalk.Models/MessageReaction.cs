@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CentennialTalk.Models.DTOModels;
+using System;
 
 namespace CentennialTalk.Models
 {
@@ -21,6 +22,20 @@ namespace CentennialTalk.Models
 
             Sender = sender;
             ReactType = reaction;
+        }
+
+        public ReactionDTO GetResponseDTO()
+        {
+            ReactionDTO dto = new ReactionDTO();
+
+            dto.member = Sender;
+            dto.reaction = ReactType == ReactType.LIKE
+                           ? 1
+                           : ReactType == ReactType.DISLIKE
+                                            ? -1 : 0;
+            
+
+            return dto;
         }
     }
 

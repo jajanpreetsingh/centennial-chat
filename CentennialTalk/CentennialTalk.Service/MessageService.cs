@@ -33,6 +33,11 @@ namespace CentennialTalk.Service
             }
         }
 
+        public Message GetMessageById(Guid guid)
+        {
+            return messageRepository.FindById(guid);
+        }
+
         public bool SaveMessage(MessageDTO messageData)
         {
             try
@@ -51,6 +56,39 @@ namespace CentennialTalk.Service
 
                 return false;
             }
+        }
+
+        public bool SaveReaction(MessageDTO messageData)
+        {
+            try
+            {
+                Message message = new Message(messageData);
+
+                if (messageData.replyId != messageData.messageId
+                    && messageData.replyId != Guid.Empty)
+                    message.SetReplyId(messageData.replyId);
+
+                return messageRepository.SaveMessage(message);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+
+                return false;
+            }
+        }
+
+        public Message SaveReaction(ReactionDTO reactDto)
+        {
+            Message mem = messageRepository.FindById(Guid.Parse(reactDto.messageId));
+
+            if (mem == null)
+                return null;
+
+            if (reactDto.reaction != 0)
+                mem.Reactions.Add(new MessageReaction(reactDto.member, reactDto.reaction == 1 ? ReactType.LIKE : ReactType.DISLIKE));
+
+            return mem;
         }
     }
 }

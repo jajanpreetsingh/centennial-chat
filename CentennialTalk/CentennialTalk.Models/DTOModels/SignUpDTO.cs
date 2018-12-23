@@ -6,7 +6,7 @@ namespace CentennialTalk.Models.DTOModels
     public class SignUpDTO
     {
         public string username;
-
+        public string email;
         public string password;
     }
 }

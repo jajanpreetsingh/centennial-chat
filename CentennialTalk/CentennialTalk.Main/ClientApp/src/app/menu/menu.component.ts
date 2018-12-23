@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginModel } from '../../models/login.model';
-import { Globals } from '../../models/globals';
-import { AccountService } from '../services/account.service';
+import { AccountService, StorageKeys } from '../services/account.service';
 import { UtilityService } from '../services/utility.service';
 
 @Component({
@@ -10,16 +8,16 @@ import { UtilityService } from '../services/utility.service';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
-  loggedIn: boolean = false;
-  login: LoginModel = new LoginModel();
   isIn: boolean = false;
+  loggedIn: boolean = false;
 
-  constructor(private globals: Globals,
-    private accountService: AccountService, private utilityService: UtilityService) {
-    this.loggedIn = this.globals.isLoggedIn;
+  constructor(private accountService: AccountService, private utilityService: UtilityService) {
+    this.loggedIn = this.accountService.isLoggedIn();
   }
 
   ngOnInit() {
+
+    this.loggedIn = this.accountService.isLoggedIn();
   }
 
   goToSignup() {
@@ -34,15 +32,13 @@ export class MenuComponent implements OnInit {
     console.log("logging out");
 
     this.accountService.tryLogout().subscribe(res => {
-
       console.log(res);
 
+
       if (res.code == 200) {
+        this.accountService.clearAllLocalData();
 
-        this.accountService.setJwtToken('');
-        this.accountService.setLocalCredentials(null);
-
-        this.globals.loginData = null;
+        this.accountService.isLoggedIn();
 
         this.utilityService.navigateToPath('/home');
       }
@@ -53,7 +49,6 @@ export class MenuComponent implements OnInit {
   }
 
   toggleState() {
-    let bool = this.isIn;
-    this.isIn = bool === false ? true : false;
+    this.isIn = !this.isIn;
   }
 }

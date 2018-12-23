@@ -1,4 +1,5 @@
 ﻿using CentennialTalk.Models.DTOModels;
+using CentennialTalk.ServiceContract;
 using Google.Cloud.Speech.V1;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,12 @@ namespace CentennialTalk.Main.Controllers
     public class FileController : BaseController
     {
         private const string fileName = "D:\\data\\soundMessage.wav";
+        private readonly IFileService fileService;
+
+        public FileController(IFileService fileService)
+        {
+            this.fileService = fileService;
+        }
 
         [HttpPost("save")]
         public async Task<IActionResult> SaveToFile([FromForm] IFormFile speech)
