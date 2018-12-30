@@ -13,13 +13,10 @@ namespace CentennialTalk.Models
 
         public MessageReaction()
         {
-            MessageReactionId = new Guid();
         }
 
         public MessageReaction(string sender, ReactType reaction)
         {
-            MessageReactionId = new Guid();
-
             Sender = sender;
             ReactType = reaction;
         }

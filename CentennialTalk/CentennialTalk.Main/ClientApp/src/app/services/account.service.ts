@@ -26,6 +26,21 @@ export class AccountService {
       .map(res => res.json());
   }
 
+  verifyEmail(userId: string, code: string) {
+    return this.http.post("/api/auth/verify", { 'userId': userId, 'token': code })
+      .map(res => res.json());
+  }
+
+  sendResetLink(email: string) {
+    return this.http.post("/api/auth/resetlink", { 'value': email })
+      .map(res => res.json());
+  }
+
+  resetPassword(userId: string, code: string, newpassword: string) {
+    return this.http.post("/api/auth/reset", { 'userId': userId, 'token': code, 'password': newpassword })
+      .map(res => res.json());
+  }
+
   setLocalData(key: StorageKeys, value: string): void {
     localStorage.setItem(StorageKeys[key], JSON.stringify(value));
   }
@@ -95,7 +110,7 @@ export class AccountService {
     let val2 = this.getLocalData(StorageKeys.PollingQuestions);
 
     if (!this.isValNull(val2))
-    chat.pollQuestions = JSON.parse(val2);
+      chat.pollQuestions = JSON.parse(val2);
 
     let val3 = this.getLocalData(StorageKeys.ChatMembers);
 
@@ -112,6 +127,17 @@ export class AccountService {
       return;
 
     console.log(new JwtHelper().urlBase64Decode(token));
+  }
+
+  amIModerator(): boolean {
+    let usr = this.getLocalData(StorageKeys.ChatUsername);
+    let mod = this.getLocalData(StorageKeys.ChatModerator);
+
+    let amI = ((!this.isValNull(usr)) && (!this.isValNull(mod)) && mod === usr);
+
+    console.log(usr + "  :  " + mod + "  :  " + amI);
+
+    return amI;
   }
 
   isValNull(val): boolean {

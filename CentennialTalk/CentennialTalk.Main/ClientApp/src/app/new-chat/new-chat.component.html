@@ -54,6 +54,8 @@
 
           <div *ngFor="let question of chatData.openQuestions">
             <div class="open-question"><span>Q</span> <input type="text" disabled="disabled" value="{{question.content}}" placeholder="question" class="form-control" /></div>
+
+            <button (click)="removeOpenQuestion(question)" class="btn">Remove Question</button>
             <hr />
           </div>
           <button class="btn" (click)="addOpenQuestion()">Add Question</button>
@@ -87,7 +89,7 @@
               <div *ngFor="let option of question.options">
                 <span>A</span><input disabled="disabled" type="text" value="{{option}}" placeholder="answer" class="form-control" />
               </div>
-              <!--<button (click)="addMoreOptions(question)" class="btn">Add More Options</button>-->
+              <button (click)="removePollQuestion(question)" class="btn">Remove Question</button>
             </div>
           </div>
         </div>

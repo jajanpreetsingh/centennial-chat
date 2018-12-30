@@ -18,6 +18,7 @@
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.MessagePack" Version="1.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.0" />
     <PackageReference Include="sautinsoft.document" Version="3.6.11.20" />
+    <PackageReference Include="SendGrid" Version="9.10.0" />
     <PackageReference Include="Serilog.Extensions.Logging.File" Version="1.1.0" />
   </ItemGroup>
 
@@ -51,7 +52,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\src\assets\icons\pngs\" />
     <Folder Include="ClientApp\src\assets\images\" />
     <Folder Include="Logs\" />
   </ItemGroup>

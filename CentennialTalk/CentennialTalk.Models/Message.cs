@@ -42,8 +42,6 @@ namespace CentennialTalk.Models
 
         public Message()
         {
-            MessageId = new Guid();
-
             Reactions = new List<MessageReaction>();
         }
 

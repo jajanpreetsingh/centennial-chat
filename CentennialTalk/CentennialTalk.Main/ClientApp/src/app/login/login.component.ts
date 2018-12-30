@@ -41,6 +41,10 @@ export class LoginComponent implements OnInit {
       });
   }
 
+  goToForgotPassword() {
+    this.utility.navigateToPath('/forgot');
+  }
+
   goToSignup() {
     this.utility.navigateToPath('/signup');
   }

@@ -200,6 +200,27 @@ namespace CentennialTalk.Persistence.Migrations
                     b.ToTable("Questions");
                 });
 
+            modelBuilder.Entity("CentennialTalk.Models.QuestionModels.UserAnswer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ChatCode");
+
+                    b.Property<string>("Content");
+
+                    b.Property<Guid>("MemberId");
+
+                    b.Property<int>("OptionId");
+
+                    b.Property<Guid>("QuestionId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Answers");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")

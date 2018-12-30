@@ -39,7 +39,16 @@ export class JoinChatComponent implements OnInit {
 
   onSubmitJoinChat() {
 
+    let user = this.chatData.username;
+    let code = this.chatData.chatCode;
+
     console.log(this.chatData.username + " : " + this.chatData.chatCode);
+
+    if (this.accountService.isValNull(user) || this.accountService.isValNull(code)) {
+      //handle errors
+      console.log("joining interrupted");
+      return;
+    }
 
     this.chatService.joinChat(
       {
@@ -49,6 +58,8 @@ export class JoinChatComponent implements OnInit {
     ).subscribe(res => {
       if (res.code == 200) {
         this.chatData = res.data;
+
+        console.log(this.chatData);
 
         this.accountService.setLocalData(StorageKeys.ChatCode, this.chatData.chatCode);
         this.accountService.setLocalData(StorageKeys.ChatTitle, this.chatData.title);
@@ -61,7 +72,7 @@ export class JoinChatComponent implements OnInit {
 
         this.accountService.setLocalData(StorageKeys.ChatMembers, JSON.stringify(this.chatData.members));
 
-        if (this.accountService.isLoggedIn()) {
+        if (this.accountService.isLoggedIn() || this.accountService.amIModerator()) {
           console.log("going to projector....");
           this.utilityService.navigateToPath('/projector');
         }

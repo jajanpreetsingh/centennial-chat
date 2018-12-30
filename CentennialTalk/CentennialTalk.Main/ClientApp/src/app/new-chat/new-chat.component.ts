@@ -63,6 +63,19 @@ export class NewChatComponent implements OnInit, OnDestroy {
     q.chatCode = this.chatData.chatCode;
 
     this.chatData.openQuestions.push(q);
+
+    this.openQuestion = '';
+  }
+
+  removeOpenQuestion(ques: QuestionModel) {
+    if (this.chatData.openQuestions == null || this.chatData.openQuestions.length == 0)
+      return;
+
+    let ind = this.chatData.openQuestions.findIndex(x => x.content == ques.content);
+
+    if (ind >= 0) {
+      this.chatData.openQuestions.splice(ind, 1);
+    }
   }
 
   addPollQuestion() {
@@ -86,6 +99,18 @@ export class NewChatComponent implements OnInit, OnDestroy {
     this.chatData.pollQuestions.push(q);
 
     this.pollOptions = [];
+    this.pollQuestion = '';
+  }
+
+  removePollQuestion(ques: QuestionModel) {
+    if (this.chatData.pollQuestions == null || this.chatData.pollQuestions.length == 0)
+      return;
+
+    let ind = this.chatData.pollQuestions.findIndex(x => x.content == ques.content);
+
+    if (ind >= 0) {
+      this.chatData.pollQuestions.splice(ind, 1);
+    }
   }
 
   addOption() {
@@ -109,6 +134,18 @@ export class NewChatComponent implements OnInit, OnDestroy {
   }
 
   onSubmitNewChat() {
+
+    let user = this.chatData.username;
+    let mod = this.chatData.moderator;
+
+    console.log(user + " : " + mod);
+
+    if (this.accountService.isValNull(user) || this.accountService.isValNull(mod)) {
+      //handle errors
+      console.log("joining interrupted");
+      return;
+    }
+
     this.chatService.createNewChat(this.chatData).subscribe(res => {
       if (res.code == 200) {
         this.chatData = res.data;

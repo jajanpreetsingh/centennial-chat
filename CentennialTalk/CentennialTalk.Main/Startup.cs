@@ -61,8 +61,8 @@ namespace CentennialTalk.Main
         private void ConfigureIdentity(IServiceCollection services)
         {
             services.AddIdentity<IdentityUser, IdentityRole>()
-                                .AddEntityFrameworkStores<ChatDBContext>()
-                                .AddDefaultTokenProviders();
+            .AddEntityFrameworkStores<ChatDBContext>()
+            .AddDefaultTokenProviders();
 
             if (Configuration["AuthType"] == "JWT")
             {
@@ -90,6 +90,8 @@ namespace CentennialTalk.Main
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
                 options.Lockout.MaxFailedAccessAttempts = 15;
                 options.Lockout.AllowedForNewUsers = true;
+
+                options.SignIn.RequireConfirmedEmail = true;
 
                 // User settings.
                 options.User.AllowedUserNameCharacters =
@@ -142,6 +144,8 @@ namespace CentennialTalk.Main
             services.AddScoped<IMessageService, MessageService>();
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IUnitOfWorkService, UnitOfWorkService>();
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IQuestionService, QuestionService>();
         }
 
         private void AddRepositoryPackages(IServiceCollection services)

@@ -1,6 +1,7 @@
 ﻿using CentennialTalk.Models;
 using CentennialTalk.Models.DTOModels;
 using CentennialTalk.ServiceContract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using System.Threading.Tasks;
@@ -22,6 +23,7 @@ namespace CentennialTalk.Main.Controllers
             this.fileService = fileService;
         }
 
+        [Authorize]
         [HttpPost("new")]
         public IActionResult New([FromBody]NewChatDTO newChat)
         {
@@ -56,6 +58,7 @@ namespace CentennialTalk.Main.Controllers
             return GetJson(result);
         }
 
+        [Authorize]
         [HttpPost("close")]
         public IActionResult CloseJoiningLink([FromBody]RequestDTO chatCode)
         {
@@ -73,6 +76,7 @@ namespace CentennialTalk.Main.Controllers
             return GetJson(new ResponseDTO(ResponseCode.OK, "Success"));
         }
 
+        [Authorize]
         [HttpPost("transcript")]
         public async Task<IActionResult> Download(string chatCode)
         {

@@ -43,15 +43,11 @@ namespace CentennialTalk.Models
             Questions = new List<SubjectiveQuestion>();
 
             Polls = new List<PollingQuestion>();
-
-            DiscussionId = new Guid();
         }
 
         public Discussion(NewChatDTO newChat)
         {
             Members = new List<GroupMember>();
-
-            DiscussionId = new Guid();
 
             DiscussionCode = GenerateChatCode(newChat.moderator);
 

@@ -4,7 +4,7 @@ import { HubService } from '../services/hub.service';
 import { SpeechService } from '../services/speech.service';
 import { AccountService } from '../services/account.service';
 import { ChatModel } from '../../models/chat.model';
-import { MessageModel } from '../../models/message.model';
+import { MessageModel, MemberReaction } from '../../models/message.model';
 import { QuestionModel } from '../../models/question.model';
 import { ChatService } from '../services/chat.service';
 
@@ -57,6 +57,28 @@ export class ProjectorComponent implements OnInit {
     let textToTranslate = m.sender + " says, " + m.content;
 
     window.speechSynthesis.speak(new SpeechSynthesisUtterance(textToTranslate));
+  }
+
+  likeMessage(messageModel: MessageModel) {
+
+    let react = new MemberReaction();
+    react.member = this.chatData.username;
+    react.messageId = messageModel.messageId;
+    react.reaction = 1;
+    react.chatCode = this.chatData.chatCode;
+
+    this.hubInstance.sendReact(react);
+  }
+
+  dislikeMessage(messageModel: MessageModel) {
+
+    let react = new MemberReaction();
+    react.member = this.chatData.username;
+    react.messageId = messageModel.messageId;
+    react.reaction = -1;
+    react.chatCode = this.chatData.chatCode;
+
+    this.hubInstance.sendReact(react);
   }
 
   sendMessage() {

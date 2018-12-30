@@ -15,16 +15,16 @@
             <li *ngFor="let message of hubInstance.messages">
               <div *ngIf="!message.isMine" class="comment-main-level">
 
-                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/pngs/{{message.sender}}.png" alt="{{message.sender}}"></div>
+                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/{{message.sender}}.svg" alt="{{message.sender}}"></div>
 
                 <div class="comment-box col-sm-10">
                   <div class="comment-head">
                     <h6 class="comment-name by-author">{{message.sender}}</h6>
                     <span>Sent on : {{message.sendDate}}</span>
-                    <i class="fa fa-thumbs-o-up"></i>
-                    <span class="f-right">5</span>
-                    <i class="fa fa-thumbs-o-down"></i>
-                    <span class="f-right">5</span>
+                    <i class="fa fa-thumbs-o-up" (click)="likeMessage(message)"></i>
+                    <span class="f-right">{{message.likeCount}}</span>
+                    <i class="fa fa-thumbs-o-down" (click)="dislikeMessage(message)"></i>
+                    <span class="f-right">{{message.dislikeCount}}</span>
                     <i class="fa fa-volume-up" (click)="playAudio(message)" aria-hidden="true"></i>
                   </div>
                   <div class="comment-content">{{message.content}}</div>
@@ -32,16 +32,16 @@
               </div>
 
               <div *ngIf="message.isMine" class="comment-main-level your-message">
-                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/pngs/{{message.sender}}.png" alt="{{message.sender}}"></div>
+                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/{{message.sender}}.svg" alt="{{message.sender}}"></div>
 
                 <div class="comment-box col-sm-10">
                   <div class="comment-head">
                     <h6 class="comment-name">{{message.sender}}</h6>
                     <span>Sent on : {{message.sendDate}}</span>
-                    <i class="fa fa-thumbs-o-up"></i>
-                    <span class="f-right">5</span>
-                    <i class="fa fa-thumbs-o-down"></i>
-                    <span class="f-right">5</span>
+                    <i class="fa fa-thumbs-o-up" (click)="likeMessage(message)"></i>
+                    <span class="f-right">{{message.likeCount}}</span>
+                    <i class="fa fa-thumbs-o-down" (click)="dislikeMessage(message)"></i>
+                    <span class="f-right">{{message.dislikeCount}}</span>
                     <i class="fa fa-volume-up" (click)="playAudio(message)" aria-hidden="true"></i>
                   </div>
                   <div class="comment-content">{{message.content}}</div>
@@ -62,14 +62,14 @@
 
       <div *ngFor="let question of hubInstance.openQuestions">
         <h4><span>Q</span>{{question.content}}</h4>
-        <button *ngIf="(question.isPublished == false)" (click)="publishQuestion(question)" class="btn">Start</button>
+        <button *ngIf="(!question.isPublished && !question.isArchived)" (click)="publishQuestion(question)" class="btn">Start</button>
         <button *ngIf="(question.isPublished && !question.isArchived)" (click)="archiveQuestion(question)" class="btn">End</button>
         <hr />
       </div>
 
       <div *ngFor="let question of hubInstance.pollQuestions">
         <h4><span>Q</span>{{question.content}}</h4>
-        <button *ngIf="(!question.isPublished)" (click)="publishQuestion(question)" class="btn">Start</button>
+        <button *ngIf="(!question.isPublished && !question.isArchived)" (click)="publishQuestion(question)" class="btn">Start</button>
         <button *ngIf="(question.isPublished && !question.isArchived)" (click)="archiveQuestion(question)" class="btn">End</button>
         <hr />
       </div>

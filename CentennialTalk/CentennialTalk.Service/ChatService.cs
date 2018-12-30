@@ -71,6 +71,8 @@ namespace CentennialTalk.Service
                 //    return new ResponseDTO(code,
                 //        "A user with that name is already online on this chat");
 
+                code = ResponseCode.OK;
+
                 GroupMember member = null;
 
                 if (chat.Members != null
@@ -81,17 +83,20 @@ namespace CentennialTalk.Service
                     member = chat.Members.FirstOrDefault(x => x.Username == joinChat.username);
                     member.IsConnected = true;
 
-                    return new ResponseDTO(ResponseCode.OK, chat.GetResponseDTO());
+                    DiscussionDTO dt = chat.GetResponseDTO();
+                    dt.username = member != null ? member.Username : joinChat.username;
+                    dt.moderator = chat.Members.FirstOrDefault(x => x.IsModerator).Username;
+
+                    return new ResponseDTO(code, dt);
                 }
 
                 member = new GroupMember(joinChat);
 
                 chat.Members.Add(member);
 
-                code = ResponseCode.OK;
-
                 DiscussionDTO dto = chat.GetResponseDTO();
-                dto.username = joinChat.username;
+                dto.username = member != null ? member.Username : joinChat.username;
+                dto.moderator = chat.Members.FirstOrDefault(x => x.IsModerator).Username;
 
                 return new ResponseDTO(code, dto);
             }

@@ -111,8 +111,7 @@ export class DiscussionComponent implements OnInit {
   }
 
   submitAnswer() {
-    if (this.hubInstance.publishedQuestion == null)
-      return;
+    console.log("called submit anser");
 
     let answer: UserAnswer = new UserAnswer();
 
@@ -120,7 +119,13 @@ export class DiscussionComponent implements OnInit {
     answer.isPollingQuestion = this.hubInstance.publishedQuestion.isPollingQuestion;
     let usrnm = this.accountService.getLocalData(StorageKeys.ChatUsername);
 
+
+    console.log("member", this.hubInstance.members);
+
     let member = this.hubInstance.members.find(x => x.username == usrnm);
+
+
+    console.log("member", member);
 
     if (member == null)
       return;
@@ -132,15 +137,18 @@ export class DiscussionComponent implements OnInit {
     answer.questionId = this.hubInstance.publishedQuestion.id;
     answer.selectMultiple = this.hubInstance.publishedQuestion.selectMultiple;
 
+    console.log(answer);
 
     this.questionService.submitAnswer(answer).subscribe(res => {
       if (res.code != 500) {
 
         this.hubInstance.answeredQuestions.push(this.hubInstance.publishedQuestion.id);
 
+        console.log(this.hubInstance.answeredQuestions);
+
         this.hubInstance.publishedQuestion = null;
       }
-    })
+    });
   }
 
   likeMessage(messageModel: MessageModel) {

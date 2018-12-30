@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="Google.Cloud.Speech.V1" Version="1.0.1" />
     <PackageReference Include="sautinsoft.document" Version="3.6.11.20" />
+    <PackageReference Include="SendGrid" Version="9.10.0" />
   </ItemGroup>
 
   <ItemGroup>

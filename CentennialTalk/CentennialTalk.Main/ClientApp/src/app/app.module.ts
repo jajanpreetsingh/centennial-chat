@@ -32,6 +32,10 @@ import { UtilityService } from './services/utility.service';
 import { HubService } from './services/hub.service';
 //import { Globals } from '../models/globals';
 import { QuestionService } from './services/question.service';
+import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +54,10 @@ import { QuestionService } from './services/question.service';
     IconsComponent,
     ProjectorComponent,
     TranscriptComponent,
+    ConfirmEmailComponent,
+    DashboardComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -70,7 +78,10 @@ import { QuestionService } from './services/question.service';
       { path: 'general-login', component: GeneralLoginComponent },
       { path: 'projector', component: ProjectorComponent },
       { path: 'transcript', component: TranscriptComponent },
-      { path: 'icon', component: IconsComponent }
+      { path: 'icon', component: IconsComponent },
+      { path: 'verify', component: ConfirmEmailComponent },
+      { path: 'forgot', component: ForgotPasswordComponent },
+      { path: 'reset', component: ResetPasswordComponent }
     ])
   ],
   providers: [

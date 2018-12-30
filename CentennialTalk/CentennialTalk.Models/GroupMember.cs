@@ -35,15 +35,11 @@ namespace CentennialTalk.Models
         public GroupMember()
         {
             Messages = new List<Message>();
-
-            GroupMemberId = new Guid();
         }
 
         public GroupMember(NewChatDTO newChat, string chatCode)
         {
             Messages = new List<Message>();
-
-            GroupMemberId = new Guid();
 
             ChatCode = chatCode;
 
@@ -57,8 +53,6 @@ namespace CentennialTalk.Models
         public GroupMember(JoinChatDTO joinChat)
         {
             Messages = new List<Message>();
-
-            GroupMemberId = new Guid();
 
             ChatCode = joinChat.chatCode;
 

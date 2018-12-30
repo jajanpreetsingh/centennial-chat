@@ -20,6 +20,10 @@ export class MenuComponent implements OnInit {
     this.loggedIn = this.accountService.isLoggedIn();
   }
 
+  goToJoinChat() {
+    this.utilityService.navigateToPath('/join');
+  }
+
   goToSignup() {
     this.utilityService.navigateToPath('/signup');
   }
@@ -29,21 +33,16 @@ export class MenuComponent implements OnInit {
   }
 
   logoutToHome() {
-    console.log("logging out");
-
     this.accountService.tryLogout().subscribe(res => {
       console.log(res);
-
 
       if (res.code == 200) {
         this.accountService.clearAllLocalData();
 
-        this.accountService.isLoggedIn();
-
         this.utilityService.navigateToPath('/home');
       }
       else {
-        console.log("Login failed");
+        console.log("logout failed");
       }
     });
   }

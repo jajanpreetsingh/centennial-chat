@@ -2,15 +2,17 @@
 <div class="container-fluid" id="icons-section">
   <h2>Choose your avatar</h2>
   <div class="container-fluid text-center" id="icons-table">
-    <div class="row">
-      <div *ngIf="usedIcons.indexOf('groot')<0" class="col-sm-2"><img (click)="setIconName('groot')" src="../../assets/icons/groot.svg" alt="image"><h4>Groot</h4></div>
-      <div *ngIf="usedIcons.indexOf('iron-man')<0" class="col-sm-2"><img (click)="setIconName('iron-man')" src="../../assets/icons/iron-man.svg" alt="image"><h4>Iron Man</h4></div>
+    <div *ngFor="let rowArray of iconGrid" class="row">
+      <div *ngFor="let icon of rowArray" class="col-sm-2">
+        <img (click)="setIconName(icon)" src="../../assets/icons/{{icon}}.svg" alt="image"><h4>{{icon}}</h4>
+      </div>
+      <!--<div *ngIf="usedIcons.indexOf('iron-man')<0" class="col-sm-2"><img (click)="setIconName('iron-man')" src="../../assets/icons/iron-man.svg" alt="image"><h4>Iron Man</h4></div>
       <div *ngIf="usedIcons.indexOf('spider-man')<0" class="col-sm-2"><img (click)="setIconName('spider-man')" src="../../assets/icons/spider-man.svg" alt="image"><h4>Spiderman</h4></div>
       <div *ngIf="usedIcons.indexOf('captain-america')<0" class="col-sm-2"><img (click)="setIconName('captain-america')" src="../../assets/icons/captain-america.svg" alt="image"><h4>Captain America</h4></div>
       <div *ngIf="usedIcons.indexOf('jessica-jones')<0" class="col-sm-2"><img (click)="setIconName('jessica-jones')" src="../../assets/icons/jessica-jones.svg" alt="image"><h4>Jessica Jones</h4></div>
-      <div *ngIf="usedIcons.indexOf('catwoman')<0" class="col-sm-2"><img (click)="setIconName('catwoman')" src="../../assets/icons/catwoman.svg" alt="image"><h4>Catwoman</h4></div>
+      <div *ngIf="usedIcons.indexOf('catwoman')<0" class="col-sm-2"><img (click)="setIconName('catwoman')" src="../../assets/icons/catwoman.svg" alt="image"><h4>Catwoman</h4></div>-->
     </div>           
-    <div class="row">
+    <!--<div class="row">
       <div *ngIf="usedIcons.indexOf('storm-marvel')<0" class="col-sm-2"><img (click)="setIconName('storm-marvel')" src="../../assets/icons/storm-marvel.svg" alt="image"><h4>Storm</h4></div>
       <div *ngIf="usedIcons.indexOf('mystique')<0" class="col-sm-2"><img (click)="setIconName('mystique')" src="../../assets/icons/mystique.svg" alt="image"><h4>Mistique</h4></div>
       <div *ngIf="usedIcons.indexOf('rogue')<0" class="col-sm-2"><img (click)="setIconName('rogue')" src="../../assets/icons/rogue.svg" alt="image"><h4>Rogue</h4></div>
@@ -41,7 +43,7 @@
       <div *ngIf="usedIcons.indexOf('the-flash-head')<0" class="col-sm-2"><img (click)="setIconName('the-flash-head')" src="../../assets/icons/the-flash-head.svg" alt="image"><h4>Flash</h4></div>
       <div *ngIf="usedIcons.indexOf('olive-oyl')<0" class="col-sm-2"><img (click)="setIconName('olive-oyl')" src="../../assets/icons/olive-oyl.svg" alt="image"><h4>Olive Oyl</h4></div>
       <div *ngIf="usedIcons.indexOf('harry-potter')<0" class="col-sm-2"><img (click)="setIconName('harry-potter')" src="../../assets/icons/harry-potter.svg" alt="image"><h4>Harry</h4></div>
-    </div>
+    </div>-->
   </div>
 </div>
 <app-footer></app-footer>

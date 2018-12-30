@@ -150,39 +150,41 @@ namespace CentennialTalk.Service
                     Content = answer.content,
                     ChatCode = answer.chatCode
                 });
-            }
-            else
-            {
-                if (answer.options == null || answer.options.Length <= 0)
-                    return new ResponseDTO(ResponseCode.OK, "No options were selected");
-
-                Guid qid = Guid.Parse(answer.questionId);
-                Guid mid = Guid.Parse(answer.memberId);
-
-                PollingQuestion ques = questionRepository.GetById(qid) as PollingQuestion;
-
-                if (ques == null)
-                    return new ResponseDTO(ResponseCode.ERROR, "Corresponding Question not found");
-
-                foreach (string option in answer.options)
-                {
-                    QuestionOption opt = ques.Options.FirstOrDefault(x => x.Text == option);
-
-                    if (opt == null)
-                        continue;
-
-                    answers.Add(new UserAnswer()
-                    {
-                        MemberId = mid,
-                        QuestionId = qid,
-                        Content = opt.Text,
-                        ChatCode = answer.chatCode,
-                        OptionId = opt.OptionId
-                    });
-                }
 
                 questionRepository.SaveAnswers(answers);
+
+                return new ResponseDTO(ResponseCode.OK, "Answers saved succesfully");
             }
+
+            if (answer.options == null || answer.options.Length <= 0)
+                return new ResponseDTO(ResponseCode.OK, "No options were selected");
+
+            Guid qid = Guid.Parse(answer.questionId);
+            Guid mid = Guid.Parse(answer.memberId);
+
+            PollingQuestion ques = questionRepository.GetById(qid) as PollingQuestion;
+
+            if (ques == null)
+                return new ResponseDTO(ResponseCode.ERROR, "Corresponding Question not found");
+
+            foreach (string option in answer.options)
+            {
+                QuestionOption opt = ques.Options.FirstOrDefault(x => x.Text == option);
+
+                if (opt == null)
+                    continue;
+
+                answers.Add(new UserAnswer()
+                {
+                    MemberId = mid,
+                    QuestionId = qid,
+                    Content = opt.Text,
+                    ChatCode = answer.chatCode,
+                    OptionId = opt.OptionId
+                });
+            }
+
+            questionRepository.SaveAnswers(answers);
 
             return new ResponseDTO(ResponseCode.OK, "Answers saved succesfully");
         }

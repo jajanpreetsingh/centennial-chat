@@ -16,7 +16,7 @@
             <li *ngFor="let message of hubInstance.messages">
               <div *ngIf="!message.isMine" class="comment-main-level">
 
-                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/pngs/{{message.sender}}.png" alt="{{message.sender}}"></div>
+                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/{{message.sender}}.svg" alt="{{message.sender}}"></div>
 
                 <div class="comment-box col-sm-10">
                   <div class="comment-head">
@@ -34,7 +34,7 @@
 
               <div *ngIf="message.isMine" class="comment-main-level your-message">
 
-                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/pngs/{{message.sender}}.png" alt="{{message.sender}}"></div>
+                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/{{message.sender}}.svg" alt="{{message.sender}}"></div>
 
                 <div class="comment-box col-sm-10">
                   <div class="comment-head">
@@ -76,7 +76,7 @@
           </div>
           <button *ngIf="hubInstance.publishedQuestion==null" class="btn btn-lg" (click)="sendMessage()">Post</button>
 
-          <button *ngIf="hubInstance.publishedQuestion !=null && !hubInstance.publishedQuestion.isPollingQuestion" class="btn" (click)="submitAnswer()">Submit</button>
+          <button *ngIf="hubInstance.publishedQuestion!=null && !hubInstance.publishedQuestion.isPollingQuestion" class="btn" (click)="submitAnswer()">Submit</button>
 
           <!--<button class="btn btn-lg" (click)="animateMeFifty()">test 50%</button>
   <button class="btn btn-lg" (click)="animateMeSeventyFive()">test 75%</button>-->

@@ -67,12 +67,19 @@ export class HubService {
     this.openQuestions = JSON.parse(this.accountService.getLocalData(StorageKeys.OpenQuestions));
     this.pollQuestions = JSON.parse(this.accountService.getLocalData(StorageKeys.PollingQuestions));
 
+    console.log("p questions from hubinstance", this.pollQuestions);
+    console.log("o questions from hubinstance", this.openQuestions);
+
+    this.members = JSON.parse(this.accountService.getLocalData(StorageKeys.ChatMembers));
+
+    console.log("members from hubinstance", this.members);
+
     this.isConnected = true;
 
     this.hubConnection.invoke('JoinGroupChat', JSON.stringify({
       'username': this.chatData.username,
       'chatCode': this.chatData.chatCode,
-      'isModerator': this.chatData.username == this.chatData.moderator
+      'isModerator': this.accountService.amIModerator()
     })).catch(e => {
       console.log(e);
     });
@@ -83,7 +90,7 @@ export class HubService {
       connectionId: this.connectionId,
       isConnected: this.isConnected
     }).subscribe(res => {
-      console.log(res);
+      //console.log(res);
     },
       err => {
         console.log(err);
@@ -126,32 +133,27 @@ export class HubService {
   }
 
   onUserJoined(member: MemberModel) {
-    let index = this.members.findIndex(x => x.username == member.username);
+    this.members = this.members.filter(x => x.username != member.username);
 
-    if (index > -1)
-      this.members[index].isConnected = true;
-    else {
-      member.isConnected = true;
+    member.isConnected = true;
 
-      this.members.push(member);
-    }
+    this.members.push(member);
 
     this.accountService.setLocalData(StorageKeys.ChatMembers, JSON.stringify(this.members));
+
+    console.log("members from hubinstance", this.members);
   }
 
   onUserLeft(member: MemberModel) {
-    console.log(member + ' left');
+    this.members = this.members.filter(x => x.username != member.username);
 
-    let index = this.members.findIndex(x => x.username == member.username);
+    member.isConnected = false;
 
-    if (index > -1)
-      this.members[index].isConnected = false;
-    else {
-      member.isConnected = false;
-      this.members.push(member);
-    }
+    this.members.push(member);
 
     this.accountService.setLocalData(StorageKeys.ChatMembers, JSON.stringify(this.members));
+
+    console.log("members from hubinstance", this.members);
   }
 
   onMessageReceived(messageData: MessageModel) {
@@ -318,7 +320,6 @@ export class HubService {
   }
 
   onQuestionPublished(data: QuestionModel): any {
-
     if (this.answeredQuestions.findIndex(x => x == data.id) >= 0)
       return;
 

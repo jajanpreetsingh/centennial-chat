@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CentennialTalk.Persistence.Migrations
 {
     [DbContext(typeof(ChatDBContext))]
-    [Migration("20181118234525_AddDatesToQuestion")]
-    partial class AddDatesToQuestion
+    [Migration("20181227212201_InitChatDB")]
+    partial class InitChatDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -200,6 +200,27 @@ namespace CentennialTalk.Persistence.Migrations
                     b.HasIndex("DiscussionId");
 
                     b.ToTable("Questions");
+                });
+
+            modelBuilder.Entity("CentennialTalk.Models.QuestionModels.UserAnswer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ChatCode");
+
+                    b.Property<string>("Content");
+
+                    b.Property<Guid>("MemberId");
+
+                    b.Property<int>("OptionId");
+
+                    b.Property<Guid>("QuestionId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Answers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
