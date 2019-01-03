@@ -50,7 +50,7 @@ export class ChatComponent implements OnInit {
     var mid = uuid();
 
     //let messageObj: MessageModel = new MessageModel();
-    
+
     //  messageId: mid,
     //  content: content,
     //  chatCode: this.chatData.chatCode,

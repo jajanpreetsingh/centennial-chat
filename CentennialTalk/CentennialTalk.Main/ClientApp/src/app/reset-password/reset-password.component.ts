@@ -8,7 +8,6 @@ import { AccountService } from '../services/account.service';
   styleUrls: ['./reset-password.component.scss']
 })
 export class ResetPasswordComponent implements OnInit {
-
   password: string;
   confpassword: string;
 
@@ -32,7 +31,7 @@ export class ResetPasswordComponent implements OnInit {
       || this.password !== this.confpassword)
       return;
 
-    console.log("prd : "+this.userId);
+    console.log("prd : " + this.userId);
     console.log("prd : " + this.code)
 
     this.accServ.resetPassword(this.userId, this.code, this.password).subscribe(res => { console.log(res) });

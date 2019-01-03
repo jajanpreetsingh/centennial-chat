@@ -7,7 +7,6 @@ import { AccountService } from '../services/account.service';
   styleUrls: ['./forgot-password.component.scss']
 })
 export class ForgotPasswordComponent implements OnInit {
-
   email: string;
 
   constructor(private accServ: AccountService) { }

@@ -18,14 +18,11 @@ export class LoginComponent implements OnInit {
   }
 
   onModeratorLogin() {
-
     console.log(this.login);
 
     this.accountService.tryModeratorLogin(this.login).subscribe(res => {
-
       console.log(res);
       if (res.code == 200) {
-
         this.accountService.setJwtToken(res.data);
 
         this.accountService.setLocalData(StorageKeys.LoginUsername, this.login.username);

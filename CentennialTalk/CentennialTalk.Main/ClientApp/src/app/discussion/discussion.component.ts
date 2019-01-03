@@ -24,14 +24,14 @@ import { MessageService } from '../services/message.service';
         style({ color: '#EEB417', offset: 0.65 }),
         style({ color: '#D65129', offset: 0.8 }),
         style({ color: '#D6CDCA', offset: 0.95 })
-        ]))),
+      ]))),
     ]),
     trigger('seventyFiveAnimation', [
       transition('fixed <=> shaked', animate('1000ms ease-in', keyframes([
-        style({transform: 'scale(1.2)', offset: 0.2 }),
-        style({transform: 'scale(1.4)', offset: 0.5 }),
-        style({transform: 'scale(1.6)', offset: 0.8 }),
-        style({transform: 'scale(1)', offset: 1.0  }),
+        style({ transform: 'scale(1.2)', offset: 0.2 }),
+        style({ transform: 'scale(1.4)', offset: 0.5 }),
+        style({ transform: 'scale(1.6)', offset: 0.8 }),
+        style({ transform: 'scale(1)', offset: 1.0 }),
         style({ opacity: 0, transform: 'translateX(-50%)', offset: 0.0 }),
         style({ opacity: 1, background: 'linear-gradient(to right, #FFF, #744DA8)', transform: 'translateY(11%)', offset: 0.1 }),
         style({ opacity: 1, background: 'linear-gradient(to right, #744DA8, #1FB3E0)', transform: 'translateX(30%)', offset: 0.2 }),
@@ -96,7 +96,6 @@ export class DiscussionComponent implements OnInit {
     let index: number = this.selectedOptions.indexOf(option);
 
     if (this.hubInstance.publishedQuestion.selectMultiple) {
-
       if (index >= 0)
         this.selectedOptions.splice(index, 1);
       else
@@ -119,11 +118,9 @@ export class DiscussionComponent implements OnInit {
     answer.isPollingQuestion = this.hubInstance.publishedQuestion.isPollingQuestion;
     let usrnm = this.accountService.getLocalData(StorageKeys.ChatUsername);
 
-
     console.log("member", this.hubInstance.members);
 
     let member = this.hubInstance.members.find(x => x.username == usrnm);
-
 
     console.log("member", member);
 
@@ -141,7 +138,6 @@ export class DiscussionComponent implements OnInit {
 
     this.questionService.submitAnswer(answer).subscribe(res => {
       if (res.code != 500) {
-
         this.hubInstance.answeredQuestions.push(this.hubInstance.publishedQuestion.id);
 
         console.log(this.hubInstance.answeredQuestions);
@@ -152,7 +148,6 @@ export class DiscussionComponent implements OnInit {
   }
 
   likeMessage(messageModel: MessageModel) {
-
     let react = new MemberReaction();
     react.member = this.chatData.username;
     react.messageId = messageModel.messageId;
@@ -163,7 +158,6 @@ export class DiscussionComponent implements OnInit {
   }
 
   dislikeMessage(messageModel: MessageModel) {
-
     let react = new MemberReaction();
     react.member = this.chatData.username;
     react.messageId = messageModel.messageId;

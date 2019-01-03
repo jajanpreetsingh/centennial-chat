@@ -7,12 +7,10 @@ import { ChatModel } from '../../models/chat.model';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-
   chats: ChatModel[] = [];
 
   constructor() { }
 
   ngOnInit() {
   }
-
 }

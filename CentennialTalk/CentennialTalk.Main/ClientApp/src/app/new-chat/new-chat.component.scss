@@ -1,6 +1,5 @@
 @import '../scss/styles.scss';
 
-
 #new-chat-section {
   padding-bottom: 50px;
   padding-top: 100px;
@@ -18,7 +17,6 @@
 h2, h4, h5, #new-chat-section {
   font-family: $font-primary;
 }
-
 
 .open-question, .multiple-answer-question {
   input {

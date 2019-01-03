@@ -1,5 +1,4 @@
-﻿using CentennialTalk.Models;
-using CentennialTalk.Models.DTOModels;
+﻿using CentennialTalk.Models.DTOModels;
 using CentennialTalk.ServiceContract;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
@@ -24,7 +23,6 @@ namespace CentennialTalk.Main
         public const string questionArchivedEvent = "questionArchived";
 
         public const string messageReactedEvent = "messageReacted";
-
 
         public List<string> ChatGroups;
 
@@ -125,7 +123,6 @@ namespace CentennialTalk.Main
 
             if (saved)
                 return Clients.Group(reac.chatCode).SendAsync(messageReactedEvent, reac);
-
             else return null;
         }
     }

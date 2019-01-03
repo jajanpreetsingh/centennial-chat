@@ -16,7 +16,6 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.loggedIn = this.accountService.isLoggedIn();
   }
 

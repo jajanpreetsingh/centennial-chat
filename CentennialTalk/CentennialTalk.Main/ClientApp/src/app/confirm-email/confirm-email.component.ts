@@ -8,7 +8,6 @@ import { AccountService } from '../services/account.service';
   styleUrls: ['./confirm-email.component.scss']
 })
 export class ConfirmEmailComponent implements OnInit {
-
   constructor(private actRoute: ActivatedRoute, private accServ: AccountService) { }
 
   ngOnInit() {

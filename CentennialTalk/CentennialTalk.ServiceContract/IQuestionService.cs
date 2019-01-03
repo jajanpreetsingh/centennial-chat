@@ -1,5 +1,4 @@
 ﻿using CentennialTalk.Models.DTOModels;
-using System.Collections.Generic;
 
 namespace CentennialTalk.ServiceContract
 {

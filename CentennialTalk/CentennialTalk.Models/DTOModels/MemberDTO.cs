@@ -4,6 +4,7 @@
     {
         public string memberId;
         public string username;
+
         //public string iconName;
         public bool isConnected;
     }

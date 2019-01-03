@@ -24,13 +24,11 @@ export class QuestionService {
   }
 
   getPollingQuestions(chatCode: string) {
-
     return this.http.post("/api/question/getpolls", { 'value': chatCode })
       .map(res => res.json());
   }
 
   getOpenQuestions(chatCode: string) {
-
     return this.http.post("/api/question/getopen", { 'value': chatCode })
       .map(res => res.json());
   }

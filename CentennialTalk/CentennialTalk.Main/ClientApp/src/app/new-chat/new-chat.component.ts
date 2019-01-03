@@ -35,7 +35,7 @@ export class NewChatComponent implements OnInit, OnDestroy {
       this.accountService.clearAllLocalData();
     }
     else {
-           this.chatData.username =
+      this.chatData.username =
         this.chatData.moderator = this.accountService.getLocalData(StorageKeys.ChatUsername);
     }
 
@@ -134,7 +134,6 @@ export class NewChatComponent implements OnInit, OnDestroy {
   }
 
   onSubmitNewChat() {
-
     let user = this.chatData.username;
     let mod = this.chatData.moderator;
 

@@ -30,7 +30,7 @@ export class JoinChatComponent implements OnInit {
 
   updateInputChatCode() {
     this.accountService.setLocalData(StorageKeys.ChatCode, this.chatData.chatCode);
-}
+  }
 
   goToIconPage() {
     this.updateInputChatCode();
@@ -38,7 +38,6 @@ export class JoinChatComponent implements OnInit {
   }
 
   onSubmitJoinChat() {
-
     let user = this.chatData.username;
     let code = this.chatData.chatCode;
 
@@ -80,7 +79,6 @@ export class JoinChatComponent implements OnInit {
           console.log("going to discussion....");
           this.utilityService.navigateToPath('/discussion');
         }
-
       }
       else {
         this.chatData = new ChatModel();

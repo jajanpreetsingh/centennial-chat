@@ -20,7 +20,6 @@ export class ChatService {
   }
 
   downloadTranscript(chatCode: string) {
-
     return this.http.post("/api/chat/transcript", chatCode)
       .map(res => res.json());
   }

@@ -1,6 +1,4 @@
-﻿using SautinSoft.Document;
-
-namespace CentennialTalk.ServiceContract
+﻿namespace CentennialTalk.ServiceContract
 {
     public interface IFileService
     {

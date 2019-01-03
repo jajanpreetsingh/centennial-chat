@@ -61,8 +61,6 @@ textarea {
   border: 1px solid $color-primary;
 }
 
-
-
 #textarea-container {
   position: relative;
 
@@ -90,16 +88,11 @@ textarea {
   }
 }
 
-
-
-
 #discussion {
   height: 67vh;
   background-color: $dark-white;
   border: 1px solid $color-primary;
   overflow-y: scroll;
-
-
 }
 
 .participants {
@@ -131,11 +124,9 @@ textarea {
   float: left;
 }
 
-
 .btn-green {
   background-color: $color-secondary !important;
   border: 1px solid $color-primary !important;
-
 
   &:hover {
     background-color: $white !important;

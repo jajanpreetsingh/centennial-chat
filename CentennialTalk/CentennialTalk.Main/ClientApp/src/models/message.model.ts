@@ -16,7 +16,6 @@ export class MessageModel {
 }
 
 export class MemberReaction {
-
   messageId: string;
   member: string;
   reaction: number;

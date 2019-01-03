@@ -14,8 +14,6 @@ export class GeneralLoginComponent implements OnInit {
   }
 
   ngOnInit() {
-
-
     console.log("init");
     this.loggedIn = this.accountService.isLoggedIn();
   }

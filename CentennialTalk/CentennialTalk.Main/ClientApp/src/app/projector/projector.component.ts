@@ -60,7 +60,6 @@ export class ProjectorComponent implements OnInit {
   }
 
   likeMessage(messageModel: MessageModel) {
-
     let react = new MemberReaction();
     react.member = this.chatData.username;
     react.messageId = messageModel.messageId;
@@ -71,7 +70,6 @@ export class ProjectorComponent implements OnInit {
   }
 
   dislikeMessage(messageModel: MessageModel) {
-
     let react = new MemberReaction();
     react.member = this.chatData.username;
     react.messageId = messageModel.messageId;

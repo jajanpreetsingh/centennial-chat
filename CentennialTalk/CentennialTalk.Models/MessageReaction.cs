@@ -30,7 +30,6 @@ namespace CentennialTalk.Models
                            ? 1
                            : ReactType == ReactType.DISLIKE
                                             ? -1 : 0;
-            
 
             return dto;
         }

@@ -2,7 +2,6 @@ import { QuestionModel } from './question.model';
 import { MemberModel } from './member.model';
 
 export class ChatModel {
-
   chatCode: string;
   moderator: string;
   username: string;
