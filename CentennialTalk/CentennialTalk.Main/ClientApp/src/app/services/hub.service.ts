@@ -40,7 +40,7 @@ export class HubService {
   initChatHub() {
     this.hubConnection = new signalR.HubConnectionBuilder()
       .configureLogging(signalR.LogLevel.Trace)
-      .withUrl('/discussion')
+      .withUrl('/chat')
       .build();
 
     this.initEventCallbacks();
