@@ -12,6 +12,8 @@ namespace CentennialTalk.Models
     {
         public Guid DiscussionId { get; set; }
 
+        public string CreatorId { get; set; }
+
         [Required]
         [StringLength(255)]
         public string Title { get; set; }
@@ -50,6 +52,8 @@ namespace CentennialTalk.Models
             Members = new List<GroupMember>();
 
             DiscussionCode = GenerateChatCode(newChat.moderator);
+
+            CreatorId = newChat.creatorId;
 
             Questions = new List<SubjectiveQuestion>();
 

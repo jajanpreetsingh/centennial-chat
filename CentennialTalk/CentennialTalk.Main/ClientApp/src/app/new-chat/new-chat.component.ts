@@ -145,6 +145,8 @@ export class NewChatComponent implements OnInit, OnDestroy {
       return;
     }
 
+    this.chatData.creatorId = this.accountService.getUserId();
+
     this.chatService.createNewChat(this.chatData).subscribe(res => {
       if (res.code == 200) {
         this.chatData = res.data;

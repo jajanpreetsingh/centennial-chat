@@ -17,6 +17,11 @@ namespace CentennialTalk.Persistence.Repositories
             return dbContext.Discussions.Where(x => x.IsLinkOpen).ToList();
         }
 
+        public List<Discussion> GetChatsByCreatorId(string creatorId)
+        {
+            return dbContext.Discussions.Where(x => x.CreatorId == creatorId).ToList();
+        }
+
         public Discussion CreateNewChat(Discussion discussion)
         {
             dbContext.Discussions.Add(discussion);

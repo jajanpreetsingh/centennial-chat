@@ -10,5 +10,7 @@ namespace CentennialTalk.PersistenceContract
         Discussion GetChatByCode(string code, bool includeExtended = false);
 
         List<Discussion> GetOpenChatGroups();
+
+        List<Discussion> GetChatsByCreatorId(string creatorId);
     }
 }

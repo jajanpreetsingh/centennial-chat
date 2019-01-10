@@ -13,5 +13,7 @@ namespace CentennialTalk.ServiceContract
         ResponseDTO JoinChat(JoinChatDTO joinChat);
 
         List<Discussion> GetOpenChatGroups();
+
+        List<Discussion> GetChatsByCreatorId(string creatorId);
     }
 }

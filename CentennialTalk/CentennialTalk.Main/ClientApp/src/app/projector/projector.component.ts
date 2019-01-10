@@ -96,17 +96,6 @@ export class ProjectorComponent implements OnInit {
   }
 
   goToTranscript() {
-    this.chatService.downloadTranscript(this.chatData.chatCode).subscribe(res => {
-      console.log(res);
-
-      let url = URL.createObjectURL(res.blob());
-      var link = document.createElement("a");
-      link.setAttribute("href", url);
-      link.setAttribute("download", "test.docx");
-      link.style.display = "none";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    });
+    this.chatService.downloadTranscript(this.chatData.chatCode);
   }
 }

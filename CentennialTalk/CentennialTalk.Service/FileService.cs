@@ -50,9 +50,8 @@ namespace CentennialTalk.Service
                     bool isMod = mem.IsModerator;
 
                     Paragraph p = new Paragraph(docx,
-                        string.Format("Sent by : {0}" +
-                        "{1} " +
-                        "Sent on : {2}", m.Sender, m.Content, m.SentDate.ToString()));
+                        string.Format("{0} ({2}) : " +
+                        "{1} ", m.Sender, m.Content, m.SentDate.ToString()));
 
                     p.Inlines.Add(new SpecialCharacter(docx, SpecialCharacterType.LineBreak));
 
@@ -94,6 +93,9 @@ namespace CentennialTalk.Service
                     {
                         List<UserAnswer> quesans = answers.FindAll(x => x.QuestionId == poll.QuestionId && x.MemberId == mem.GroupMemberId);
 
+                        if (quesans == null || quesans.Count <= 0)
+                            continue;
+
                         bool isMod = mem.IsModerator;
 
                         Paragraph p = new Paragraph(docx);
@@ -101,6 +103,7 @@ namespace CentennialTalk.Service
                         p.Content.End.Insert(string.Format("{0} Answers : ", mem.Username), new CharacterFormat() { Size = 12, FontColor = Color.Green });
 
                         p.Inlines.Add(new SpecialCharacter(docx, SpecialCharacterType.LineBreak));
+
                         quesans.ToList().ForEach(o =>
                         {
                             p.Content.End.Insert(o.Content, new CharacterFormat() { Size = 12, FontColor = Color.Green });
@@ -136,6 +139,9 @@ namespace CentennialTalk.Service
                     foreach (GroupMember mem in chat.Members)
                     {
                         UserAnswer quesans = answers.FirstOrDefault(x => x.QuestionId == sub.QuestionId && x.MemberId == mem.GroupMemberId);
+
+                        if (quesans == null)
+                            continue;
 
                         bool isMod = mem.IsModerator;
 

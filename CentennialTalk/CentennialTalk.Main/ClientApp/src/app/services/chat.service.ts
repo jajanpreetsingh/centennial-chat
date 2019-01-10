@@ -20,7 +20,23 @@ export class ChatService {
   }
 
   downloadTranscript(chatCode: string) {
-    return this.http.post("/api/chat/transcript", chatCode)
+    return this.http.post("/api/chat/transcript", { 'value': chatCode })
+      .subscribe(res => {
+
+        //let url = window.URL.createObjectURL(new Blob(res, { type: 'application/vnd.ms-word' }));
+        //var link = document.createElement("a");
+        //link.setAttribute("href", url);
+        //link.setAttribute("download", "test.docx");
+        //link.style.display = "none";
+        //document.body.appendChild(link);
+        //link.click();
+        //document.body.removeChild(link);
+
+      });
+  }
+
+  getChatList(chatCode: string) {
+    return this.http.post("/api/chat/list", { 'value': chatCode })
       .map(res => res.json());
   }
 }

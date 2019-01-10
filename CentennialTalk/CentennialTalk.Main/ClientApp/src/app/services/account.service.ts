@@ -93,6 +93,12 @@ export class AccountService {
     return loggedin;
   }
 
+  getUserId(): string {
+    let token: string = this.getJwtToken();
+
+    return new JwtHelper().decodeToken(token).jti;
+  }
+
   getLocalChatData(): ChatModel {
     let chat: ChatModel = new ChatModel();
 
@@ -160,5 +166,7 @@ export enum StorageKeys {
   ChatConnectionId,
   PollingQuestions,
   OpenQuestions,
-  ChatMembers
+  ChatMembers,
+
+  ReturnUrl
 }

@@ -31,6 +31,11 @@ export class MenuComponent implements OnInit {
     this.utilityService.navigateToPath('/general-login');
   }
 
+  goToDashboard() {
+
+    this.utilityService.navigateToPath('/dashboard');
+  }
+
   logoutToHome() {
     this.accountService.tryLogout().subscribe(res => {
       console.log(res);

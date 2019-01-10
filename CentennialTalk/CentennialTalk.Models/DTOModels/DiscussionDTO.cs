@@ -10,6 +10,8 @@
         public string activationDate;
         public string expirationDate;
 
+        public string creatorId;
+
         //public string myMemberId;
         public QuestionDTO[] openQuestions;
 

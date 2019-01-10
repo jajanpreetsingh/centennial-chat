@@ -10,6 +10,8 @@ namespace CentennialTalk.Models.DTOModels
         public string activationDate;
         public string expirationDate;
 
+        public string creatorId;
+
         public string icon;
 
         public QuestionDTO[] openQuestions;

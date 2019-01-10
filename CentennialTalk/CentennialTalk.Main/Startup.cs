@@ -188,7 +188,7 @@ namespace CentennialTalk.Main
 
             app.UseSignalR(routes =>
             {
-                routes.MapHub<ChatHub>("/discussion");
+                routes.MapHub<ChatHub>("/chat");
             });
 
             app.UseAuthentication();
@@ -213,7 +213,7 @@ namespace CentennialTalk.Main
 
         public void InitDatabase()
         {
-            using (var serviceScope = Application.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            using (IServiceScope serviceScope = Application.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
                 ChatDBContext context = serviceScope.ServiceProvider.GetRequiredService<ChatDBContext>();
 

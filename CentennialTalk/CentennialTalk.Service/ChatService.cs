@@ -20,6 +20,11 @@ namespace CentennialTalk.Service
             this.logger = logger;
         }
 
+        public List<Discussion> GetChatsByCreatorId(string creatorId)
+        {
+            return chatRepository.GetChatsByCreatorId(creatorId);
+        }
+
         public Discussion CreateNewChat(NewChatDTO newChat)
         {
             try

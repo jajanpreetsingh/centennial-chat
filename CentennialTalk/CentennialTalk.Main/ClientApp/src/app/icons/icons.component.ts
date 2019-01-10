@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AccountService, StorageKeys } from '../services/account.service';
 import { UtilityService } from '../services/utility.service';
 import { MemberService } from '../services/member.service';
-import { parse } from 'url';
 
 @Component({
   selector: 'app-icons',
@@ -63,6 +62,9 @@ export class IconsComponent implements OnInit {
     console.log("icons: " + name);
     this.accountService.setLocalData(StorageKeys.ChatUsername, name);
 
-    this.utilityService.navigateToPath('general-login');
+    let rurl = this.accountService.getLocalData(StorageKeys.ReturnUrl);
+    this.accountService.setLocalData(StorageKeys.ReturnUrl, '');
+
+    this.utilityService.navigateToPath(rurl);
   }
 }

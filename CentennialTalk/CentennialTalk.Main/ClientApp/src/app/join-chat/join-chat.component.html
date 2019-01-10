@@ -24,9 +24,9 @@
             <form (ngSubmit)="onSubmitJoinChat()">
               <!--<input name="user" disabled="disabled" class="form-control" type="text" placeholder="username" [(ngModel)]="chatData.username">-->
               <input name="chatCode" class="form-control" type="text" placeholder="Chat code" (keyup)="updateInputChatCode()" [(ngModel)]="chatData.chatCode">
-              <button *ngIf="chatData.chatCode || loggedIn" class="btn btn-lg" (click)="goToIconPage()" type="submit">Choose Icon</button>
-              <button class="btn btn-lg" (click)="onSubmitJoinChat()" type="submit">Join</button>
-              <button *ngIf="loggedIn" class="btn btn-lg" (click)="goToNewChatPage()" type="button">New Chat</button>
+              <button [disabled]="!chatData.chatCode" class="btn btn-lg" (click)="goToIconPage()" type="submit">Choose Icon</button>
+              <button class="btn btn-lg" [disabled]="!chatData.chatCode" (click)="onSubmitJoinChat()" type="submit">Join</button>
+              <!--<button *ngIf="loggedIn" class="btn btn-lg" (click)="goToNewChatPage()" type="button">New Chat</button>-->
             </form>
           </div>
         </div>

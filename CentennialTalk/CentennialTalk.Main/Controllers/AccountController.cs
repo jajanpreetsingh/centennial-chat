@@ -167,7 +167,8 @@ namespace CentennialTalk.Main.Controllers
 
             if (result.Succeeded)
             {
-                return GetJson(new ResponseDTO(ResponseCode.OK, GenerateJwtToken(login.username)));
+                IdentityUser user = await userManager.FindByNameAsync(login.username);
+                return GetJson(new ResponseDTO(ResponseCode.OK, GenerateJwtToken(user)));
             }
 
             return GetJson(new ResponseDTO(ResponseCode.ERROR, "Invalid login attempt"));
@@ -180,12 +181,12 @@ namespace CentennialTalk.Main.Controllers
             return GetJson(new ResponseDTO(ResponseCode.OK, "Logged out successfully"));
         }
 
-        private string GenerateJwtToken(string username)//, IdentityUser user)
+        private string GenerateJwtToken(IdentityUser user)//, IdentityUser user)
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, username),
-                //new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti, user.Id),
                 //new Claim(ClaimTypes.NameIdentifier, user.Id)
             };
 

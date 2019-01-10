@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginModel } from '../../models/login.model';
 import { AccountService, StorageKeys } from '../services/account.service';
 import { UtilityService } from '../services/utility.service';
+import { JwtHelper } from 'angular2-jwt';
 //import { detectChanges } from '@angular/core/src/render3';
 
 @Component({
@@ -27,7 +28,7 @@ export class LoginComponent implements OnInit {
 
         this.accountService.setLocalData(StorageKeys.LoginUsername, this.login.username);
 
-        window.location.reload();
+        this.utility.navigateToPath('/dashboard');
       }
       else {
         console.log("Login failed");

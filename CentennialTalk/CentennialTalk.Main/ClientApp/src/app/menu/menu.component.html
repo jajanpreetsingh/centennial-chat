@@ -15,6 +15,7 @@
         <li (click)="goToSignup()" *ngIf="!loggedIn"><a><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
         <li><a (click)="goToGeneralLogin()" *ngIf="!loggedIn"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
         <li><a (click)="logoutToHome()" *ngIf="loggedIn"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
+        <li><a (click)="goToDashboard()" *ngIf="loggedIn"><span class="glyphicon glyphicon-log-out"></span>Dashboard</a></li>
         <li><a (click)="goToJoinChat()"><span class="glyphicon glyphicon-log-out"></span>Join Chat</a></li>
       </ul>
     </div>

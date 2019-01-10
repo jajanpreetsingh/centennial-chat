@@ -28,6 +28,8 @@ namespace CentennialTalk.Persistence.Migrations
 
                     b.Property<DateTime>("CreatedDate");
 
+                    b.Property<string>("CreatorId");
+
                     b.Property<string>("DiscussionCode")
                         .IsRequired()
                         .HasMaxLength(8);

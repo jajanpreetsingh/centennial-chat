@@ -13,4 +13,6 @@ export class ChatModel {
   pollQuestions: QuestionModel[];
   //myMemberId: string;
   members: MemberModel[];
+
+  creatorId: string;
 }

@@ -30,7 +30,6 @@ import { SpeechService } from './services/speech.service';
 import { AccountService } from './services/account.service';
 import { UtilityService } from './services/utility.service';
 import { HubService } from './services/hub.service';
-//import { Globals } from '../models/globals';
 import { QuestionService } from './services/question.service';
 import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -71,8 +70,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
       { path: 'new', component: NewChatComponent },
       { path: 'login', component: LoginComponent },
       { path: 'signup', component: SignUpComponent },
-      { path: 'chat', component: DiscussionComponent },
-      { path: 'chat/:data', component: DiscussionComponent },
+      { path: 'discussion/:data', component: DiscussionComponent },
       { path: 'discussion', component: DiscussionComponent },
       { path: 'discussionpoll', component: DiscussionPollComponent },
       { path: 'general-login', component: GeneralLoginComponent },
@@ -81,7 +79,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
       { path: 'icon', component: IconsComponent },
       { path: 'verify', component: ConfirmEmailComponent },
       { path: 'forgot', component: ForgotPasswordComponent },
-      { path: 'reset', component: ResetPasswordComponent }
+      { path: 'reset', component: ResetPasswordComponent },
+      { path: 'dashboard', component: DashboardComponent },
     ])
   ],
   providers: [
@@ -95,7 +94,6 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     UtilityService,
     HubService,
     QuestionService,
-    //Globals
   ],
   bootstrap: [AppComponent]
 })

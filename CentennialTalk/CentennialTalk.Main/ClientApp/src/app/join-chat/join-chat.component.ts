@@ -34,6 +34,9 @@ export class JoinChatComponent implements OnInit {
 
   goToIconPage() {
     this.updateInputChatCode();
+
+    this.accountService.setLocalData(StorageKeys.ReturnUrl, '/join');
+
     this.utilityService.navigateToPath('/icon');
   }
 
