@@ -90,6 +90,7 @@
     -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
     -moz-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
     box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+    background-color: #fff;
   }
 
   .comments-list .comment-box:before, .comments-list .comment-box:after {
@@ -190,6 +191,8 @@
     -webkit-border-radius: 0 0 4px 4px;
     -moz-border-radius: 0 0 4px 4px;
     border-radius: 0 0 4px 4px;
+    width: 100%;
+    text-align: right;
   }
 
   .comment-box .comment-name.by-author, .comment-box .comment-name.by-author a {
@@ -231,6 +234,40 @@
       right: -12px;
       left: initial;
     }
+  }
+
+  .reply-button {
+    float: left;
+    margin: 0 10px !important;
+    cursor: pointer;
+    color: $light-grey !important;
+
+    &:hover {
+      color: $blue !important;
+    }
+  }
+
+  .replied-to-message {
+    width: 100%;
+    padding: 5px;
+    background-color: #f2f5c3;
+    border-bottom: 1px dashed #b7b7b7;
+    float: left;
+
+    .content, h6,
+    span.your-message.content, h6 {
+      float: left !important;
+      margin-left: 0 !important;
+    }
+  }
+
+  .no-message.replied-to-message {
+    visibility: hidden;
+    margin-top: -50px;
+  }
+
+  .your-message .replied-to-message span.content {
+    float: left !important;
   }
   /** =====================
  * Responsive

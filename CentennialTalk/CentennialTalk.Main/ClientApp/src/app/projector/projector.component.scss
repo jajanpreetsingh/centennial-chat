@@ -134,3 +134,35 @@ textarea {
     border: 1px solid $color-secondary !important;
   }
 }
+
+.fa-microphone.pulse {
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 0 0 0 rgba(#5a99d4, .5);
+  -webkit-animation: pulse 1.5s infinite;
+  border: 1px solid $dark-grey;
+  background-color: $color-secondary;
+  color: $color-primary;
+}
+
+@mixin transform($property) {
+  -webkit-transform: $property;
+  -ms-transform: $property;
+  transform: $property;
+}
+
+@-webkit-keyframes pulse {
+  0% {
+    @include transform(scale(.8));
+  }
+
+  70% {
+    @include transform(scale(1));
+    box-shadow: 0 0 0 50px rgba($color-primary, 0);
+  }
+
+  100% {
+    @include transform(scale(.9));
+    box-shadow: 0 0 0 0 rgba($color-primary, 0);
+  }
+}

@@ -2,58 +2,85 @@
 
 <div class="container-fluid" id="discussion-section">
   <div class="row">
-    <div class="col-sm-1"></div>
     <div class="col-sm-6">
       <div class="topic-area">
         <h4>{{chatData.title}}</h4><h4 *ngIf="hubInstance.publishedQuestion"> - {{hubInstance.publishedQuestion.content}}</h4>
-         <span class="participants">
-           {{hubInstance.members.length}}
-         </span>
+        <span class="participants">
+          {{hubInstance.members.length}}
+        </span>
       </div>
       <div id="discussion">
         <div class="comments-container">
           <ul id="comments-list" class="comments-list">
             <li *ngFor="let message of hubInstance.messages">
-              <div *ngIf="!message.isMine" class="comment-main-level">
 
-                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/{{message.sender}}.svg" alt="{{message.sender}}"></div>
+                <div *ngIf="!message.isMine" class="comment-main-level">
 
-                <div class="comment-box col-sm-10">
-                  <div class="comment-head">
-                    <h6 class="comment-name by-author">{{message.sender}}</h6>
-                    <span>Sent on : {{message.sendDate}}</span>
-                    <i class="fa fa-thumbs-o-up" (click)="likeMessage(message)" [@seventyFiveAnimation]='stateSeventyFive' [@fiftyAnimation]='stateFifty'></i>
-                    <span class="f-right">{{message.likeCount}}</span>
-                    <i class="fa fa-thumbs-o-down" (click)="dislikeMessage(message)" [@seventyFiveAnimation]='stateSeventyFive' [@fiftyAnimation]='stateFifty'></i>
-                    <span class="f-right">{{message.dislikeCount}}</span>
-                    <i class="fa fa-volume-up" (click)="playAudio(message)" aria-hidden="true"></i>
+                  <div class="comment-avatar col-sm-1"><img src="../../assets/icons/{{message.sender}}.svg" alt="{{message.sender}}"></div>
+
+                  <div class="comment-box col-sm-10">
+                    <div class="comment-head">
+                      <h6 class="comment-name by-author">{{message.sender}}</h6>
+                      <span>Sent on : {{message.sendDate}}</span>
+                      <i class="fa fa-thumbs-o-up" (click)="likeMessage(message)" [@seventyFiveAnimation]='stateSeventyFive' [@fiftyAnimation]='stateFifty'></i>
+                      <span class="f-right">{{message.likeCount}}</span>
+                      <i class="fa fa-thumbs-o-down" (click)="dislikeMessage(message)" [@seventyFiveAnimation]='stateSeventyFive' [@fiftyAnimation]='stateFifty'></i>
+                      <span class="f-right">{{message.dislikeCount}}</span>
+                      <i class="fa fa-volume-up" (click)="playAudio(message)" aria-hidden="true"></i>
+                    </div>
+                    <div class="replied-to-message no-message">
+                      <h6 class="comment-name">captain-america</h6><br/>
+                      <span class="content">The old message.</span>
+                    </div>
+                    <div class="comment-content">{{message.content}}</div>
                   </div>
-                  <div class="comment-content">{{message.content}}</div>
                 </div>
-              </div>
 
-              <div *ngIf="message.isMine" class="comment-main-level your-message">
+                <div *ngIf="message.isMine" class="comment-main-level your-message">
 
-                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/{{message.sender}}.svg" alt="{{message.sender}}"></div>
+                  <div class="comment-avatar col-sm-1"><img src="../../assets/icons/{{message.sender}}.svg" alt="{{message.sender}}"></div>
 
-                <div class="comment-box col-sm-10">
-                  <div class="comment-head">
-                    <h6 class="comment-name">{{message.sender}}</h6>
-                    <span>Sent on : {{message.sendDate}}</span>
-                    <i class="fa fa-thumbs-o-up" (click)="likeMessage(message)" [@seventyFiveAnimation]='stateSeventyFive' [@fiftyAnimation]='stateFifty'></i>
-                    <span class="f-right">{{message.likeCount}}</span>
-                    <i class="fa fa-thumbs-o-down" (click)="dislikeMessage(message)" [@seventyFiveAnimation]='stateSeventyFive' [@fiftyAnimation]='stateFifty'></i>
-                    <span class="f-right">{{message.dislikeCount}}</span>
-                    <i class="fa fa-volume-up" (click)="playAudio(message)" aria-hidden="true"></i>
+                  <div class="comment-box col-sm-10">
+                    <div class="comment-head">
+                      <h6 class="comment-name">{{message.sender}}</h6>
+                      <span>Sent on : {{message.sendDate}}</span>
+
+                      <i class="fa fa-thumbs-o-up" (click)="likeMessage(message)" [@seventyFiveAnimation]='stateSeventyFive' [@fiftyAnimation]='stateFifty'></i>
+                      <span class="f-right">{{message.likeCount}}</span>
+                      <i class="fa fa-thumbs-o-down" (click)="dislikeMessage(message)" [@seventyFiveAnimation]='stateSeventyFive' [@fiftyAnimation]='stateFifty'></i>
+                      <span class="f-right">{{message.dislikeCount}}</span>
+                      <i class="fa fa-volume-up" (click)="playAudio(message)" aria-hidden="true"></i>
+                      <a class="reply-button">Reply</a>
+                    </div>
+                    <div class="replied-to-message">
+                      <h6 class="comment-name">captain-america</h6><br />
+                      <span class="content">The old message.</span>
+                    </div>
+                    <div class="comment-content">{{message.content}}</div>
                   </div>
-                  <div class="comment-content">{{message.content}}</div>
                 </div>
-              </div>
-          </ul>
+</ul>
         </div>
       </div>
+      <div class="fitted-container">
+        <p>Characters remaining : {{250 - (message!=null && message!=''?message.length:0)}}</p>
+        <form>
+          <div id="textarea-container">
+            <textarea [(ngModel)]="message" name="message" rows="2" cols="45"></textarea>
+            <i *ngIf="!isListening" (click)="startListening()" class="fa fa-microphone" aria-hidden="true"></i>
+            <i *ngIf="isListening" (click)="stopListening()" class="fa fa-microphone pulse" aria-hidden="true"></i>
+          </div>
+          <button *ngIf="hubInstance.publishedQuestion==null" class="btn btn-lg" (click)="sendMessage()">Post</button>
+
+          <button *ngIf="hubInstance.publishedQuestion!=null && !hubInstance.publishedQuestion.isPollingQuestion" class="btn" (click)="submitAnswer()">Submit</button>
+
+          <!--<button class="btn btn-lg" (click)="animateMeFifty()">test 50%</button>
+      <button class="btn btn-lg" (click)="animateMeSeventyFive()">test 75%</button>-->
+        </form>
+      </div>
     </div>
-    <div class="col-sm-4" id="input-messsage">
+    <div class="col-sm-6" id="input-messsage">
+      <app-discussion-poll></app-discussion-poll>
 
       <div *ngIf="hubInstance.publishedQuestion">
         <h4><span>Q</span>{{hubInstance.publishedQuestion.content}}</h4>
@@ -64,26 +91,6 @@
         </div>
         <hr />
       </div>
-
-      <div class="fitted-container">
-        <h4>Message</h4>
-        <p>Characters remaining : {{250 - (message!=null && message!=''?message.length:0)}}</p>
-        <form>
-          <div id="textarea-container">
-            <textarea [(ngModel)]="message" name="message" rows="10" cols="45"></textarea>
-            <i *ngIf="!isListening" (click)="startListening()" class="fa fa-microphone" aria-hidden="true"></i>
-            <i *ngIf="isListening" (click)="stopListening()" class="fa fa-microphone" aria-hidden="true"></i>
-          </div>
-          <button *ngIf="hubInstance.publishedQuestion==null" class="btn btn-lg" (click)="sendMessage()">Post</button>
-
-          <button *ngIf="hubInstance.publishedQuestion!=null && !hubInstance.publishedQuestion.isPollingQuestion" class="btn" (click)="submitAnswer()">Submit</button>
-
-          <!--<button class="btn btn-lg" (click)="animateMeFifty()">test 50%</button>
-  <button class="btn btn-lg" (click)="animateMeSeventyFive()">test 75%</button>-->
-        </form>
-      </div>
-    </div>
-    <div class="col-sm-1">
     </div>
   </div>
   <div id="count-stud">

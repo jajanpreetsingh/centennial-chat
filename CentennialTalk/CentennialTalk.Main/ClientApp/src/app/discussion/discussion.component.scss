@@ -2,8 +2,16 @@
 @import '../scss/chat.scss';
 
 #discussion-section {
-	padding-top: 100px;
-	padding-bottom: 40px;
+  padding-top: 80px;
+  padding-bottom: 40px;
+
+  #textarea-container {
+    position: relative;
+  }
+
+  .fitted-container {
+    margin: 2px 0 5px 0;
+  }
 }
 
 #discussion-section, h2, h3, h4, p{
@@ -21,7 +29,7 @@
 }
 
 #discussion {
-  height: 75vh;
+  height: 70vh;
   background-color: $dark-white;
   border: 1px solid $color-primary;
   overflow-y: scroll;
@@ -38,20 +46,6 @@ textarea {
 	border: 1px solid $color-primary;
 }
 
-#input-messsage {
-  padding-top: 100px;
-
-  #textarea-container {
-    position: relative;
-  }
-
-  .fitted-container{
-    padding: 10px;
-    background-color: $color-secondary;
-    border: 1px solid $color-primary;
-    border-radius: 5px;
-  }
-}
 
 .avatar{
 	text-align: center;
@@ -94,7 +88,7 @@ textarea {
   position: absolute;
   left: 92vw;
   font-size: 2em;
-  bottom: 50px;
+  bottom: -50px;
   width: 60px;
 }
 
@@ -118,6 +112,38 @@ textarea {
     border: 1px solid $dark-grey;
     background-color: $color-secondary;
     color: $color-primary;
+  }
+}
+
+.fa-microphone.pulse {
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 0 0 0 rgba(#5a99d4, .5);
+  -webkit-animation: pulse 1.5s infinite;
+  border: 1px solid $dark-grey;
+  background-color: $color-secondary;
+  color: $color-primary;
+}
+
+@mixin transform($property) {
+  -webkit-transform: $property;
+  -ms-transform: $property;
+  transform: $property;
+}
+
+@-webkit-keyframes pulse {
+  0% {
+    @include transform(scale(.8));
+  }
+
+  70% {
+    @include transform(scale(1));
+    box-shadow: 0 0 0 50px rgba($color-primary, 0);
+  }
+
+  100% {
+    @include transform(scale(.9));
+    box-shadow: 0 0 0 0 rgba($color-primary, 0);
   }
 }
 

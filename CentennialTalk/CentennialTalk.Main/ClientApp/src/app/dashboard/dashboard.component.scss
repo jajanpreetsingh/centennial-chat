@@ -1,42 +1,31 @@
 @import '../scss/styles.scss';
 
-#welcome-login {
-  background-image: url("../../assets/images/login-header.jpg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  padding-top: 100px;
-  padding-bottom: 30px;
+.dashboard-section {
+  background-color: $dark-white;
   font-family: $font-primary;
+ padding-top: 200px;
+  min-height:97vh;
 }
 
-@media only screen and (max-width: 768px) {
-  .info-blocks {
-    display: none !important;
-  }
+table {
+  border-collapse: separate;
+  border-spacing: 0 10px;
+
 }
 
-.info-blocks {
-  border-top: 2px solid $white;
-  display: -ms-flex;
-  display: -webkit-flex;
-  display: flex;
-  background-color: $white;
-  font-family: $font-primary;
-  -moz-box-shadow: inset 0 0 10px #000000;
-  -webkit-box-shadow: inset 0 0 10px #000000;
-  box-shadow: inset 0 0 10px #000000;
-
-  h4 {
-    font-weight: 600;
-  }
-
-  svg {
-    height: 280px;
-  }
+tbody tr {
+  background: $white;
+  margin-top: 5px;
+  -webkit-box-shadow: 0px 3px 30px -13px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 3px 30px -13px rgba(0,0,0,0.75);
+  box-shadow: 0px 3px 30px -13px rgba(0,0,0,0.75);
 }
 
-.col-sm-4 {
+thead tr{
+  background: none;
+}
+
+.table td, th {
   text-align: center;
-  padding: 10px 0;
+  vertical-align: middle;
 }
