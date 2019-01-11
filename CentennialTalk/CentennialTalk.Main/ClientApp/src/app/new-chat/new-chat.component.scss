@@ -12,6 +12,10 @@
     margin-left: -20px;
     margin-top: 4px;
   }
+
+  input[placeholder="question"], input[placeholder="answer"] {
+    min-width: 300px;
+  }
 }
 
 h2, h4, h5, #new-chat-section {
