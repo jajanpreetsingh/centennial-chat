@@ -10,6 +10,7 @@
 
     <!-- Set this to true if you enable server-side prerendering -->
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
+    <UserSecretsId>4b337349-d953-45ff-96cd-27db579ae307</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -42,6 +43,7 @@
   <ItemGroup>
     <None Remove="ClientApp\src\models\globals.ts" />
     <None Remove="ClientApp\src\models\member.model.ts" />
+    <None Remove="ClientApp\src\models\popup.model.ts" />
     <None Remove="ClientApp\src\models\response.model.ts" />
     <None Remove="ClientApp\src\models\useranswer.model.ts" />
   </ItemGroup>
@@ -59,6 +61,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\models\globals.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\member.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\models\popup.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\response.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\models\useranswer.model.ts" />
   </ItemGroup>

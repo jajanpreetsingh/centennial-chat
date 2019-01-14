@@ -74,5 +74,29 @@ namespace CentennialTalk.Persistence.Repositories
         {
             return dbContext.Answers.Where(x => x.ChatCode == chatCode).ToList();
         }
+
+        public List<QuestionTrainingModel> GetAllSubjectiveAnswers()
+        {
+            List<QuestionTrainingModel> trainData = new List<QuestionTrainingModel>();
+
+            List<SubjectiveQuestion> questions = dbContext.Questions.ToList();
+
+            if (questions == null)
+                return trainData;
+
+            List<UserAnswer> answers = dbContext.Answers.Where(x => questions.Any(y => y.QuestionId == x.QuestionId)).ToList();
+
+            answers.ForEach(x => 
+            {
+                QuestionTrainingModel q = new QuestionTrainingModel();
+
+                q.Answer = x.Content;
+                q.Question = questions.FirstOrDefault(y => y.QuestionId == x.QuestionId).Content;
+
+                trainData.Add(q);
+            });
+
+            return trainData;
+        }
     }
 }

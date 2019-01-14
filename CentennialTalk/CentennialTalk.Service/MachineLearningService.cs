@@ -1,4 +1,5 @@
-﻿using Microsoft.ML.Legacy;
+﻿using Microsoft.ML;
+using System.Collections.Generic;
 
 namespace CentennialTalk.Service
 {
@@ -6,9 +7,6 @@ namespace CentennialTalk.Service
     {
         public void Predict()
         {
-            LearningPipeline pipeline = new LearningPipeline();
-
-            //pipeline.Add(new Da)
         }
     }
 }

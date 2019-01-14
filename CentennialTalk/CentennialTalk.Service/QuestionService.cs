@@ -4,8 +4,11 @@ using CentennialTalk.Models.QuestionModels;
 using CentennialTalk.PersistenceContract;
 using CentennialTalk.ServiceContract;
 using Microsoft.Extensions.Logging;
+using Microsoft.ML;
+using Microsoft.ML.Data;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace CentennialTalk.Service
@@ -15,6 +18,9 @@ namespace CentennialTalk.Service
         private readonly IChatRepository chatRepository;
         private readonly IQuestionRepository questionRepository;
         private readonly ILogger<ChatService> logger;
+
+        private readonly string _dataPath = Path.Combine(Environment.CurrentDirectory, "Data", "question.data");
+        private readonly string _modelPath = Path.Combine(Environment.CurrentDirectory, "Data", "questiontrainingmodel.zip");
 
         public QuestionService(IChatRepository chatRepository, ILogger<ChatService> logger,
                                IQuestionRepository questionRepository)
@@ -187,6 +193,33 @@ namespace CentennialTalk.Service
             questionRepository.SaveAnswers(answers);
 
             return new ResponseDTO(ResponseCode.OK, "Answers saved succesfully");
+        }
+
+        public ClusterPrediction TrainModel(QuestionTrainingModel predictArg)
+        {
+            MLContext context = new MLContext();
+
+            List<QuestionTrainingModel> userAnswers = questionRepository.GetAllSubjectiveAnswers();
+
+            IDataView trainingData = context.CreateStreamingDataView(userAnswers);
+
+            var pipeline = context.Transforms
+                                  .Concatenate("ClusteredColumn", "Question", "Answer")
+                                  .Append(context.Clustering.Trainers.KMeans("ClusteredColumn"));
+
+            var model = pipeline.Fit(trainingData);
+
+            using (FileStream fileStream = new FileStream(_modelPath, FileMode.Create, FileAccess.Write, FileShare.Write))
+            {
+                context.Model.Save(model, fileStream);
+            }
+
+            PredictionEngine<QuestionTrainingModel, ClusterPrediction> predictor = 
+                model.CreatePredictionEngine<QuestionTrainingModel, ClusterPrediction>(context);
+
+            ClusterPrediction prediction = predictor.Predict(predictArg);
+
+            return prediction;
         }
     }
 }

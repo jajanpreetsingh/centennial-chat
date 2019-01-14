@@ -24,5 +24,7 @@ namespace CentennialTalk.PersistenceContract
         SubjectiveQuestion GetOpenQuesById(Guid id);
 
         List<UserAnswer> GetPreviousAnswers(UserAnswerDTO answer);
+
+        List<QuestionTrainingModel> GetAllSubjectiveAnswers();
     }
 }
