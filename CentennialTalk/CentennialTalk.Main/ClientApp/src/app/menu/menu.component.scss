@@ -39,3 +39,10 @@ ul.nav li{
     position: fixed;
   }
 }
+
+.errors {
+  position: fixed;
+  width: 100%;
+  z-index: 1000000;
+  margin-top: -20px;
+}

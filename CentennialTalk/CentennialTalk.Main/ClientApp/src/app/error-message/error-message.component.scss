@@ -1,15 +1,14 @@
 @import '../scss/styles.scss';
 
-#error-message {
+.error-message {
   margin: 0;
   z-index: 1000000;
-  position: fixed;
   width: 100%;
+  margin-bottom: 2px;
   //background-color: rgba(198, 37, 39, 0.9);
   //color: $white;
-
   .fa-times-circle-o {
     float: right;
-    cursor:pointer;
+    cursor: pointer;
   }
 }
