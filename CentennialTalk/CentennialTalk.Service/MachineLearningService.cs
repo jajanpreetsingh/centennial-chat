@@ -1,7 +1,4 @@
-﻿using Microsoft.ML;
-using System.Collections.Generic;
-
-namespace CentennialTalk.Service
+﻿namespace CentennialTalk.Service
 {
     public class MachineLearningService
     {

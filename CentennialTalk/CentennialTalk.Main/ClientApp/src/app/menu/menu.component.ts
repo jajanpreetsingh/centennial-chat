@@ -11,8 +11,11 @@ export class MenuComponent implements OnInit {
   isIn: boolean = false;
   loggedIn: boolean = false;
 
+  utility: UtilityService;
+
   constructor(private accountService: AccountService, private utilityService: UtilityService) {
     this.loggedIn = this.accountService.isLoggedIn();
+    this.utility = utilityService;
   }
 
   ngOnInit() {
@@ -32,7 +35,6 @@ export class MenuComponent implements OnInit {
   }
 
   goToDashboard() {
-
     this.utilityService.navigateToPath('/dashboard');
   }
 
@@ -49,6 +51,10 @@ export class MenuComponent implements OnInit {
         console.log("logout failed");
       }
     });
+  }
+
+  hideError(index: number) {
+    this.utility.errors.splice(index, 1);
   }
 
   toggleState() {

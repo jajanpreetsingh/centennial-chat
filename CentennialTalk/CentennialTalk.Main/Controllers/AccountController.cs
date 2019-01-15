@@ -63,7 +63,7 @@ namespace CentennialTalk.Main.Controllers
                     return GetJson(new ResponseDTO(ResponseCode.OK, "Registeration successful"));
                 }
 
-                return GetJson(new ResponseDTO(ResponseCode.ERROR, result.Errors.ToArray()));
+                return GetJson(new ResponseDTO(ResponseCode.ERROR, result.Errors.Select(x => x.Description).ToArray()));
             }
             catch (Exception ex)
             {
@@ -100,7 +100,7 @@ namespace CentennialTalk.Main.Controllers
             }
             catch (Exception ex)
             {
-                return GetJson(new ResponseDTO(ResponseCode.ERROR, ex.Message));
+                return GetJson(new ResponseDTO(ResponseCode.ERROR, new string[] { ex.Message }));
             }
         }
 
@@ -126,7 +126,7 @@ namespace CentennialTalk.Main.Controllers
                 }
                 else
                 {
-                    return GetJson(new ResponseDTO(ResponseCode.ERROR, result.Errors.ToArray()));
+                    return GetJson(new ResponseDTO(ResponseCode.ERROR, result.Errors.Select(x => x.Description).ToArray()));
                 }
             }
             catch (Exception ex)
@@ -150,7 +150,7 @@ namespace CentennialTalk.Main.Controllers
                 }
                 else
                 {
-                    return GetJson(new ResponseDTO(ResponseCode.ERROR, result.Errors.ToArray()));
+                    return GetJson(new ResponseDTO(ResponseCode.ERROR, result.Errors.Select(x => x.Description).ToArray()));
                 }
             }
             catch (Exception ex)
@@ -171,7 +171,17 @@ namespace CentennialTalk.Main.Controllers
                 return GetJson(new ResponseDTO(ResponseCode.OK, GenerateJwtToken(user)));
             }
 
-            return GetJson(new ResponseDTO(ResponseCode.ERROR, "Invalid login attempt"));
+            List<string> errors = new List<string>();
+
+            errors.Add("Incorrect username or password");
+
+            if (result.IsLockedOut)
+                errors.Add("User is locked out");
+
+            if (result.IsNotAllowed)
+                errors.Add("User not allowed to sign in");
+
+            return GetJson(new ResponseDTO(ResponseCode.ERROR, errors.ToArray()));
         }
 
         [HttpGet("logout")]

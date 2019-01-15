@@ -1,6 +1,7 @@
 export class Popup {
   message: string;
   level: string;
+  heading: string;
 }
 
 export enum Level {

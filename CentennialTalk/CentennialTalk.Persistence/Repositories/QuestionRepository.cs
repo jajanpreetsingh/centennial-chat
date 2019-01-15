@@ -86,7 +86,7 @@ namespace CentennialTalk.Persistence.Repositories
 
             List<UserAnswer> answers = dbContext.Answers.Where(x => questions.Any(y => y.QuestionId == x.QuestionId)).ToList();
 
-            answers.ForEach(x => 
+            answers.ForEach(x =>
             {
                 QuestionTrainingModel q = new QuestionTrainingModel();
 

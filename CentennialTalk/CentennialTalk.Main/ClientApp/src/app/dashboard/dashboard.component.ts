@@ -10,7 +10,6 @@ import { StorageKeys, AccountService } from '../services/account.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-
   chats: ChatModel[] = [];
 
   constructor(private chatServ: ChatService, private utilityService: UtilityService,
@@ -25,7 +24,6 @@ export class DashboardComponent implements OnInit {
   }
 
   goToIconPage() {
-
     this.accountService.setLocalData(StorageKeys.ReturnUrl, '/dashboard');
     this.utilityService.navigateToPath('/icon');
   }
@@ -39,7 +37,6 @@ export class DashboardComponent implements OnInit {
   }
 
   onSubmitJoinChat(user: string, code: string) {
-
     if (this.accountService.isValNull(user) || this.accountService.isValNull(code)) {
       //handle errors
       console.log("joining interrupted");

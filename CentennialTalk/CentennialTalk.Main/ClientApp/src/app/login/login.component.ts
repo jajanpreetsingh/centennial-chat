@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginModel } from '../../models/login.model';
 import { AccountService, StorageKeys } from '../services/account.service';
 import { UtilityService } from '../services/utility.service';
-import { JwtHelper } from 'angular2-jwt';
-//import { detectChanges } from '@angular/core/src/render3';
+import { Popup, Level } from '../../models/popup.model';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +12,11 @@ import { JwtHelper } from 'angular2-jwt';
 export class LoginComponent implements OnInit {
   login: LoginModel = new LoginModel();
 
-  constructor(private accountService: AccountService, private utility: UtilityService) { }
+  utility: UtilityService;
+
+  constructor(private accountService: AccountService, private util: UtilityService) {
+    this.utility = util;
+  }
 
   ngOnInit() {
   }
@@ -28,22 +31,42 @@ export class LoginComponent implements OnInit {
 
         this.accountService.setLocalData(StorageKeys.LoginUsername, this.login.username);
 
-        this.utility.navigateToPath('/dashboard');
+        this.util.navigateToPath('/dashboard');
+
+        this.utility.addPageError("Success", "Login successful", Level[Level.success]);
+      }
+      else if (res.code == 500) {
+
+        let errors: string[] = res.data;
+
+        errors.forEach(x => {
+
+          this.utility.addPageError("Error", x, Level[Level.danger]);
+
+        });
       }
       else {
-        console.log("Login failed");
+
+        let errors: string[] = res.data;
+
+        errors.forEach(x => {
+
+          this.utility.addPageError("Warning", x, Level[Level.warning]);
+
+        });
       }
     },
       err => {
-        console.log(err);
+
+        this.utility.addPageError("Error", err, Level[Level.danger]);
       });
   }
 
   goToForgotPassword() {
-    this.utility.navigateToPath('/forgot');
+    this.util.navigateToPath('/forgot');
   }
 
   goToSignup() {
-    this.utility.navigateToPath('/signup');
+    this.util.navigateToPath('/signup');
   }
 }

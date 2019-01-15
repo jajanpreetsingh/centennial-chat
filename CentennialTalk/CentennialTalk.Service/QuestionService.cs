@@ -214,7 +214,7 @@ namespace CentennialTalk.Service
                 context.Model.Save(model, fileStream);
             }
 
-            PredictionEngine<QuestionTrainingModel, ClusterPrediction> predictor = 
+            PredictionEngine<QuestionTrainingModel, ClusterPrediction> predictor =
                 model.CreatePredictionEngine<QuestionTrainingModel, ClusterPrediction>(context);
 
             ClusterPrediction prediction = predictor.Predict(predictArg);

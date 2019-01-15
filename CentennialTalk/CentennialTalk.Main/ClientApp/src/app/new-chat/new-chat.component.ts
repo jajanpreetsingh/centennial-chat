@@ -5,6 +5,7 @@ import { UtilityService } from '../services/utility.service';
 import { AccountService, StorageKeys } from '../services/account.service';
 import { QuestionModel } from '../../models/question.model';
 import { Response } from '../../models/response.model';
+import { Level } from '../../models/popup.model';
 
 @Component({
   selector: 'app-new-chat',
@@ -54,6 +55,12 @@ export class NewChatComponent implements OnInit, OnDestroy {
   }
 
   addOpenQuestion() {
+
+    if (this.chatData.openQuestions != null && this.chatData.openQuestions.findIndex(x => x.content == this.openQuestion) >= 0) {
+      this.utilityService.addPageError("Duplicate Question", "Cannot add question with same content", Level[Level.danger]);
+      return;
+    }
+
     if (this.chatData.openQuestions == null || this.chatData.openQuestions.length <= 0)
       this.chatData.openQuestions = [];
 
@@ -79,6 +86,17 @@ export class NewChatComponent implements OnInit, OnDestroy {
   }
 
   addPollQuestion() {
+
+    if (this.chatData.pollQuestions != null && this.chatData.pollQuestions.findIndex(x => x.content == this.pollQuestion) >= 0) {
+      this.utilityService.addPageError("Duplicate Question", "Cannot add question with same content", Level[Level.danger]);
+      return;
+    }
+
+    if (this.pollOptions == null || this.pollOptions.length <= 0) {
+      this.utilityService.addPageError("Empty options", "Cannot add polls without options", Level[Level.danger]);
+      return;
+    }
+
     if (this.chatData.pollQuestions == null || this.chatData.pollQuestions.length <= 0)
       this.chatData.pollQuestions = [];
 
@@ -91,7 +109,6 @@ export class NewChatComponent implements OnInit, OnDestroy {
 
     console.log(this.pollOptions);
 
-    if (this.pollOptions != null && this.pollOptions.length > 0)
       this.pollOptions.forEach(x => q.options.push(x));
 
     q.isPollingQuestion = true;

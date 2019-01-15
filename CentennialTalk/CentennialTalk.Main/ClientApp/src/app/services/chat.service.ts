@@ -22,7 +22,6 @@ export class ChatService {
   downloadTranscript(chatCode: string) {
     return this.http.post("/api/chat/transcript", { 'value': chatCode })
       .subscribe(res => {
-
         //let url = window.URL.createObjectURL(new Blob(res, { type: 'application/vnd.ms-word' }));
         //var link = document.createElement("a");
         //link.setAttribute("href", url);
@@ -31,7 +30,6 @@ export class ChatService {
         //document.body.appendChild(link);
         //link.click();
         //document.body.removeChild(link);
-
       });
   }
 
