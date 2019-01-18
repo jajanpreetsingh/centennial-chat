@@ -166,3 +166,27 @@ textarea {
     box-shadow: 0 0 0 0 rgba($color-primary, 0);
   }
 }
+
+.replying-to-message {
+  display: inline-block;
+  float: right;
+  position: relative;
+  z-index: 100000;
+
+  span {
+    color: $blue;
+  }
+
+  &:hover {
+    margin-bottom: 10px;
+    cursor: pointer;
+
+    span:after {
+      content: "Stop Replying"
+    }
+
+    p {
+      display: none
+    }
+  }
+}

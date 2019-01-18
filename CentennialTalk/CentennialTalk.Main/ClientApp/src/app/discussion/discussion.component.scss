@@ -238,3 +238,26 @@ textarea {
 .poll-body {
   padding: 10px;
 }
+
+.replying-to-message {
+  display: inline-block;
+  float: right;
+
+  span {
+    color: $blue;
+  }
+
+  &:hover {
+    cursor: pointer;
+
+    span:after {
+      content: "Stop Replying"
+    }
+
+    p {
+      display: none
+    }
+  }
+}
+
+

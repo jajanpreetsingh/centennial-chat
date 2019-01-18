@@ -59,6 +59,7 @@
           </ul>
         </div>
       </div>
+      <div class="replying-to-message"><p>Replying to: <span>UserName</span></p><span></span></div>
       <div id="textarea-container">
         <textarea [(ngModel)]="message" name="message" placeholder="Enter your message here"></textarea>
         <i *ngIf="!isListening" (click)="startListening()" class="fa fa-microphone" aria-hidden="true"></i>

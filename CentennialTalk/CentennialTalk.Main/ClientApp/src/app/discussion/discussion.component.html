@@ -63,7 +63,7 @@
         </div>
       </div>
       <div class="fitted-container">
-        <p>Characters remaining : {{250 - (message!=null && message!=''?message.length:0)}}</p>
+        <p style="display: inline-block">Characters remaining : {{250 - (message!=null && message!=''?message.length:0)}}</p><div class="replying-to-message"><p>Replying to: <span>UserName</span></p><span></span></div>
         <form>
           <div id="textarea-container">
             <textarea [(ngModel)]="message" name="message" rows="2" cols="45"></textarea>
