@@ -29,20 +29,20 @@ namespace CentennialTalk.Main.Controllers
         public IActionResult New([FromBody]NewChatDTO newChat)
         {
             if (string.IsNullOrWhiteSpace(newChat.title))
-                return GetJson(new ResponseDTO(ResponseCode.ERROR, "Unable to create chat with incomplete data"));
+                return GetJson(new ResponseDTO(ResponseCode.ERROR, new string[] { "Unable to create chat with incomplete data" }));
 
             Discussion chat = chatService.CreateNewChat(newChat);
 
-            uowService.SaveChanges();
+            bool saved = uowService.SaveChanges();
 
-            if (chat != null)
+            if (chat != null && saved)
             {
                 DiscussionDTO dto = chat.GetResponseDTO();
                 dto.username = dto.moderator;
                 return GetJson(new ResponseDTO(ResponseCode.OK, dto));
             }
             else
-                return GetJson(new ResponseDTO(ResponseCode.ERROR, "Error creating chat"));
+                return GetJson(new ResponseDTO(ResponseCode.ERROR, new string[] { "Error creating chat" }));
         }
 
         [HttpPost("join")]
@@ -54,7 +54,7 @@ namespace CentennialTalk.Main.Controllers
 
             if (!saved)
                 return GetJson(new ResponseDTO(ResponseCode.ERROR,
-                    "Error while saving message"));
+                   new string[] { "Error while joining chat" }));
 
             return GetJson(result);
         }

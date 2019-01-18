@@ -4,7 +4,6 @@ import { ChatModel } from '../../models/chat.model';
 import { UtilityService } from '../services/utility.service';
 import { AccountService, StorageKeys } from '../services/account.service';
 import { QuestionModel } from '../../models/question.model';
-import { Response } from '../../models/response.model';
 import { Level } from '../../models/popup.model';
 
 @Component({
@@ -154,11 +153,33 @@ export class NewChatComponent implements OnInit, OnDestroy {
     let user = this.chatData.username;
     let mod = this.chatData.moderator;
 
-    console.log(user + " : " + mod);
+    if (this.accountService.isValNull(this.chatData.title)) {
+      this.utilityService.addPageError("Missing Title",
+        "Enter a valid title for the session", Level[Level.danger]);
+      return;
+    }
 
-    if (this.accountService.isValNull(user) || this.accountService.isValNull(mod)) {
-      //handle errors
-      console.log("joining interrupted");
+    if (this.accountService.isValNull(user)) {
+      this.utilityService.addPageError("Missing Identity",
+        "Select a psudonym/icon to join the session", Level[Level.danger]);
+      return;
+    }
+
+    if (this.accountService.isValNull(mod)) {
+      this.utilityService.addPageError("Missing Idebtity",
+        "Select a psudonym/icon for moderator to join the session", Level[Level.danger]);
+      return;
+    }
+
+    if (this.accountService.isValNull(this.chatData.activationDate) || this.accountService.isValNull(this.chatData.expirationDate)) {
+      this.utilityService.addPageError("Missing Dates",
+        "Session duration date values are required", Level[Level.danger]);
+      return;
+    }
+    else if (new Date().valueOf() - this.chatData.expirationDate.valueOf() < 3600000
+      || this.chatData.activationDate.valueOf() == this.chatData.expirationDate.valueOf()) {
+      this.utilityService.addPageError("Unrealistic duration time",
+        "Session expiration/duration should atleast be 1 hour more than current time", Level[Level.danger]);
       return;
     }
 
@@ -179,15 +200,23 @@ export class NewChatComponent implements OnInit, OnDestroy {
 
         this.accountService.setLocalData(StorageKeys.ChatMembers, JSON.stringify(this.chatData.members));
 
+        this.utilityService.addPageError("Success", "Redirecting to Moderator session page", Level[Level.success]);
+
         this.utilityService.navigateToPath('/projector');
       }
       else {
         this.chatData = new ChatModel();
+        let errors: string[] = res.data;
+
+        errors.forEach(x => {
+          this.utilityService.addPageError("Error while joining", x, Level[Level.danger]);
+        });
       }
     },
       error => {
         this.chatData = new ChatModel();
-        console.log(error);
+        this.utilityService.addPageError("Response error",
+          error, Level[Level.danger]);
       });
   }
 

@@ -75,9 +75,9 @@ namespace CentennialTalk.Persistence.Repositories
             return dbContext.Answers.Where(x => x.ChatCode == chatCode).ToList();
         }
 
-        public List<QuestionTrainingModel> GetAllSubjectiveAnswers()
+        public List<ResponseTrainingModel> GetAllSubjectiveAnswers()
         {
-            List<QuestionTrainingModel> trainData = new List<QuestionTrainingModel>();
+            List<ResponseTrainingModel> trainData = new List<ResponseTrainingModel>();
 
             List<SubjectiveQuestion> questions = dbContext.Questions.ToList();
 
@@ -88,7 +88,7 @@ namespace CentennialTalk.Persistence.Repositories
 
             answers.ForEach(x =>
             {
-                QuestionTrainingModel q = new QuestionTrainingModel();
+                ResponseTrainingModel q = new ResponseTrainingModel();
 
                 q.Answer = x.Content;
                 q.Question = questions.FirstOrDefault(y => y.QuestionId == x.QuestionId).Content;

@@ -3,6 +3,7 @@ import { ChatModel } from '../../models/chat.model';
 import { ChatService } from '../services/chat.service';
 import { UtilityService } from '../services/utility.service';
 import { StorageKeys, AccountService } from '../services/account.service';
+import { Level } from '../../models/popup.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -32,14 +33,22 @@ export class DashboardComponent implements OnInit {
     this.chatServ.getChatList(this.accountService.getUserId()).subscribe(res => {
       if (res.code == 200) {
         this.chats = res.data;
+        console.log(this.chats);
       }
     });
   }
 
-  onSubmitJoinChat(user: string, code: string) {
-    if (this.accountService.isValNull(user) || this.accountService.isValNull(code)) {
-      //handle errors
-      console.log("joining interrupted");
+  joinThisChat(user: string, code: string) {
+
+    if (this.accountService.isValNull(user)) {
+      this.utilityService.addPageError("Missing Identity",
+        "Select a psudonym/icon to join the session", Level[Level.danger]);
+      return;
+    }
+
+    if (this.accountService.isValNull(code)) {
+      this.utilityService.addPageError("No chat code",
+        "Enter a valid chat code to join the session", Level[Level.danger]);
       return;
     }
 
@@ -50,38 +59,40 @@ export class DashboardComponent implements OnInit {
       }
     ).subscribe(res => {
       if (res.code == 200) {
-        //this.chatData = res.data;
+        let chatData = res.data;
 
-        //console.log(this.chatData);
+        this.accountService.setLocalData(StorageKeys.ChatCode, chatData.chatCode);
+        this.accountService.setLocalData(StorageKeys.ChatTitle, chatData.title);
+        this.accountService.setLocalData(StorageKeys.ChatUsername, chatData.username);
+        this.accountService.setLocalData(StorageKeys.ChatModerator, chatData.moderator);
 
-        //this.accountService.setLocalData(StorageKeys.ChatCode, this.chatData.chatCode);
-        //this.accountService.setLocalData(StorageKeys.ChatTitle, this.chatData.title);
-        //this.accountService.setLocalData(StorageKeys.ChatUsername, this.chatData.username);
-        //this.accountService.setLocalData(StorageKeys.ChatModerator, this.chatData.moderator);
+        this.accountService.setLocalData(StorageKeys.OpenQuestions, JSON.stringify(chatData.openQuestions));
 
-        //this.accountService.setLocalData(StorageKeys.OpenQuestions, JSON.stringify(this.chatData.openQuestions));
+        this.accountService.setLocalData(StorageKeys.PollingQuestions, JSON.stringify(chatData.pollQuestions));
 
-        //this.accountService.setLocalData(StorageKeys.PollingQuestions, JSON.stringify(this.chatData.pollQuestions));
+        this.accountService.setLocalData(StorageKeys.ChatMembers, JSON.stringify(chatData.members));
 
-        //this.accountService.setLocalData(StorageKeys.ChatMembers, JSON.stringify(this.chatData.members));
+        if (this.accountService.isLoggedIn() || this.accountService.amIModerator()) {
+          this.utilityService.addPageError("Success", "Redirecting to Moderator session page", Level[Level.success]);
+          this.utilityService.navigateToPath('/projector');
 
-        //if (this.accountService.isLoggedIn() || this.accountService.amIModerator()) {
-        //  console.log("going to projector....");
-        //  this.utilityService.navigateToPath('/projector');
-        //}
-        //else {
-        //  console.log("going to discussion....");
-        //  this.utilityService.navigateToPath('/discussion');
-        //}
+        }
+        else {
+          this.utilityService.addPageError("Success", "Redirecting to session page", Level[Level.success]);
+          this.utilityService.navigateToPath('/discussion');
+        }
       }
       else {
-        //this.chatData = new ChatModel();
-        //console.log(res.data);
+        let errors: string[] = res.data;
+
+        errors.forEach(x => {
+          this.utilityService.addPageError("Error while joining", x, Level[Level.danger]);
+        });
       }
     },
       error => {
-        //this.chatData = new ChatModel();
-        //console.log(error);
+        this.utilityService.addPageError("Response error",
+          error, Level[Level.danger]);
       });
   }
 }

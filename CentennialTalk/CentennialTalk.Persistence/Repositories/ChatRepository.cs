@@ -19,7 +19,10 @@ namespace CentennialTalk.Persistence.Repositories
 
         public List<Discussion> GetChatsByCreatorId(string creatorId)
         {
-            return dbContext.Discussions.Where(x => x.CreatorId == creatorId).ToList();
+            return dbContext.Discussions.Include(x => x.Members)
+                    .Include(x => x.Questions)
+                    .Include(x => x.Polls)
+                    .ThenInclude(y => y.Options).Where(x => x.CreatorId == creatorId).ToList();
         }
 
         public Discussion CreateNewChat(Discussion discussion)

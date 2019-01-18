@@ -179,3 +179,62 @@ textarea {
     height: 120px;
   }
 }
+
+
+#discussion-section, h2, h3, h4, p {
+  font-family: $font-primary;
+}
+
+.participants {
+  display: inline-block;
+  padding: 5px;
+  margin: 5px;
+  background-color: $light-grey;
+  color: $white;
+  border-radius: 10px;
+}
+
+#discussion {
+  background-color: $dark-white;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border: 1px solid $color-primary;
+}
+
+.btn {
+  background-color: $color-secondary !important;
+  border: 1px solid $color-primary !important;
+
+  &:hover {
+    background-color: $white !important;
+    color: $color-secondary !important;
+    border: 1px solid $color-secondary !important;
+  }
+}
+
+.header {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  background-color: $color-secondary;
+  border-bottom: 1px solid $color-primary;
+  color: $color-primary;
+  width: 100%;
+}
+
+.radio {
+  font-size: 1.1em;
+}
+
+.question {
+  width: 100%;
+  border-bottom: 1px solid $dark-grey;
+}
+
+.question-area {
+  margin-bottom: 50px;
+  border-bottom: 1px solid $dark-grey;
+}
+
+.poll-body {
+  padding: 10px;
+}

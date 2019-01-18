@@ -15,28 +15,17 @@
           </tr>
         </thead>
         <tbody>
-          <!--THIS IS JUST AN EXAMPLE-->
-          <tr>
-            <td>10/10/2010</td>
-            <td>Example Title</td>
-            <td>SomeCODE</td>
-            <td>5</td>
-            <td></td>
-          </tr>
           <!--REPEAT THIS tr ELEMENT-->
           <tr *ngFor="let chat of chats">
-            <!--ADD DATE HERE OR REMOVE THE COLUMN-->
-            <td>10/10/2010</td>
+            <td>{{chat.activationDate}}</td>
             <td>{{chat.title}}</td>
             <td>{{chat.chatCode}}</td>
-            <!--ADD DATE HERE OR REMOVE THE COLUMN-->
-            <td>12</td>
-            <td><button class="btn btn-lg" (click)="joinThisChat()" type="button">Join</button></td>
+            <td>{{chat.members.length}}</td>
+            <td><button class="btn btn-lg" (click)="joinThisChat(chat.moderator,chat.chatCode)" type="button">Join</button></td>
           </tr>
         </tbody>
       </table>
 
-      <button class="btn btn-lg" (click)="getList()">Get List</button>
       <button class="btn btn-lg" (click)="goToIconPage()" type="submit">Choose Icon</button>
       <button class="btn btn-lg" (click)="goToNewChatPage()" type="button">Create Your Session</button>
     </div>

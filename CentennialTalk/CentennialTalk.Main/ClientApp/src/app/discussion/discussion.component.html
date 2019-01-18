@@ -28,9 +28,9 @@
                       <span class="f-right">{{message.dislikeCount}}</span>
                       <i class="fa fa-volume-up" (click)="playAudio(message)" aria-hidden="true"></i>
                     </div>
-                    <div class="replied-to-message no-message">
-                      <h6 class="comment-name">captain-america</h6><br />
-                      <span class="content">The old message.</span>
+                    <div *ngIf="message.replyId" class="replied-to-message no-message">
+                      <h6 class="comment-name">{{message.oldSender}}</h6><br />
+                      <span class="content">{{message.oldMessage}}</span>
                     </div>
                     <div class="comment-content">{{message.content}}</div>
                   </div>
@@ -52,9 +52,9 @@
                       <i class="fa fa-volume-up" (click)="playAudio(message)" aria-hidden="true"></i>
                       <a class="reply-button">Reply</a>
                     </div>
-                    <div class="replied-to-message">
-                      <h6 class="comment-name">captain-america</h6><br />
-                      <span class="content">The old message.</span>
+                    <div *ngIf="message.replyId" class="replied-to-message no-message">
+                      <h6 class="comment-name">{{message.oldSender}}</h6><br />
+                      <span class="content">{{message.oldMessage}}</span>
                     </div>
                     <div class="comment-content">{{message.content}}</div>
                   </div>
@@ -80,9 +80,27 @@
       </div>
     </div>
     <div class="col-sm-6" id="input-messsage">
-      <app-discussion-poll></app-discussion-poll>
 
-      <div *ngIf="hubInstance.publishedQuestion">
+      <div *ngIf="hubInstance.publishedQuestion" class="container-fluid" id="discussion-section">
+        <div class="row">
+          <div class="col-sm-12">
+            <div id="discussion">
+              <div class="header text-center container"><h4>Poll</h4></div>
+              <div class="poll-body">
+                <div class="question-area">
+                  <div class="question"><h4>{{hubInstance.publishedQuestion.content}}</h4></div>
+                  <div *ngFor="let option of hubInstance.publishedQuestion.options" class="radio">
+                    <label><input type="checkbox" [checked]="selectedOptions.indexOf(option) >= 0" (change)="onOptionSelect(option)" name="optradio">{{option}}</label>
+                  </div>
+                </div>
+                <button class="btn btn-lg" (click)="submitAnswer()">Vote</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--<div *ngIf="hubInstance.publishedQuestion">
         <h4><span>Q</span>{{hubInstance.publishedQuestion.content}}</h4>
         <div *ngIf="hubInstance.publishedQuestion.isPollingQuestion">
           <span *ngFor="let option of hubInstance.publishedQuestion.options">
@@ -90,7 +108,7 @@
           </span>
         </div>
         <hr />
-      </div>
+      </div>-->
     </div>
   </div>
   <div id="count-stud">

@@ -1,8 +1,9 @@
 ﻿using Microsoft.ML.Data;
+using System;
 
 namespace CentennialTalk.Models.QuestionModels
 {
-    public class QuestionTrainingModel
+    public class ResponseTrainingModel
     {
         [Column("0")]
         public string Question;
@@ -18,5 +19,14 @@ namespace CentennialTalk.Models.QuestionModels
 
         [ColumnName("Score")]
         public float[] Distances;
+    }
+
+    public class ClusteredResponses
+    {
+        public uint PredictedClusterId;
+        public Guid QuestionId;
+        public int ResponseId;
+        public string ResponseContent;
+        public Guid MemberId;
     }
 }

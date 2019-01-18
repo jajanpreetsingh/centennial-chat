@@ -3,7 +3,11 @@ export class MessageModel {
   content: string;
   sender: string;
   chatCode: string;
+
   replyId: string;
+  oldMessage: string;
+  oldSender: string;
+
   sentDate: string;
   isMine: boolean;
   reactions: MemberReaction[];

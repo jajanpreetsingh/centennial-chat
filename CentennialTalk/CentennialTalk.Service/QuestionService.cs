@@ -195,11 +195,11 @@ namespace CentennialTalk.Service
             return new ResponseDTO(ResponseCode.OK, "Answers saved succesfully");
         }
 
-        public ClusterPrediction TrainModel(QuestionTrainingModel predictArg)
+        public ClusterPrediction TrainModel(ResponseTrainingModel predictArg)
         {
             MLContext context = new MLContext();
 
-            List<QuestionTrainingModel> userAnswers = questionRepository.GetAllSubjectiveAnswers();
+            List<ResponseTrainingModel> userAnswers = questionRepository.GetAllSubjectiveAnswers();
 
             IDataView trainingData = context.CreateStreamingDataView(userAnswers);
 
@@ -214,8 +214,8 @@ namespace CentennialTalk.Service
                 context.Model.Save(model, fileStream);
             }
 
-            PredictionEngine<QuestionTrainingModel, ClusterPrediction> predictor =
-                model.CreatePredictionEngine<QuestionTrainingModel, ClusterPrediction>(context);
+            PredictionEngine<ResponseTrainingModel, ClusterPrediction> predictor =
+                model.CreatePredictionEngine<ResponseTrainingModel, ClusterPrediction>(context);
 
             ClusterPrediction prediction = predictor.Predict(predictArg);
 

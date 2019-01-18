@@ -3,6 +3,7 @@ import { ChatService } from '../services/chat.service';
 import { ChatModel } from '../../models/chat.model';
 import { UtilityService } from '../services/utility.service';
 import { AccountService, StorageKeys } from '../services/account.service';
+import { Level } from '../../models/popup.model';
 
 @Component({
   selector: 'app-join-chat',
@@ -44,11 +45,15 @@ export class JoinChatComponent implements OnInit {
     let user = this.chatData.username;
     let code = this.chatData.chatCode;
 
-    console.log(this.chatData.username + " : " + this.chatData.chatCode);
+    if (this.accountService.isValNull(user)) {
+      this.utilityService.addPageError("Missing Identity",
+        "Select a psudonym/icon to join the session", Level[Level.danger]);
+      return;
+    }
 
-    if (this.accountService.isValNull(user) || this.accountService.isValNull(code)) {
-      //handle errors
-      console.log("joining interrupted");
+    if(this.accountService.isValNull(code)) {
+      this.utilityService.addPageError("No chat code",
+        "Enter a valid chat code to join the session", Level[Level.danger]);
       return;
     }
 
@@ -75,22 +80,28 @@ export class JoinChatComponent implements OnInit {
         this.accountService.setLocalData(StorageKeys.ChatMembers, JSON.stringify(this.chatData.members));
 
         if (this.accountService.isLoggedIn() || this.accountService.amIModerator()) {
-          console.log("going to projector....");
+          this.utilityService.addPageError("Success", "Redirecting to Moderator session page", Level[Level.success]);
           this.utilityService.navigateToPath('/projector');
+
         }
         else {
-          console.log("going to discussion....");
+          this.utilityService.addPageError("Success", "Redirecting to session page", Level[Level.success]);
           this.utilityService.navigateToPath('/discussion');
         }
       }
       else {
         this.chatData = new ChatModel();
-        console.log(res.data);
+        let errors: string[] = res.data;
+
+        errors.forEach(x => {
+          this.utilityService.addPageError("Error while joining", x, Level[Level.danger]);
+        });
       }
     },
       error => {
         this.chatData = new ChatModel();
-        console.log(error);
+        this.utilityService.addPageError("Response error",
+          error, Level[Level.danger]);
       });
   }
 }

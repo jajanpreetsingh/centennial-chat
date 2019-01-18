@@ -15,14 +15,16 @@ namespace CentennialTalk.Service
         private readonly IChatRepository chatRepository;
         private readonly IMessageRepository messageRepository;
         private readonly IQuestionRepository quesRepository;
+        private readonly IQuestionService quesService;
         private readonly ILogger<ChatService> logger;
 
         public FileService(IChatRepository chatRepository, IMessageRepository messageRepository,
-            IQuestionRepository quesRepository, ILogger<ChatService> logger)
+            IQuestionRepository quesRepository, IQuestionService quesService, ILogger<ChatService> logger)
         {
             this.chatRepository = chatRepository;
             this.messageRepository = messageRepository;
             this.quesRepository = quesRepository;
+            this.quesService = quesService;
             this.logger = logger;
         }
 
@@ -125,7 +127,126 @@ namespace CentennialTalk.Service
 
                 List<SubjectiveQuestion> subs = quesRepository.GetChatSubjectiveQuestions(chatCode);
 
-                foreach (SubjectiveQuestion sub in subs)
+                List<ClusteredResponses> res = GetClusteredQuestions(chat);
+
+                foreach (Guid qid in res.Select(x => x.QuestionId).Distinct().ToList())
+                {
+                    SubjectiveQuestion sub = subs.First(x => x.QuestionId == qid);
+
+                    if (sub == null)
+                        continue;
+
+                    List<ClusteredResponses> filterByQuestion = res.Where(x => x.QuestionId == qid).ToList();
+
+                    if (filterByQuestion == null || filterByQuestion.Count <= 0)
+                        continue;
+
+                    Paragraph pq = new Paragraph(docx);
+
+                    pq.Content.End.Insert(string.Format("Subjective Question : {0}", sub.Content),
+                        new CharacterFormat() { Size = 12, FontColor = Color.Blue, Bold = true });
+
+                    pq.Inlines.Add(new SpecialCharacter(docx, SpecialCharacterType.LineBreak));
+
+                    pq.ParagraphFormat.Alignment = HorizontalAlignment.Left;
+
+                    foreach (uint clid in filterByQuestion.Select(x => x.PredictedClusterId).Distinct().ToList())
+                    {
+                        foreach (ClusteredResponses responses in filterByQuestion)
+                        {
+                            List<ClusteredResponses> filterByCluster = filterByQuestion.Where(x => x.PredictedClusterId == clid).ToList();
+
+                            if (filterByCluster == null || filterByCluster.Count <= 0)
+                                continue;
+
+                            Paragraph p = new Paragraph(docx);
+
+                            foreach (ClusteredResponses resByCluster in filterByCluster)
+                            {
+                                UserAnswer quesans = answers.FirstOrDefault(x => x.Id == resByCluster.ResponseId);
+
+                                if (quesans == null)
+                                    continue;
+
+                                GroupMember mem = chat.Members.First(x => x.GroupMemberId == resByCluster.MemberId);
+
+                                bool isMod = mem.IsModerator;
+
+                                p.Content.End.Insert(string.Format("{0} Answers : ", mem.Username), new CharacterFormat() { Size = 12, FontColor = Color.Green });
+
+                                p.Inlines.Add(new SpecialCharacter(docx, SpecialCharacterType.LineBreak));
+
+                                p.Content.End.Insert(quesans.Content, new CharacterFormat() { Size = 12, FontColor = Color.Green });
+
+                                p.Inlines.Add(new SpecialCharacter(docx, SpecialCharacterType.LineBreak));
+
+                                p.ParagraphFormat.Alignment = HorizontalAlignment.Left;
+                            }
+
+                            p.Inlines.Add(new SpecialCharacter(docx, SpecialCharacterType.LineBreak));
+
+                            p.Inlines.Add(new SpecialCharacter(docx, SpecialCharacterType.LineBreak));
+
+                            sec2.Blocks.Add(p);
+                        }
+                    }
+                }
+
+                docx.Sections.Add(sec1);
+                docx.Sections.Add(sec2);
+                docx.Sections.Add(sec3);
+
+                string fileName = chat.Title + "_" + DateTime.Now.ToString();
+
+                docx.Save(fileName);
+
+                return fileName;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<ClusteredResponses> GetClusteredQuestions(Discussion chat)
+        {
+            List<ClusteredResponses> clusters = new List<ClusteredResponses>();
+
+            List<SubjectiveQuestion> subs = quesRepository.GetChatSubjectiveQuestions(chat.DiscussionCode);
+
+            List<UserAnswer> answers = quesRepository.GetAnswersByChat(chat.DiscussionCode);
+
+            foreach (SubjectiveQuestion sub in subs)
+            {
+                foreach (GroupMember mem in chat.Members)
+                {
+                    UserAnswer quesans = answers.FirstOrDefault(x => x.QuestionId == sub.QuestionId && x.MemberId == mem.GroupMemberId);
+
+                    ResponseTrainingModel arg = new ResponseTrainingModel();
+                    arg.Question = sub.Content;
+                    arg.Answer = quesans.Content;
+
+                    ClusterPrediction pred = quesService.TrainModel(arg);
+
+                    ClusteredResponses res = new ClusteredResponses();
+
+                    res.PredictedClusterId = pred.PredictedClusterId;
+                    res.QuestionId = sub.QuestionId;
+                    res.ResponseContent = quesans.Content;
+                    res.ResponseId = quesans.Id;
+                    res.MemberId = quesans.MemberId;
+
+                    clusters.Add(res);
+                }
+            }
+
+            return clusters;
+        }
+
+        public void CommentedCode()
+        {
+            /*
+             foreach (SubjectiveQuestion sub in subs)
                 {
                     Paragraph pq = new Paragraph(docx);
 
@@ -147,6 +268,12 @@ namespace CentennialTalk.Service
 
                         Paragraph p = new Paragraph(docx);
 
+                        ResponseTrainingModel arg = new ResponseTrainingModel();
+                        arg.Question = sub.Content;
+                        arg.Answer = quesans.Content;
+
+                        ClusterPrediction pred = quesService.TrainModel(arg);
+
                         p.Content.End.Insert(string.Format("{0} Answers : ", mem.Username), new CharacterFormat() { Size = 12, FontColor = Color.Green });
 
                         p.Inlines.Add(new SpecialCharacter(docx, SpecialCharacterType.LineBreak));
@@ -162,21 +289,7 @@ namespace CentennialTalk.Service
 
                     sec3.Blocks.Add(pq);
                 }
-
-                docx.Sections.Add(sec1);
-                docx.Sections.Add(sec2);
-                docx.Sections.Add(sec3);
-
-                string fileName = chat.Title + "_" + DateTime.Now.ToString();
-
-                docx.Save(fileName);
-
-                return fileName;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+             */
         }
     }
 }

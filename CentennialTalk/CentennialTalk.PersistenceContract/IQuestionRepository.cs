@@ -25,6 +25,6 @@ namespace CentennialTalk.PersistenceContract
 
         List<UserAnswer> GetPreviousAnswers(UserAnswerDTO answer);
 
-        List<QuestionTrainingModel> GetAllSubjectiveAnswers();
+        List<ResponseTrainingModel> GetAllSubjectiveAnswers();
     }
 }

@@ -34,7 +34,7 @@ export class IconsComponent implements OnInit {
       if (res.code != 500) {
         this.usedIcons = res.data; //icons already used by chat members
 
-        //this.iconPool = this.iconPool.filter(x => this.usedIcons.indexOf(x) < 0);//get all unused icons
+        this.iconPool = this.iconPool.filter(x => this.usedIcons.indexOf(x) < 0);//get all unused icons
 
         let i = 0;
 

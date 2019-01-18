@@ -64,10 +64,10 @@ namespace CentennialTalk.Service
                 ResponseCode code = ResponseCode.ERROR;
 
                 if (chat == null)
-                    return new ResponseDTO(code, "Chat does not exist");
+                    return new ResponseDTO(code,new string[] { "Chat does not exist" });
 
                 if (!chat.IsLinkOpen)
-                    return new ResponseDTO(code, "Link Closed for joining. Reach out to moderator");
+                    return new ResponseDTO(code, new string[] { "Link Closed for joining. Reach out to moderator" });
 
                 //if (chat.Members != null
                 //    && chat

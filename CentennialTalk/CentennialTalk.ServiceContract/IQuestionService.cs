@@ -1,4 +1,5 @@
 ﻿using CentennialTalk.Models.DTOModels;
+using CentennialTalk.Models.QuestionModels;
 
 namespace CentennialTalk.ServiceContract
 {
@@ -13,5 +14,7 @@ namespace CentennialTalk.ServiceContract
         ResponseDTO ArchiveQuestion(QuestionDTO question);
 
         ResponseDTO SaveAnswer(UserAnswerDTO answer);
+
+        ClusterPrediction TrainModel(ResponseTrainingModel predictArg);
     }
 }

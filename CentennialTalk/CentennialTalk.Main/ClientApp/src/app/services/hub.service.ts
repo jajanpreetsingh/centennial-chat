@@ -163,7 +163,16 @@ export class HubService {
       messageData.likeCount = messageData.reactions == null ? 0 : messageData.reactions.filter(x => x.reaction == 1).length;
       messageData.dislikeCount = messageData.reactions == null ? 0 : messageData.reactions.filter(x => x.reaction == -1).length;
 
-      console.log("pushing messages : ", messageData);
+      if (!this.accountService.isValNull(messageData.replyId)) {
+
+        let oldMessage = this.messages.find(x => x.messageId == messageData.replyId);
+
+        if (!this.accountService.isValNull(oldMessage)){
+
+          messageData.oldMessage = oldMessage.content.length <= 10 ? oldMessage.content : oldMessage.content.substr(0, 10) + " ...";
+          messageData.oldSender = oldMessage.sender;
+        }
+      }
 
       let index: number = this.messages.findIndex(x => x.messageId == messageData.messageId);
 
