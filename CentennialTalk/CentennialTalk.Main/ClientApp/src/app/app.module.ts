@@ -35,6 +35,8 @@ import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { BrowserDomAdapter } from '@angular/platform-browser/src/browser/browser_adapter';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -61,6 +63,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
+    BrowserAnimationsModule,
     HttpModule,
     FormsModule,
     RouterModule.forRoot([

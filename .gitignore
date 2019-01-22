@@ -308,3 +308,4 @@ __pycache__/
 
 
 # End of https://www.gitignore.io/api/angular,aspnetcore
+CentennialTalk/CentennialTalk.Main/appsettings.json
