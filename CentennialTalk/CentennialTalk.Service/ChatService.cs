@@ -125,7 +125,7 @@ namespace CentennialTalk.Service
 
                         if (poll != null)
                         {
-                            dto.publishedQuestion = sub.GetDTO();
+                            dto.publishedQuestion = poll.GetDTO();
                         }
                     }
                 }
