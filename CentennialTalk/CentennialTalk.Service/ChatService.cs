@@ -1,5 +1,6 @@
 ﻿using CentennialTalk.Models;
 using CentennialTalk.Models.DTOModels;
+using CentennialTalk.Models.QuestionModels;
 using CentennialTalk.PersistenceContract;
 using CentennialTalk.ServiceContract;
 using Microsoft.Extensions.Logging;
@@ -12,11 +13,16 @@ namespace CentennialTalk.Service
     public class ChatService : IChatService
     {
         private readonly IChatRepository chatRepository;
+        private readonly IQuestionRepository questionRepository;
+        private readonly IUnitOfWorkService uowService;
         private readonly ILogger<ChatService> logger;
 
-        public ChatService(IChatRepository chatRepository, ILogger<ChatService> logger)
+        public ChatService(IChatRepository chatRepository, ILogger<ChatService> logger
+            , IUnitOfWorkService uowService, IQuestionRepository questionRepository)
         {
             this.chatRepository = chatRepository;
+            this.uowService = uowService;
+            this.questionRepository = questionRepository;
             this.logger = logger;
         }
 
@@ -64,7 +70,7 @@ namespace CentennialTalk.Service
                 ResponseCode code = ResponseCode.ERROR;
 
                 if (chat == null)
-                    return new ResponseDTO(code,new string[] { "Chat does not exist" });
+                    return new ResponseDTO(code, new string[] { "Chat does not exist" });
 
                 if (!chat.IsLinkOpen)
                     return new ResponseDTO(code, new string[] { "Link Closed for joining. Reach out to moderator" });
@@ -99,9 +105,30 @@ namespace CentennialTalk.Service
 
                 chat.Members.Add(member);
 
+                uowService.SaveChanges();
+
                 DiscussionDTO dto = chat.GetResponseDTO();
                 dto.username = member != null ? member.Username : joinChat.username;
                 dto.moderator = chat.Members.FirstOrDefault(x => x.IsModerator).Username;
+
+                if (chat.PublishedQuestionId != Guid.Empty)
+                {
+                    SubjectiveQuestion sub = questionRepository.GetOpenQuesById(chat.PublishedQuestionId);
+
+                    if (sub != null)
+                    {
+                        dto.publishedQuestion = sub.GetDTO();
+                    }
+                    else
+                    {
+                        PollingQuestion poll = questionRepository.GetPollById(chat.PublishedQuestionId);
+
+                        if (poll != null)
+                        {
+                            dto.publishedQuestion = sub.GetDTO();
+                        }
+                    }
+                }
 
                 return new ResponseDTO(code, dto);
             }
@@ -109,7 +136,7 @@ namespace CentennialTalk.Service
             {
                 logger.LogError(ex.Message);
 
-                return null;
+                return new ResponseDTO(ResponseCode.ERROR, new string[] { "Server exception occured" });
             }
         }
 

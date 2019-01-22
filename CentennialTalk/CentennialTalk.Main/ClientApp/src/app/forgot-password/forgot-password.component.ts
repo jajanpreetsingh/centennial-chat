@@ -19,7 +19,6 @@ export class ForgotPasswordComponent implements OnInit {
       return;
 
     this.accServ.sendResetLink(this.email).subscribe(res => {
-      console.log(res);
     });
   }
 }

@@ -15,8 +15,6 @@ export class ConfirmEmailComponent implements OnInit {
       let userId: string = params['userId'];
       let code: string = params['code'];
 
-      console.log(userId + "  :  " + code);
-
       this.accServ.verifyEmail(userId, code).subscribe(res => {
       });
     });

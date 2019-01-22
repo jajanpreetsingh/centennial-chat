@@ -222,6 +222,9 @@ namespace CentennialTalk.Service
                 {
                     UserAnswer quesans = answers.FirstOrDefault(x => x.QuestionId == sub.QuestionId && x.MemberId == mem.GroupMemberId);
 
+                    if (quesans == null)
+                        continue;
+
                     ResponseTrainingModel arg = new ResponseTrainingModel();
                     arg.Question = sub.Content;
                     arg.Answer = quesans.Content;

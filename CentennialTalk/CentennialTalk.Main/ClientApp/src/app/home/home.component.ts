@@ -47,8 +47,6 @@ export class HomeComponent implements OnInit {
   handleBlob(event) {
     var arrayBuffer = event.target.result;
 
-    console.log(arrayBuffer);
-
     this.fileService.saveFile(btoa(arrayBuffer)).subscribe(res => { console.log(res); });
   }
 

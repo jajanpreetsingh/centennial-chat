@@ -26,7 +26,7 @@ namespace CentennialTalk.Main.Controllers
         {
             List<Message> messages = messageService.GetChatMessages(chatCode.value.ToString());
 
-            return GetJson(new ResponseDTO(ResponseCode.OK, messages.Select(x => x.GetResponseDTO()).ToArray()));
+            return GetJson(new ResponseDTO(ResponseCode.OK, messages.Select(x => x.GetResponseDTO()).OrderBy(x => x.sentDate).ToArray()));
         }
 
         [HttpPost("send")]

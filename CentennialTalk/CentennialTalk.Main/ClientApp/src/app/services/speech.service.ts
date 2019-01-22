@@ -1,4 +1,8 @@
 import { Injectable } from '@angular/core';
+import { HubService } from './hub.service';
+import { Observable } from 'rxjs/Observable';
+import { UtilityService } from './utility.service';
+import { Level } from '../../models/popup.model';
 
 @Injectable()
 export class SpeechService {
@@ -6,34 +10,35 @@ export class SpeechService {
   private recognition: any;
   public recordTranscript: string;
 
-  constructor() {
+  callback: Function;
+
+  constructor(private util: UtilityService) {
     this._window = window;
   }
 
   startListening() {
+
     var SpeechRecognition = this._window.webkitSpeechRecognition
       || this._window.SpeechRecognition;
-
-    console.log(SpeechRecognition);
 
     if (SpeechRecognition) {
       this.recognition = new SpeechRecognition();
 
-      console.log(this.recognition);
-
       this.recognition.onstart = this.onStartRecognizing;
       this.recognition.onresult = ev => this.onRecognitionResult(ev);
-      this.recognition.onend = this.onRecognitionEnd;
+      this.recognition.onend = this.onRecognitionEnd.bind(this);
       this.recognition.continuous = true;
 
       this.recognition.start();
     }
     else {
-      alert('sr not supported');
+      this.util.addPageError("Not supported", "HTML 5 Speech recognition not supported on this browser", Level[Level.danger]);
     }
   }
 
   private onRecognitionEnd() {
+
+    this.callback();
   }
 
   private onStartRecognizing() {
@@ -41,16 +46,16 @@ export class SpeechService {
 
   private onRecognitionResult(event) {
     if (event.results) {
-      var result = event.results[0][0].transcript;
-      console.log(result);
-      this.recordTranscript = result;
+      let m = event.results[0][0].transcript;
+      this.recordTranscript = m;
     }
   }
 
-  stopListening() {
-    if (this.recognition) {
-      this.recognition.stop();
-      this.recognition = null;
-    }
+  stopListening(callback) {
+
+    this.callback = callback;
+
+    this.recognition.stop();
+    this.recognition = null;
   }
 }

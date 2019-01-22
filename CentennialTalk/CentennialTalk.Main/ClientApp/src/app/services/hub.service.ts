@@ -11,6 +11,7 @@ import { MemberModel } from '../../models/member.model';
 import { AccountService, StorageKeys } from './account.service';
 import { QuestionModel } from '../../models/question.model';
 import { QuestionService } from './question.service';
+import { Level } from '../../models/popup.model';
 
 @Injectable()
 export class HubService {
@@ -67,12 +68,16 @@ export class HubService {
     this.openQuestions = JSON.parse(this.accountService.getLocalData(StorageKeys.OpenQuestions));
     this.pollQuestions = JSON.parse(this.accountService.getLocalData(StorageKeys.PollingQuestions));
 
-    console.log("p questions from hubinstance", this.pollQuestions);
-    console.log("o questions from hubinstance", this.openQuestions);
-
     this.members = JSON.parse(this.accountService.getLocalData(StorageKeys.ChatMembers));
 
-    console.log("members from hubinstance", this.members);
+    if (!this.accountService.isValNull(this.accountService.getLocalData(StorageKeys.PublishedQuestion))) {
+      let publishdQ = JSON.parse(this.accountService.getLocalData(StorageKeys.PublishedQuestion));
+
+      if (!this.accountService.isValNull(publishdQ)) {
+        this.onQuestionPublished(publishdQ);
+        this.accountService.setLocalData(StorageKeys.PublishedQuestion, "");
+      }
+    }
 
     this.isConnected = true;
 
@@ -140,8 +145,6 @@ export class HubService {
     this.members.push(member);
 
     this.accountService.setLocalData(StorageKeys.ChatMembers, JSON.stringify(this.members));
-
-    console.log("members from hubinstance", this.members);
   }
 
   onUserLeft(member: MemberModel) {
@@ -152,8 +155,6 @@ export class HubService {
     this.members.push(member);
 
     this.accountService.setLocalData(StorageKeys.ChatMembers, JSON.stringify(this.members));
-
-    console.log("members from hubinstance", this.members);
   }
 
   onMessageReceived(messageData: MessageModel) {
@@ -167,7 +168,7 @@ export class HubService {
 
         let oldMessage = this.messages.find(x => x.messageId == messageData.replyId);
 
-        if (!this.accountService.isValNull(oldMessage)){
+        if (!this.accountService.isValNull(oldMessage)) {
 
           messageData.oldMessage = oldMessage.content.length <= 10 ? oldMessage.content : oldMessage.content.substr(0, 10) + " ...";
           messageData.oldSender = oldMessage.sender;
@@ -236,7 +237,10 @@ export class HubService {
   }
 
   sendMessage(messageObj: MessageModel) {
-    console.log("sending : " + messageObj);
+
+    if (this.accountService.isValNull(messageObj.content)) {
+      this.utilityService.addPageError("Null message", "Message cannot be null", Level[Level.danger]);
+    }
 
     messageObj.sentDate = this.datePipe.transform(Date.now(), 'yyyy-MM-dd HH:mm:ss');
 
@@ -300,6 +304,8 @@ export class HubService {
   onQuestionArchived(data: QuestionModel): any {
     this.publishedQuestion = null;
 
+    this.utilityService.addPageError("Question Archived", "Moderator just archived a question", Level[Level.info]);
+
     data.isArchived = true;
 
     let quesIndex: number = this.chatData.pollQuestions.findIndex(x => x.id == data.id);
@@ -308,23 +314,17 @@ export class HubService {
       quesIndex = this.chatData.openQuestions.findIndex(x => x.id == data.id);
 
       if (quesIndex >= 0) {
-        console.log("marking archived");
 
         this.chatData.openQuestions.splice(quesIndex, 1);
 
         this.chatData.openQuestions.push(data);
-
-        console.log(this.chatData.openQuestions);
       }
     }
     else {
-      console.log("marking archived");
 
       this.chatData.pollQuestions.splice(quesIndex, 1);
 
       this.chatData.pollQuestions.push(data);
-
-      console.log(this.chatData.pollQuestions);
     }
   }
 
@@ -334,6 +334,8 @@ export class HubService {
 
     this.publishedQuestion = data;
 
+    this.utilityService.addPageError("Question published", "Moderator just published a question", Level[Level.info]);
+
     data.isPublished = true;
 
     let quesIndex: number = this.chatData.pollQuestions.findIndex(x => x.id == data.id);
@@ -342,23 +344,17 @@ export class HubService {
       quesIndex = this.chatData.openQuestions.findIndex(x => x.id == data.id);
 
       if (quesIndex >= 0) {
-        console.log("marking published");
 
         this.chatData.openQuestions.splice(quesIndex, 1);
 
         this.chatData.openQuestions.push(data);
-
-        console.log(this.chatData.openQuestions);
       }
     }
     else {
-      console.log("marking published");
 
       this.chatData.pollQuestions.splice(quesIndex, 1);
 
       this.chatData.pollQuestions.push(data);
-
-      console.log(this.chatData.pollQuestions);
     }
   }
 

@@ -16,6 +16,7 @@
         public QuestionDTO[] openQuestions;
 
         public QuestionDTO[] pollQuestions;
+        public QuestionDTO publishedQuestion;
         public MemberDTO[] members;
     }
 }

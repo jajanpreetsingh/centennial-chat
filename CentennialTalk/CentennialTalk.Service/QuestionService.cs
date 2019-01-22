@@ -6,6 +6,7 @@ using CentennialTalk.ServiceContract;
 using Microsoft.Extensions.Logging;
 using Microsoft.ML;
 using Microsoft.ML.Data;
+using Microsoft.ML.Transforms;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -88,6 +89,8 @@ namespace CentennialTalk.Service
         {
             PollingQuestion ques = questionRepository.GetPollById(Guid.Parse(question.id));
 
+            Guid id = Guid.Empty;
+
             if (ques == null)
             {
                 SubjectiveQuestion sub = questionRepository.GetOpenQuesById(Guid.Parse(question.id));
@@ -101,12 +104,20 @@ namespace CentennialTalk.Service
                     sub.IsPublished = true;
                     sub.PublishDate = DateTime.Now;
 
+                    id = sub.QuestionId;
+
                     return new ResponseDTO(ResponseCode.OK, sub.GetDTO());
                 }
             }
 
             ques.IsPublished = true;
             ques.PublishDate = DateTime.Now;
+
+            id = ques.QuestionId;
+
+            Discussion chat = chatRepository.GetChatByCode(question.chatCode);
+
+            chat.PublishedQuestionId = id;
 
             return new ResponseDTO(ResponseCode.OK, ques.GetDTO());
         }
@@ -134,6 +145,10 @@ namespace CentennialTalk.Service
 
             ques.IsArchived = true;
             ques.ArchiveDate = DateTime.Now;
+
+            Discussion chat = chatRepository.GetChatByCode(question.chatCode);
+
+            chat.PublishedQuestionId = Guid.Empty;
 
             return new ResponseDTO(ResponseCode.OK, ques.GetDTO());
         }
@@ -197,25 +212,26 @@ namespace CentennialTalk.Service
 
         public ClusterPrediction TrainModel(ResponseTrainingModel predictArg)
         {
-            MLContext context = new MLContext();
+            MLContext mlContext = new MLContext();
 
             List<ResponseTrainingModel> userAnswers = questionRepository.GetAllSubjectiveAnswers();
 
-            IDataView trainingData = context.CreateStreamingDataView(userAnswers);
+            IDataView trainingData = mlContext.CreateStreamingDataView(userAnswers);
 
-            var pipeline = context.Transforms
-                                  .Concatenate("ClusteredColumn", "Question", "Answer")
-                                  .Append(context.Clustering.Trainers.KMeans("ClusteredColumn"));
+            var pipeline = mlContext.Transforms.Categorical.OneHotHashEncoding("Question")
+                .Append(mlContext.Transforms.Categorical.OneHotHashEncoding("Answer"))
+                .Append(new ColumnConcatenatingEstimator(mlContext, "ClusteredColumn", "Question", "Answer"))
+                                  .Append(mlContext.Clustering.Trainers.KMeans("ClusteredColumn"));
 
             var model = pipeline.Fit(trainingData);
 
             using (FileStream fileStream = new FileStream(_modelPath, FileMode.Create, FileAccess.Write, FileShare.Write))
             {
-                context.Model.Save(model, fileStream);
+                mlContext.Model.Save(model, fileStream);
             }
 
             PredictionEngine<ResponseTrainingModel, ClusterPrediction> predictor =
-                model.CreatePredictionEngine<ResponseTrainingModel, ClusterPrediction>(context);
+                model.CreatePredictionEngine<ResponseTrainingModel, ClusterPrediction>(mlContext);
 
             ClusterPrediction prediction = predictor.Predict(predictArg);
 

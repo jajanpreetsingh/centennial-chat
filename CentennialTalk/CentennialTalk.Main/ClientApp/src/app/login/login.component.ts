@@ -22,18 +22,16 @@ export class LoginComponent implements OnInit {
   }
 
   onModeratorLogin() {
-    console.log(this.login);
 
     this.accountService.tryModeratorLogin(this.login).subscribe(res => {
-      console.log(res);
       if (res.code == 200) {
         this.accountService.setJwtToken(res.data);
 
         this.accountService.setLocalData(StorageKeys.LoginUsername, this.login.username);
 
-        this.util.navigateToPath('/dashboard');
+        this.utility.addPageError("Login successful", "Redirecting to Dashboard page...", Level[Level.success]);
 
-        this.utility.addPageError("Success", "Login successful", Level[Level.success]);
+        this.util.navigateToPath('/dashboard');
       }
       else if (res.code == 500) {
 

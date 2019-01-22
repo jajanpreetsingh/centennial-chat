@@ -33,7 +33,6 @@ export class DashboardComponent implements OnInit {
     this.chatServ.getChatList(this.accountService.getUserId()).subscribe(res => {
       if (res.code == 200) {
         this.chats = res.data;
-        console.log(this.chats);
       }
     });
   }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AccountService, StorageKeys } from '../services/account.service';
 import { UtilityService } from '../services/utility.service';
 import { MemberService } from '../services/member.service';
+import { Level } from '../../models/popup.model';
 
 @Component({
   selector: 'app-icons',
@@ -36,6 +37,15 @@ export class IconsComponent implements OnInit {
 
         this.iconPool = this.iconPool.filter(x => this.usedIcons.indexOf(x) < 0);//get all unused icons
 
+        if (this.iconPool.length <= 0) {
+
+          let rurl = this.accountService.getLocalData(StorageKeys.ReturnUrl);
+          this.accountService.setLocalData(StorageKeys.ReturnUrl, '');
+
+          this.utilityService.navigateToPath(rurl);
+          this.utilityService.addPageError("Cannot assign identity", "Icon pool is empty. Reach out to moderator", Level[Level.danger]);
+        }
+
         let i = 0;
 
         let cc = 0;//current column
@@ -59,7 +69,6 @@ export class IconsComponent implements OnInit {
   }
 
   setIconName(name: string) {
-    console.log("icons: " + name);
     this.accountService.setLocalData(StorageKeys.ChatUsername, name);
 
     let rurl = this.accountService.getLocalData(StorageKeys.ReturnUrl);

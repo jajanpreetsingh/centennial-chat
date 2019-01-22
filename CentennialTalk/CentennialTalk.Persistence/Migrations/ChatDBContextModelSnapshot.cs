@@ -38,6 +38,8 @@ namespace CentennialTalk.Persistence.Migrations
 
                     b.Property<DateTime>("LastUpdated");
 
+                    b.Property<Guid>("PublishedQuestionId");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255);

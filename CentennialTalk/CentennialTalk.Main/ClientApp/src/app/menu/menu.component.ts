@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService, StorageKeys } from '../services/account.service';
 import { UtilityService } from '../services/utility.service';
+import { Level } from '../../models/popup.model';
 
 @Component({
   selector: 'app-menu',
@@ -40,15 +41,16 @@ export class MenuComponent implements OnInit {
 
   logoutToHome() {
     this.accountService.tryLogout().subscribe(res => {
-      console.log(res);
 
       if (res.code == 200) {
         this.accountService.clearAllLocalData();
 
+        this.utility.addPageError("Logout successful", "Redirecting to home page", Level[Level.success]);
+
         this.utilityService.navigateToPath('/home');
       }
       else {
-        console.log("logout failed");
+        this.utility.addPageError("Error logging out", "There was a error on server while Logout", Level[Level.danger]);
       }
     });
   }

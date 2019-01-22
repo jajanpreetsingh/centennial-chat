@@ -45,7 +45,6 @@ export class NewChatComponent implements OnInit, OnDestroy {
   }
 
   maintainFocus(index: number, obj: any): number {
-    console.log("maintain focus : " + obj);
     return index;
   }
 
@@ -105,8 +104,6 @@ export class NewChatComponent implements OnInit, OnDestroy {
     q.chatCode = this.chatData.chatCode;
 
     q.options = [];
-
-    console.log(this.pollOptions);
 
       this.pollOptions.forEach(x => q.options.push(x));
 
@@ -171,17 +168,22 @@ export class NewChatComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (this.accountService.isValNull(this.chatData.activationDate) || this.accountService.isValNull(this.chatData.expirationDate)) {
-      this.utilityService.addPageError("Missing Dates",
-        "Session duration date values are required", Level[Level.danger]);
-      return;
-    }
-    else if (new Date().valueOf() - this.chatData.expirationDate.valueOf() < 3600000
-      || this.chatData.activationDate.valueOf() == this.chatData.expirationDate.valueOf()) {
-      this.utilityService.addPageError("Unrealistic duration time",
-        "Session expiration/duration should atleast be 1 hour more than current time", Level[Level.danger]);
-      return;
-    }
+    //if (this.accountService.isValNull(this.chatData.activationDate) || this.accountService.isValNull(this.chatData.expirationDate)) {
+    //  this.utilityService.addPageError("Missing Dates",
+    //    "Session duration date values are required", Level[Level.danger]);
+    //  return;
+    //}
+    //else if (this.chatData.expirationDate.valueOf() - new Date().valueOf() < 3600000
+    //  || this.chatData.activationDate.valueOf() == this.chatData.expirationDate.valueOf()) {
+
+
+    //  console.log("duration", this.chatData.expirationDate);
+    //  console.log("duration", this.chatData.expirationDate.valueOf() - new Date().valueOf());
+
+    //  this.utilityService.addPageError("Unrealistic duration time",
+    //    "Session expiration/duration should atleast be 1 hour more than current time", Level[Level.danger]);
+    //  return;
+    //}
 
     this.chatData.creatorId = this.accountService.getUserId();
 

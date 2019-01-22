@@ -1,4 +1,5 @@
-﻿using CentennialTalk.Models.DTOModels;
+﻿using CentennialTalk.Models;
+using CentennialTalk.Models.DTOModels;
 using CentennialTalk.ServiceContract;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
@@ -89,6 +90,11 @@ namespace CentennialTalk.Main
         public Task Send(string messageData)
         {
             MessageDTO data = JsonConvert.DeserializeObject<MessageDTO>(messageData);
+
+            Message m = messageService.GetChatMessages(data.chatCode).FirstOrDefault();
+
+            if (m != null)
+                data.replyId = m.MessageId;
 
             return Clients.Group(data.chatCode).SendAsync(recieveMessageEvent, data);
         }

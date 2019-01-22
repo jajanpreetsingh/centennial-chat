@@ -78,20 +78,29 @@ export class DiscussionComponent implements OnInit {
   }
 
   stopListening() {
-    this.speechService.stopListening();
+
+    this.speechService.stopListening(this.setMessage);
+  }
+
+  public setMessage() {
+
     this.message = this.speechService.recordTranscript;
 
-    this.isListening = false
+    this.isListening = false;
   }
 
   playAudio(m: MessageModel) {
-    let textToTranslate = m.sender + " says, " + m.content;
 
-    window.speechSynthesis.speak(new SpeechSynthesisUtterance(textToTranslate));
+    if (this.accountService.isValNull(m.content)) {
+      let textToTranslate = m.sender + " says, " + m.content;
+      window.speechSynthesis.speak(new SpeechSynthesisUtterance(textToTranslate));
+    }
+    else {
+      window.speechSynthesis.speak(new SpeechSynthesisUtterance("Sometimes silence is the best answer.."));
+    }
   }
 
   onOptionSelect(option: string) {
-    console.log("option selected : " + option);
 
     let index: number = this.selectedOptions.indexOf(option);
 
@@ -105,12 +114,9 @@ export class DiscussionComponent implements OnInit {
       this.selectedOptions = [];
       this.selectedOptions.push(option);
     }
-
-    console.log(this.selectedOptions);
   }
 
   submitAnswer() {
-    console.log("called submit anser");
 
     let answer: UserAnswer = new UserAnswer();
 
@@ -118,29 +124,22 @@ export class DiscussionComponent implements OnInit {
     answer.isPollingQuestion = this.hubInstance.publishedQuestion.isPollingQuestion;
     let usrnm = this.accountService.getLocalData(StorageKeys.ChatUsername);
 
-    console.log("member", this.hubInstance.members);
-
     let member = this.hubInstance.members.find(x => x.username == usrnm);
-
-    console.log("member", member);
 
     if (member == null)
       return;
 
     answer.memberId = member.memberId;
+
     answer.content = this.message;
     answer.options = this.selectedOptions;
 
     answer.questionId = this.hubInstance.publishedQuestion.id;
     answer.selectMultiple = this.hubInstance.publishedQuestion.selectMultiple;
 
-    console.log(answer);
-
     this.questionService.submitAnswer(answer).subscribe(res => {
       if (res.code != 500) {
         this.hubInstance.answeredQuestions.push(this.hubInstance.publishedQuestion.id);
-
-        console.log(this.hubInstance.answeredQuestions);
 
         this.hubInstance.publishedQuestion = null;
       }

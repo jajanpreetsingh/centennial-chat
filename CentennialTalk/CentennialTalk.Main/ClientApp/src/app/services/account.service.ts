@@ -168,5 +168,7 @@ export enum StorageKeys {
   OpenQuestions,
   ChatMembers,
 
+  PublishedQuestion,
+
   ReturnUrl
 }

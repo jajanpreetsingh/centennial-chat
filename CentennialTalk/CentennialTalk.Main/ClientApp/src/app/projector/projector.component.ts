@@ -47,10 +47,15 @@ export class ProjectorComponent implements OnInit {
   }
 
   stopListening() {
-    this.speechService.stopListening();
+
+    this.speechService.stopListening(this.setMessage.bind(this));
+  }
+
+  setMessage() {
+
     this.message = this.speechService.recordTranscript;
 
-    this.isListening = false
+    this.isListening = false;
   }
 
   playAudio(m: MessageModel) {

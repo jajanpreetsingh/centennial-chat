@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../services/account.service';
 import { SignupModel } from '../../models/signup.model';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Popup, Level } from '../../models/popup.model';
 import { UtilityService } from '../services/utility.service';
 
@@ -30,9 +30,14 @@ export class SignUpComponent implements OnInit {
   onModeratorSignup() {
     this.accountService.tryModeratorSignup(this.signup).subscribe(res => {
       if (res.code == 200) {
-        this.router.navigate(['/home']);
 
-        this.utility.addPageError("Success", "Login successful", Level[Level.success]);
+        this.utility.addPageError("Signup Successful",
+          "Click confirmation link in your email to confirm your account", Level[Level.success]);
+
+        this.utility.addPageError("Signup Successful",
+          "Redirecting to homepage", Level[Level.success]);
+
+        this.router.navigate(['/home']);
       }
       else if (res.code == 500) {
 

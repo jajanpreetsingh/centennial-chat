@@ -66,8 +66,6 @@ export class JoinChatComponent implements OnInit {
       if (res.code == 200) {
         this.chatData = res.data;
 
-        console.log(this.chatData);
-
         this.accountService.setLocalData(StorageKeys.ChatCode, this.chatData.chatCode);
         this.accountService.setLocalData(StorageKeys.ChatTitle, this.chatData.title);
         this.accountService.setLocalData(StorageKeys.ChatUsername, this.chatData.username);
@@ -77,7 +75,11 @@ export class JoinChatComponent implements OnInit {
 
         this.accountService.setLocalData(StorageKeys.PollingQuestions, JSON.stringify(this.chatData.pollQuestions));
 
-        this.accountService.setLocalData(StorageKeys.ChatMembers, JSON.stringify(this.chatData.members));
+        this.accountService.setLocalData(StorageKeys.ChatMembers, JSON.stringify(this.chatData.members));        
+
+        if (!this.accountService.isValNull(this.chatData.publishedQuestion)) {
+          this.accountService.setLocalData(StorageKeys.PublishedQuestion, JSON.stringify(this.chatData.publishedQuestion));
+        }
 
         if (this.accountService.isLoggedIn() || this.accountService.amIModerator()) {
           this.utilityService.addPageError("Success", "Redirecting to Moderator session page", Level[Level.success]);

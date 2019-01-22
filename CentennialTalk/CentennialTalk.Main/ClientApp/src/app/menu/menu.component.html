@@ -21,5 +21,12 @@
   </div>
 </nav>
 <div class="errors">
-
+  <div *ngFor="let popup of utility.errors;let i = index" class="alert alert-{{popup.level}}  error-message">
+    <i class="fa fa-times-circle-o" aria-hidden="true" (click)="hideError(i)"></i>
+    <h4>
+      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+      <strong>{{popup.heading}}</strong>
+      {{popup.message}}
+    </h4>
+  </div>
 </div>

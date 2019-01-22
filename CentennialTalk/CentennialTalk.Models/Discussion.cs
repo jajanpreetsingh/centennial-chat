@@ -38,6 +38,8 @@ namespace CentennialTalk.Models
 
         public IList<SubjectiveQuestion> Questions { get; set; }
 
+        public Guid PublishedQuestionId { get; set; }
+
         public Discussion()
         {
             Members = new List<GroupMember>();

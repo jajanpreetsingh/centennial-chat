@@ -31,9 +31,6 @@ export class ResetPasswordComponent implements OnInit {
       || this.password !== this.confpassword)
       return;
 
-    console.log("prd : " + this.userId);
-    console.log("prd : " + this.code)
-
     this.accServ.resetPassword(this.userId, this.code, this.password).subscribe(res => { console.log(res) });
   }
 }
