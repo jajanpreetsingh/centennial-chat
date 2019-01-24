@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpModule, Http } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
+import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { ChatModel } from '../../models/chat.model';
+import { saveAs as importedSaveAs } from "file-saver";
 
 @Injectable()
 export class ChatService {
@@ -21,16 +21,7 @@ export class ChatService {
 
   downloadTranscript(chatCode: string) {
     return this.http.post("/api/chat/transcript", { 'value': chatCode })
-      .subscribe(res => {
-        //let url = window.URL.createObjectURL(new Blob(res, { type: 'application/vnd.ms-word' }));
-        //var link = document.createElement("a");
-        //link.setAttribute("href", url);
-        //link.setAttribute("download", "test.docx");
-        //link.style.display = "none";
-        //document.body.appendChild(link);
-        //link.click();
-        //document.body.removeChild(link);
-      });
+      .map(res => res.json());
   }
 
   getChatList(chatCode: string) {

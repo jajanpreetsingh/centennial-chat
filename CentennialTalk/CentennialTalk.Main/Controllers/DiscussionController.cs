@@ -79,18 +79,17 @@ namespace CentennialTalk.Main.Controllers
 
         //[Authorize]
         [HttpPost("transcript")]
-        public async Task<IActionResult> Download([FromBody]RequestDTO chatCode)
+        public IActionResult Download([FromBody]RequestDTO chatCode)
         {
             string doc = fileService.CreateWordDocument(chatCode.value.ToString());
 
             MemoryStream memory = new MemoryStream();
             using (FileStream stream = new FileStream(doc, FileMode.Open))
             {
-                await stream.CopyToAsync(memory);
+                stream.CopyTo(memory);
             }
 
-            memory.Position = 0;
-            return File(memory, "application/vnd.ms-word", doc);
+            return GetJson(new ResponseDTO(ResponseCode.OK, memory.ToArray()));
         }
 
         //[Authorize]

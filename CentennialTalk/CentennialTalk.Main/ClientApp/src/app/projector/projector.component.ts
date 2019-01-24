@@ -7,6 +7,7 @@ import { ChatModel } from '../../models/chat.model';
 import { MessageModel, MemberReaction } from '../../models/message.model';
 import { QuestionModel } from '../../models/question.model';
 import { ChatService } from '../services/chat.service';
+import { saveAs as importedSaveAs } from "file-saver";
 
 @Component({
   selector: 'app-projector',
@@ -47,12 +48,10 @@ export class ProjectorComponent implements OnInit {
   }
 
   stopListening() {
-
     this.speechService.stopListening(this.setMessage.bind(this));
   }
 
   setMessage() {
-
     this.message = this.speechService.recordTranscript;
 
     this.isListening = false;
@@ -101,6 +100,30 @@ export class ProjectorComponent implements OnInit {
   }
 
   goToTranscript() {
-    this.chatService.downloadTranscript(this.chatData.chatCode);
+    this.chatService.downloadTranscript(this.chatData.chatCode).subscribe(res => {
+      this.download(res.data);
+    });
+  }
+
+  download(data: any) {
+    let json = atob(data);
+    let blob = this.base64toBlob(json);
+
+    let url = window.URL.createObjectURL(blob);
+    let link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "test.docx");
+    link.style.display = "none";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  base64toBlob(byteString) {
+    var ia = new Uint8Array(byteString.length);
+    for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ia], { type: 'application/vnd.ms-word' });
   }
 }
