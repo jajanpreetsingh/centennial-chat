@@ -165,11 +165,9 @@ export class HubService {
       messageData.dislikeCount = messageData.reactions == null ? 0 : messageData.reactions.filter(x => x.reaction == -1).length;
 
       if (!this.accountService.isValNull(messageData.replyId)) {
-
         let oldMessage = this.messages.find(x => x.messageId == messageData.replyId);
 
         if (!this.accountService.isValNull(oldMessage)) {
-
           messageData.oldMessage = oldMessage.content.length <= 10 ? oldMessage.content : oldMessage.content.substr(0, 10) + " ...";
           messageData.oldSender = oldMessage.sender;
         }
@@ -237,7 +235,6 @@ export class HubService {
   }
 
   sendMessage(messageObj: MessageModel) {
-
     if (this.accountService.isValNull(messageObj.content)) {
       this.utilityService.addPageError("Null message", "Message cannot be null", Level[Level.danger]);
     }
@@ -314,14 +311,12 @@ export class HubService {
       quesIndex = this.chatData.openQuestions.findIndex(x => x.id == data.id);
 
       if (quesIndex >= 0) {
-
         this.chatData.openQuestions.splice(quesIndex, 1);
 
         this.chatData.openQuestions.push(data);
       }
     }
     else {
-
       this.chatData.pollQuestions.splice(quesIndex, 1);
 
       this.chatData.pollQuestions.push(data);
@@ -344,14 +339,12 @@ export class HubService {
       quesIndex = this.chatData.openQuestions.findIndex(x => x.id == data.id);
 
       if (quesIndex >= 0) {
-
         this.chatData.openQuestions.splice(quesIndex, 1);
 
         this.chatData.openQuestions.push(data);
       }
     }
     else {
-
       this.chatData.pollQuestions.splice(quesIndex, 1);
 
       this.chatData.pollQuestions.push(data);

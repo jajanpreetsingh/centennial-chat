@@ -53,7 +53,6 @@ export class NewChatComponent implements OnInit, OnDestroy {
   }
 
   addOpenQuestion() {
-
     if (this.chatData.openQuestions != null && this.chatData.openQuestions.findIndex(x => x.content == this.openQuestion) >= 0) {
       this.utilityService.addPageError("Duplicate Question", "Cannot add question with same content", Level[Level.danger]);
       return;
@@ -84,7 +83,6 @@ export class NewChatComponent implements OnInit, OnDestroy {
   }
 
   addPollQuestion() {
-
     if (this.chatData.pollQuestions != null && this.chatData.pollQuestions.findIndex(x => x.content == this.pollQuestion) >= 0) {
       this.utilityService.addPageError("Duplicate Question", "Cannot add question with same content", Level[Level.danger]);
       return;
@@ -105,7 +103,7 @@ export class NewChatComponent implements OnInit, OnDestroy {
 
     q.options = [];
 
-      this.pollOptions.forEach(x => q.options.push(x));
+    this.pollOptions.forEach(x => q.options.push(x));
 
     q.isPollingQuestion = true;
 
@@ -175,8 +173,6 @@ export class NewChatComponent implements OnInit, OnDestroy {
     //}
     //else if (this.chatData.expirationDate.valueOf() - new Date().valueOf() < 3600000
     //  || this.chatData.activationDate.valueOf() == this.chatData.expirationDate.valueOf()) {
-
-
     //  console.log("duration", this.chatData.expirationDate);
     //  console.log("duration", this.chatData.expirationDate.valueOf() - new Date().valueOf());
 

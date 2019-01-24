@@ -10,7 +10,6 @@ import { QuestionService } from '../services/question.service';
 import { UserAnswer } from '../../models/useranswer.model';
 import { MessageService } from '../services/message.service';
 
-
 @Component({
   selector: 'app-discussion',
   templateUrl: './discussion.component.html',
@@ -79,19 +78,16 @@ export class DiscussionComponent implements OnInit {
   }
 
   stopListening() {
-
     this.speechService.stopListening(this.setMessage);
   }
 
   public setMessage() {
-
     this.message = this.speechService.recordTranscript;
 
     this.isListening = false;
   }
 
   playAudio(m: MessageModel) {
-
     if (this.accountService.isValNull(m.content)) {
       let textToTranslate = m.sender + " says, " + m.content;
       window.speechSynthesis.speak(new SpeechSynthesisUtterance(textToTranslate));
@@ -102,7 +98,6 @@ export class DiscussionComponent implements OnInit {
   }
 
   onOptionSelect(option: string) {
-
     let index: number = this.selectedOptions.indexOf(option);
 
     if (this.hubInstance.publishedQuestion.selectMultiple) {
@@ -118,7 +113,6 @@ export class DiscussionComponent implements OnInit {
   }
 
   submitAnswer() {
-
     let answer: UserAnswer = new UserAnswer();
 
     answer.chatCode = this.chatData.chatCode;

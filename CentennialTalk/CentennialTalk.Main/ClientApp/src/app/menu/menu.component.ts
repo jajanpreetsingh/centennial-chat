@@ -41,7 +41,6 @@ export class MenuComponent implements OnInit {
 
   logoutToHome() {
     this.accountService.tryLogout().subscribe(res => {
-
       if (res.code == 200) {
         this.accountService.clearAllLocalData();
 

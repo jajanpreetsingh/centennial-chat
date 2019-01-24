@@ -38,7 +38,6 @@ export class DashboardComponent implements OnInit {
   }
 
   joinThisChat(user: string, code: string) {
-
     if (this.accountService.isValNull(user)) {
       this.utilityService.addPageError("Missing Identity",
         "Select a psudonym/icon to join the session", Level[Level.danger]);
@@ -74,7 +73,6 @@ export class DashboardComponent implements OnInit {
         if (this.accountService.isLoggedIn() || this.accountService.amIModerator()) {
           this.utilityService.addPageError("Success", "Redirecting to Moderator session page", Level[Level.success]);
           this.utilityService.navigateToPath('/projector');
-
         }
         else {
           this.utilityService.addPageError("Success", "Redirecting to session page", Level[Level.success]);

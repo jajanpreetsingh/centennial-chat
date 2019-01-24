@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { ChatModel } from '../../models/chat.model';
-import { saveAs as importedSaveAs } from "file-saver";
 
 @Injectable()
 export class ChatService {

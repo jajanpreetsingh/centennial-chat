@@ -20,7 +20,6 @@ export class SignUpComponent implements OnInit {
   constructor(private accountService: AccountService,
     private util: UtilityService,
     private router: Router) {
-
     this.utility = util;
   }
 
@@ -30,7 +29,6 @@ export class SignUpComponent implements OnInit {
   onModeratorSignup() {
     this.accountService.tryModeratorSignup(this.signup).subscribe(res => {
       if (res.code == 200) {
-
         this.utility.addPageError("Signup Successful",
           "Click confirmation link in your email to confirm your account", Level[Level.success]);
 
@@ -40,32 +38,24 @@ export class SignUpComponent implements OnInit {
         this.router.navigate(['/home']);
       }
       else if (res.code == 500) {
-
         let errors: string[] = res.data;
 
         errors.forEach(x => {
-
           this.utility.addPageError("Error", x, Level[Level.danger]);
-
         });
 
         console.log(this.utility.errors);
       }
       else {
-
         let errors: string[] = res.data;
 
         errors.forEach(x => {
-
           this.utility.addPageError("Warning", x, Level[Level.warning]);
-
         });
       }
     },
       err => {
-
         this.utility.addPageError("Error", err, Level[Level.danger]);
       });
-
   }
 }

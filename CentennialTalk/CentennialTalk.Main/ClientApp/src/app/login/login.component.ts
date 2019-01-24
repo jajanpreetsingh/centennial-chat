@@ -22,7 +22,6 @@ export class LoginComponent implements OnInit {
   }
 
   onModeratorLogin() {
-
     this.accountService.tryModeratorLogin(this.login).subscribe(res => {
       if (res.code == 200) {
         this.accountService.setJwtToken(res.data);
@@ -34,28 +33,21 @@ export class LoginComponent implements OnInit {
         this.util.navigateToPath('/dashboard');
       }
       else if (res.code == 500) {
-
         let errors: string[] = res.data;
 
         errors.forEach(x => {
-
           this.utility.addPageError("Error", x, Level[Level.danger]);
-
         });
       }
       else {
-
         let errors: string[] = res.data;
 
         errors.forEach(x => {
-
           this.utility.addPageError("Warning", x, Level[Level.warning]);
-
         });
       }
     },
       err => {
-
         this.utility.addPageError("Error", err, Level[Level.danger]);
       });
   }

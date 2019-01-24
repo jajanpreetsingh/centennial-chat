@@ -38,7 +38,6 @@ export class IconsComponent implements OnInit {
         this.iconPool = this.iconPool.filter(x => this.usedIcons.indexOf(x) < 0);//get all unused icons
 
         if (this.iconPool.length <= 0) {
-
           let rurl = this.accountService.getLocalData(StorageKeys.ReturnUrl);
           this.accountService.setLocalData(StorageKeys.ReturnUrl, '');
 

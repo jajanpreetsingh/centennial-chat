@@ -17,7 +17,6 @@ export class SpeechService {
   }
 
   startListening() {
-
     var SpeechRecognition = this._window.webkitSpeechRecognition
       || this._window.SpeechRecognition;
 
@@ -37,7 +36,6 @@ export class SpeechService {
   }
 
   private onRecognitionEnd() {
-
     this.callback();
   }
 
@@ -52,7 +50,6 @@ export class SpeechService {
   }
 
   stopListening(callback) {
-
     this.callback = callback;
 
     this.recognition.stop();

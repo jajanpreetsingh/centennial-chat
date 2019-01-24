@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace CentennialTalk.Main.Controllers
 {
@@ -81,15 +80,22 @@ namespace CentennialTalk.Main.Controllers
         [HttpPost("transcript")]
         public IActionResult Download([FromBody]RequestDTO chatCode)
         {
-            string doc = fileService.CreateWordDocument(chatCode.value.ToString());
-
-            MemoryStream memory = new MemoryStream();
-            using (FileStream stream = new FileStream(doc, FileMode.Open))
+            try
             {
-                stream.CopyTo(memory);
-            }
+                string doc = fileService.CreateWordDocument(chatCode.value.ToString());
 
-            return GetJson(new ResponseDTO(ResponseCode.OK, memory.ToArray()));
+                MemoryStream memory = new MemoryStream();
+                using (FileStream stream = new FileStream(doc, FileMode.Open))
+                {
+                    stream.CopyTo(memory);
+                }
+
+                return GetJson(new ResponseDTO(ResponseCode.OK, memory.ToArray()));
+            }
+            catch (System.Exception ex)
+            {
+                return GetJson(new ResponseDTO(ResponseCode.OK, new string[] { "There was an error while creating/downloading transcript" }));
+            }
         }
 
         //[Authorize]

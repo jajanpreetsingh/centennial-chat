@@ -51,7 +51,7 @@ export class JoinChatComponent implements OnInit {
       return;
     }
 
-    if(this.accountService.isValNull(code)) {
+    if (this.accountService.isValNull(code)) {
       this.utilityService.addPageError("No chat code",
         "Enter a valid chat code to join the session", Level[Level.danger]);
       return;
@@ -75,7 +75,7 @@ export class JoinChatComponent implements OnInit {
 
         this.accountService.setLocalData(StorageKeys.PollingQuestions, JSON.stringify(this.chatData.pollQuestions));
 
-        this.accountService.setLocalData(StorageKeys.ChatMembers, JSON.stringify(this.chatData.members));        
+        this.accountService.setLocalData(StorageKeys.ChatMembers, JSON.stringify(this.chatData.members));
 
         if (!this.accountService.isValNull(this.chatData.publishedQuestion)) {
           this.accountService.setLocalData(StorageKeys.PublishedQuestion, JSON.stringify(this.chatData.publishedQuestion));
@@ -84,7 +84,6 @@ export class JoinChatComponent implements OnInit {
         if (this.accountService.isLoggedIn() || this.accountService.amIModerator()) {
           this.utilityService.addPageError("Success", "Redirecting to Moderator session page", Level[Level.success]);
           this.utilityService.navigateToPath('/projector');
-
         }
         else {
           this.utilityService.addPageError("Success", "Redirecting to session page", Level[Level.success]);

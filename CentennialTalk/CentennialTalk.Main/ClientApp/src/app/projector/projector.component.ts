@@ -7,7 +7,8 @@ import { ChatModel } from '../../models/chat.model';
 import { MessageModel, MemberReaction } from '../../models/message.model';
 import { QuestionModel } from '../../models/question.model';
 import { ChatService } from '../services/chat.service';
-import { saveAs as importedSaveAs } from "file-saver";
+import { UtilityService } from '../services/utility.service';
+import { Level } from '../../models/popup.model';
 
 @Component({
   selector: 'app-projector',
@@ -24,7 +25,7 @@ export class ProjectorComponent implements OnInit {
   hubInstance: HubService;
 
   constructor(private speechService: SpeechService, private chatService: ChatService,
-    private hubService: HubService, private accountService: AccountService) {
+    private hubService: HubService, private accountService: AccountService, private utility: UtilityService) {
     this.hubInstance = this.hubService;
   }
 
@@ -101,7 +102,16 @@ export class ProjectorComponent implements OnInit {
 
   goToTranscript() {
     this.chatService.downloadTranscript(this.chatData.chatCode).subscribe(res => {
-      this.download(res.data);
+      if (res.code == 200) {
+        this.download(res.data);
+      }
+      else {
+        let errors: string[] = res.data;
+
+        errors.forEach(x => {
+          this.utility.addPageError("Error creating file", x, Level[Level.danger]);
+        });
+      }
     });
   }
 
