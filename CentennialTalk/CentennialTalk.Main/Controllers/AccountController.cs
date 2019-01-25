@@ -79,7 +79,7 @@ namespace CentennialTalk.Main.Controllers
                 IdentityUser newUser = await userManager.FindByEmailAsync(email.value.ToString());
 
                 if (newUser == null)
-                    return GetJson(new ResponseDTO(ResponseCode.ERROR, "User with the supplied email not found"));
+                    return GetJson(new ResponseDTO(ResponseCode.ERROR, new string[] { "User with the supplied email not found" }));
 
                 string prc = userManager.GeneratePasswordResetTokenAsync(newUser).Result;
 
@@ -131,7 +131,7 @@ namespace CentennialTalk.Main.Controllers
             }
             catch (Exception ex)
             {
-                return GetJson(new ResponseDTO(ResponseCode.ERROR, ex.Message));
+                return GetJson(new ResponseDTO(ResponseCode.ERROR, new string[] { ex.Message }));
             }
         }
 
@@ -155,7 +155,7 @@ namespace CentennialTalk.Main.Controllers
             }
             catch (Exception ex)
             {
-                return GetJson(new ResponseDTO(ResponseCode.ERROR, ex.Message));
+                return GetJson(new ResponseDTO(ResponseCode.ERROR, new string[] { ex.Message }));
             }
         }
 

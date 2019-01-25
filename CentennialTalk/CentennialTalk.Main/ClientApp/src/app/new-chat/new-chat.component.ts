@@ -24,6 +24,8 @@ export class NewChatComponent implements OnInit, OnDestroy {
 
   loggedIn: boolean = false;
 
+  specifyTime: boolean = false;
+
   constructor(private chatService: ChatService, private utilityService: UtilityService, private accountService: AccountService) {
   }
 
@@ -49,7 +51,6 @@ export class NewChatComponent implements OnInit, OnDestroy {
   }
 
   refreshData() {
-    console.log(this.chatData);
   }
 
   addOpenQuestion() {
@@ -144,6 +145,12 @@ export class NewChatComponent implements OnInit, OnDestroy {
       this.chatData.moderator = this.accountService.getLocalData(StorageKeys.ChatUsername);
   }
 
+  setActDate() {
+  }
+
+  setExpDate() {
+  }
+
   onSubmitNewChat() {
     let user = this.chatData.username;
     let mod = this.chatData.moderator;
@@ -156,7 +163,7 @@ export class NewChatComponent implements OnInit, OnDestroy {
 
     if (this.accountService.isValNull(user)) {
       this.utilityService.addPageError("Missing Identity",
-        "Select a psudonym/icon to join the session", Level[Level.danger]);
+        "Select a psudonym/icon to create the session", Level[Level.danger]);
       return;
     }
 
@@ -166,20 +173,26 @@ export class NewChatComponent implements OnInit, OnDestroy {
       return;
     }
 
-    //if (this.accountService.isValNull(this.chatData.activationDate) || this.accountService.isValNull(this.chatData.expirationDate)) {
-    //  this.utilityService.addPageError("Missing Dates",
-    //    "Session duration date values are required", Level[Level.danger]);
-    //  return;
-    //}
-    //else if (this.chatData.expirationDate.valueOf() - new Date().valueOf() < 3600000
-    //  || this.chatData.activationDate.valueOf() == this.chatData.expirationDate.valueOf()) {
-    //  console.log("duration", this.chatData.expirationDate);
-    //  console.log("duration", this.chatData.expirationDate.valueOf() - new Date().valueOf());
+    if (this.accountService.isValNull(this.chatData.activationDate) || this.accountService.isValNull(this.chatData.expirationDate)) {
+      this.utilityService.addPageError("Missing Dates",
+        "Session duration date values are required", Level[Level.danger]);
 
-    //  this.utilityService.addPageError("Unrealistic duration time",
-    //    "Session expiration/duration should atleast be 1 hour more than current time", Level[Level.danger]);
-    //  return;
-    //}
+      if (this.specifyTime)
+        this.utilityService.addPageError("Hint",
+          "Try entering full dates with specified time", Level[Level.info]);
+      return;
+    }
+    else if (this.chatData.expirationDate.valueOf() - new Date().valueOf() < 3600000
+      || this.chatData.activationDate.valueOf() == this.chatData.expirationDate.valueOf()) {
+
+      this.utilityService.addPageError("Unrealistic duration time",
+        "Session expiration/duration should atleast be 1 hour more than current time", Level[Level.danger]);
+
+      if (this.specifyTime)
+        this.utilityService.addPageError("Hint",
+          "Try entering full dates with specified time", Level[Level.info]);
+      return;
+    }
 
     this.chatData.creatorId = this.accountService.getUserId();
 

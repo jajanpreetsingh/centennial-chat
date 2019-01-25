@@ -22,10 +22,7 @@ export class UtilityService {
     pop.message = message;
     pop.heading = heading;
 
-    console.log("alerts", this.errors);
-
     let ind = this.errors.push(pop) - 1;// take index of added error/message
-    console.log("alerts", this.errors);
 
     //remove after 3.5 seconds
     setTimeout(() => { this.errors.splice(ind, 1); }, 3500);

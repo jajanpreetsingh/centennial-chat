@@ -21,10 +21,21 @@ export class DashboardComponent implements OnInit {
   }
 
   goToNewChatPage() {
+
+    let user = this.accountService.getLocalData(StorageKeys.ChatUsername);
+
+    if (this.accountService.isValNull(user)) {
+      this.utilityService.addPageError("Missing Identity",
+        "Select a psudonym/icon to create the session", Level[Level.danger]);
+      return;
+    }
     this.utilityService.navigateToPath('/new');
   }
 
   goToIconPage() {
+
+    this.accountService.clearChatRelatedData();
+
     this.accountService.setLocalData(StorageKeys.ReturnUrl, '/dashboard');
     this.utilityService.navigateToPath('/icon');
   }

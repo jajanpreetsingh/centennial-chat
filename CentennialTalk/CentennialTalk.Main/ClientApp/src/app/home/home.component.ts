@@ -39,7 +39,8 @@ export class HomeComponent implements OnInit {
         this.mediaRecorder.addEventListener("stop", () => {
           const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
 
-          this.fileService.saveFile(audioBlob).subscribe(res => { console.log(res); });
+          this.fileService.saveFile(audioBlob).subscribe(res => {
+          });
         });
       });
   }
@@ -47,7 +48,8 @@ export class HomeComponent implements OnInit {
   handleBlob(event) {
     var arrayBuffer = event.target.result;
 
-    this.fileService.saveFile(btoa(arrayBuffer)).subscribe(res => { console.log(res); });
+    this.fileService.saveFile(btoa(arrayBuffer)).subscribe(res => {
+    });
   }
 
   stop() {

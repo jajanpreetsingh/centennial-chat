@@ -73,6 +73,12 @@ export class AccountService {
     this.setLocalData(StorageKeys.LoginUsername, '');
     this.setLocalData(StorageKeys.SignupUsername, '');
     this.setLocalData(StorageKeys.SignUpEmail, '');
+    this.setLocalData(StorageKeys.JwtToken, '');
+
+    this.clearChatRelatedData();
+  }
+
+  clearChatRelatedData() {
     this.setLocalData(StorageKeys.ChatTitle, '');
     this.setLocalData(StorageKeys.ChatCode, '');
     this.setLocalData(StorageKeys.ChatUsername, '');
@@ -81,7 +87,8 @@ export class AccountService {
     this.setLocalData(StorageKeys.PollingQuestions, '');
     this.setLocalData(StorageKeys.OpenQuestions, '');
     this.setLocalData(StorageKeys.ChatMembers, '');
-    this.setLocalData(StorageKeys.JwtToken, '');
+    this.setLocalData(StorageKeys.PublishedQuestion, '');
+    this.setLocalData(StorageKeys.ReturnUrl, '');
   }
 
   isLoggedIn(): boolean {
