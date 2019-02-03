@@ -27,6 +27,7 @@
                       <i class="fa fa-thumbs-o-down" (click)="dislikeMessage(message)" [@seventyFiveAnimation]='stateSeventyFive' [@fiftyAnimation]='stateFifty'></i>
                       <span class="f-right">{{message.dislikeCount}}</span>
                       <i class="fa fa-volume-up" (click)="playAudio(message)" aria-hidden="true"></i>
+                      <a class="reply-button">Reply</a>
                     </div>
                     <div *ngIf="message.replyId" class="replied-to-message no-message">
                       <h6 class="comment-name">{{message.oldSender}}</h6><br />
@@ -50,7 +51,7 @@
                       <i class="fa fa-thumbs-o-down" (click)="dislikeMessage(message)" [@seventyFiveAnimation]='stateSeventyFive' [@fiftyAnimation]='stateFifty'></i>
                       <span class="f-right">{{message.dislikeCount}}</span>
                       <i class="fa fa-volume-up" (click)="playAudio(message)" aria-hidden="true"></i>
-                      <a class="reply-button">Reply</a>
+                      
                     </div>
                     <div *ngIf="message.replyId" class="replied-to-message no-message">
                       <h6 class="comment-name">{{message.oldSender}}</h6><br />
