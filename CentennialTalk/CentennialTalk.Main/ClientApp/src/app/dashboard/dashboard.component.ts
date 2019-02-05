@@ -48,6 +48,21 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  goToTranscript(chatCode) {
+    this.chatServ.downloadTranscript(chatCode).subscribe(res => {
+      if (res.code == 200) {
+        this.chatServ.download(res.data);
+      }
+      else {
+        let errors: string[] = res.data;
+
+        errors.forEach(x => {
+          this.utilityService.addPageError("Error creating file", x, Level[Level.danger]);
+        });
+      }
+    });
+  }
+
   joinThisChat(user: string, code: string) {
     if (this.accountService.isValNull(user)) {
       this.utilityService.addPageError("Missing Identity",

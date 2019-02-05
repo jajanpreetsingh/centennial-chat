@@ -66,12 +66,20 @@ namespace CentennialTalk.Main
         {
             var data = JsonConvert.DeserializeObject<JoinChatDTO>(chatData);
 
+            if (data == null)
+                return;
+
             if (!ChatGroups.Contains(data.chatCode))
                 ChatGroups.Add(data.chatCode);
 
             Groups.AddToGroupAsync(Context.ConnectionId, data.chatCode);
 
-            MemberDTO mem = memberService.GetChatMembers(data.chatCode).FirstOrDefault().GetDTO();
+            GroupMember gm = memberService.GetChatMembers(data.chatCode).FirstOrDefault();
+
+            if (gm == null)
+                return;
+
+            MemberDTO mem = gm.GetDTO();
 
             Clients.Group(data.chatCode).SendAsync(userJoinedEvent, mem);
         }
@@ -80,9 +88,17 @@ namespace CentennialTalk.Main
         {
             JoinChatDTO data = JsonConvert.DeserializeObject<JoinChatDTO>(chatData);
 
+            if (data == null)
+                return;
+
             Groups.RemoveFromGroupAsync(Context.ConnectionId, data.chatCode);
 
-            MemberDTO mem = memberService.GetChatMembers(data.chatCode).FirstOrDefault().GetDTO();
+            GroupMember gm = memberService.GetChatMembers(data.chatCode).FirstOrDefault();
+
+            if (gm == null)
+                return;
+
+            MemberDTO mem = gm.GetDTO();
 
             Clients.Group(data.chatCode).SendAsync(userLeftEvent, mem);
         }
@@ -92,9 +108,6 @@ namespace CentennialTalk.Main
             MessageDTO data = JsonConvert.DeserializeObject<MessageDTO>(messageData);
 
             Message m = messageService.GetChatMessages(data.chatCode).FirstOrDefault();
-
-            if (m != null)
-                data.replyId = m.MessageId;
 
             return Clients.Group(data.chatCode).SendAsync(recieveMessageEvent, data);
         }

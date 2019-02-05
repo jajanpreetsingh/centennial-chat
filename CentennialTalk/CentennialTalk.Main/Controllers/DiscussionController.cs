@@ -3,6 +3,7 @@ using CentennialTalk.Models.DTOModels;
 using CentennialTalk.ServiceContract;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 
@@ -84,17 +85,24 @@ namespace CentennialTalk.Main.Controllers
             {
                 string doc = fileService.CreateWordDocument(chatCode.value.ToString());
 
+                dynamic fileinfo;
+
                 MemoryStream memory = new MemoryStream();
                 using (FileStream stream = new FileStream(doc, FileMode.Open))
                 {
                     stream.CopyTo(memory);
+
+                    fileinfo = new ExpandoObject();
+
+                    fileinfo.data = memory.ToArray();
+                    fileinfo.name = doc;
                 }
 
-                return GetJson(new ResponseDTO(ResponseCode.OK, memory.ToArray()));
+                return GetJson(new ResponseDTO(ResponseCode.OK, fileinfo));
             }
             catch (System.Exception ex)
             {
-                return GetJson(new ResponseDTO(ResponseCode.OK, new string[] { "There was an error while creating/downloading transcript" }));
+                return GetJson(new ResponseDTO(ResponseCode.ERROR, new string[] { "There was an error while creating/downloading transcript" }));
             }
         }
 

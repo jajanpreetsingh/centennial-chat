@@ -45,20 +45,23 @@ namespace CentennialTalk.Service
                 Section pollSection = WritePollAnswersToDoc(chat, docx);
                 docx.Sections.Add(pollSection);
 
-                //List<ClusteredResponses> res = GetClusteredQuestions(chat);
+                List<ClusteredResponses> res = GetClusteredQuestions(chat);
 
-                //if (res != null && res.Count > 0)
-                //{
-                //    Section openEndedSection = WriteOpenQuestionsWithClusters(chat, docx, res);
-                //    docx.Sections.Add(openEndedSection);
-                //}
-                //else
-                //{
-                //    Section openEndedSection = WriteOpenQuestionsWithoutClustering(chat, docx);
-                //    docx.Sections.Add(openEndedSection);
-                //}
+                if (res != null && res.Count > 0)
+                {
+                    Section openEndedSection = WriteOpenQuestionsWithClusters(chat, docx, res);
+                    docx.Sections.Add(openEndedSection);
+                }
+                else
+                {
+                    Section openEndedSection = WriteOpenQuestionsWithoutClustering(chat, docx);
+                    docx.Sections.Add(openEndedSection);
+                }
 
-                string fileName = chat.Title + "_" + chat.DiscussionCode + ".docx";
+                string fileName = chat.Title + "_" + chat.DiscussionCode + "_" + DateTime.Now.ToString()
+                    .Replace("/", string.Empty)
+                    .Replace(" ", string.Empty)
+                    .Replace(":", string.Empty) + ".docx";
 
                 docx.Save(fileName);
 
@@ -68,6 +71,59 @@ namespace CentennialTalk.Service
             {
                 throw ex;
             }
+        }
+
+        private Section WriteOpenQuestionsWithoutClustering(Discussion chat, DocumentCore docx)
+        {
+            Section openEndedSection = new Section(docx);
+
+            openEndedSection.PageSetup.PaperType = PaperType.A4;
+
+            List<SubjectiveQuestion> subs = quesRepository.GetChatSubjectiveQuestions(chat.DiscussionCode);
+
+            List<UserAnswer> answers = quesRepository.GetAnswersByChat(chat.DiscussionCode);
+
+            foreach (SubjectiveQuestion sub in subs)
+            {
+                Paragraph pq = new Paragraph(docx);
+
+                pq.Content.End.Insert(string.Format("Subjective Question : {0}", sub.Content),
+                    new CharacterFormat() { Size = 12, FontColor = Color.Blue, Bold = true });
+
+                pq.Inlines.Add(new SpecialCharacter(docx, SpecialCharacterType.LineBreak));
+
+                pq.ParagraphFormat.Alignment = HorizontalAlignment.Left;
+
+                foreach (GroupMember mem in chat.Members)
+                {
+                    UserAnswer quesans = answers.FirstOrDefault(x => x.QuestionId == sub.QuestionId && x.MemberId == mem.GroupMemberId);
+
+                    if (quesans == null)
+                        continue;
+
+                    bool isMod = mem.IsModerator;
+
+                    Paragraph p = new Paragraph(docx);
+
+                    p.Content.End.Insert(string.Format("{0} Answers : ", mem.Username), new CharacterFormat() { Size = 12, FontColor = Color.Green });
+
+                    p.Inlines.Add(new SpecialCharacter(docx, SpecialCharacterType.LineBreak));
+
+                    p.Content.End.Insert(quesans.Content, new CharacterFormat() { Size = 12, FontColor = Color.Green });
+
+                    p.Inlines.Add(new SpecialCharacter(docx, SpecialCharacterType.LineBreak));
+
+                    p.ParagraphFormat.Alignment = HorizontalAlignment.Left;
+
+                    openEndedSection.Blocks.Add(p);
+                }
+
+                openEndedSection.Blocks.Add(pq);
+            }
+
+            //docx.Sections.Add(openEndedSection);
+
+            return openEndedSection;
         }
 
         private Section WriteOpenQuestionsWithClusters(Discussion chat, DocumentCore docx, List<ClusteredResponses> res)
@@ -136,53 +192,11 @@ namespace CentennialTalk.Service
 
                         p.Inlines.Add(new SpecialCharacter(docx, SpecialCharacterType.LineBreak));
 
-                        p.Inlines.Add(new SpecialCharacter(docx, SpecialCharacterType.LineBreak));
-
                         openEndedSection.Blocks.Add(p);
                     }
                 }
-            }
 
-            return openEndedSection;
-        }
-
-        private Section WriteOpenQuestionsWithoutClustering(Discussion chat, DocumentCore docx)
-        {
-            Section openEndedSection = new Section(docx);
-
-            openEndedSection.PageSetup.PaperType = PaperType.A4;
-
-            List<SubjectiveQuestion> subs = quesRepository.GetChatSubjectiveQuestions(chat.DiscussionCode);
-
-            List<UserAnswer> answers = quesRepository.GetAnswersByChat(chat.DiscussionCode);
-
-            foreach (SubjectiveQuestion sub in subs)
-            {
-                Paragraph pq2 = new Paragraph(docx);
-
-                pq2.Content.End.Insert(string.Format("Subjective Question : {0}\n", sub.Content),
-                   new CharacterFormat() { Size = 12, FontColor = Color.Blue, Bold = true });
-
-                pq2.ParagraphFormat.Alignment = HorizontalAlignment.Left;
-
-                foreach (GroupMember mem in chat.Members)
-                {
-                    UserAnswer quesans = answers.FirstOrDefault(x => x.QuestionId == sub.QuestionId && x.MemberId == mem.GroupMemberId);
-
-                    bool isMod = mem.IsModerator;
-
-                    Paragraph p2 = new Paragraph(docx);
-
-                    p2.Content.End.Insert(string.Format("{0} Answers : \n", mem.Username), new CharacterFormat() { Size = 12, FontColor = Color.Green });
-
-                    p2.Content.End.Insert(quesans.Content + "\n", new CharacterFormat() { Size = 12, FontColor = Color.Green });
-
-                    p2.ParagraphFormat.Alignment = HorizontalAlignment.Left;
-
-                    openEndedSection.Blocks.Add(p2);
-                }
-
-                openEndedSection.Blocks.Add(pq2);
+                openEndedSection.Blocks.Add(pq);
             }
 
             return openEndedSection;

@@ -22,6 +22,7 @@
             <td>{{chat.chatCode}}</td>
             <td>{{chat.members.length}}</td>
             <td><button class="btn btn-lg" (click)="joinThisChat(chat.moderator,chat.chatCode)" type="button">Join</button></td>
+            <td><button class="btn btn-lg" (click)="goToTranscript(chat.chatCode)" type="button">Download Transcript</button></td>
           </tr>
         </tbody>
       </table>

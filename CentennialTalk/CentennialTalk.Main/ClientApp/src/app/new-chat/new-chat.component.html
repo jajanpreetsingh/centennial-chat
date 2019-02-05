@@ -52,15 +52,19 @@
           <div class="multiple-answer-question">
             <span>Q</span>
             <input [(ngModel)]="pollQuestion" name="pollQuestion" type="text" placeholder="question" class="form-control" />
+            <br />
+            <span>A</span><input type="text" [(ngModel)]="currentOption" name="currentOption" placeholder="option" class="form-control" />
+
+            <button (click)="addOption()" class="btn">Add Option</button>
+
             <div class="checkbox">
               <label><input [(ngModel)]="allowMultiple" name="allowMultiple" type="checkbox" />Multiple answers</label>
             </div>
             <h5>Answers:</h5>
-            <div *ngFor="let option of pollOptions; let i = index;trackBy: maintainFocus">
-              <span>A</span><input type="text" [(ngModel)]="pollOptions[i]" name="pollOptions[i]" value="{{pollOptions[i]}}" placeholder="answer" class="form-control" />
+            <div *ngFor="let option of pollOptions;let i = index;">
+              <span>A</span><input type="text" name="option" value="{{option}}" placeholder="answer" class="form-control" />
+              <button (click)="removeOption(i)" class="btn">Remove Option</button>
             </div>
-            <button (click)="addOption()" class="btn">Add Option</button>
-            <button (click)="removeOption()" class="btn">Remove Option</button>
             <button (click)="addPollQuestion()" class="btn">Add Polling Questions</button>
           </div>
 
