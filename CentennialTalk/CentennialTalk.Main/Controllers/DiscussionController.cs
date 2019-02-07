@@ -96,7 +96,11 @@ namespace CentennialTalk.Main.Controllers
 
                     fileinfo.data = memory.ToArray();
                     fileinfo.name = doc;
+
+                    stream.Close();
                 }
+
+                System.IO.File.Delete(doc);
 
                 return GetJson(new ResponseDTO(ResponseCode.OK, fileinfo));
             }
