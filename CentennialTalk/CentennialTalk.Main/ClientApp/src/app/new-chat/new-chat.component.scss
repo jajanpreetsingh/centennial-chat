@@ -14,7 +14,7 @@
   }
 
   input[placeholder="question"], input[placeholder="answer"] {
-    min-width: 300px;
+    min-width: 220px;
   }
 }
 
@@ -47,4 +47,8 @@ h2, h4, h5, #new-chat-section {
 hr {
   margin: 2px 5px;
   border-color: $color-primary;
+}
+
+.btn{
+  margin-top: 10px;
 }

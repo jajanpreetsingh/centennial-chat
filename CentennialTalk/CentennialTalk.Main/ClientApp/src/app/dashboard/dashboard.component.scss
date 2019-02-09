@@ -28,3 +28,13 @@ thead tr{
   text-align: center;
   vertical-align: middle;
 }
+
+.btn {
+  background-color: $blue !important;
+
+  &:hover {
+    background: $white !important;
+    color: $blue !important;
+    border-color: $blue !important;
+  }
+}
