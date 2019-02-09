@@ -22,6 +22,8 @@ export class NewChatComponent implements OnInit, OnDestroy {
 
   pollOptions: string[] = [];
 
+  currentOption: string = "";
+
   loggedIn: boolean = false;
 
   specifyTime: boolean = false;
@@ -129,15 +131,22 @@ export class NewChatComponent implements OnInit, OnDestroy {
     if (this.pollOptions == null && this.pollOptions.length <= 0)
       this.pollOptions = [];
 
-    this.pollOptions.push("");
+    if (this.accountService.isValNull(this.currentOption)) {
+      this.utilityService.addPageError("Empty option", "Cannot add null text to options", Level[Level.danger]);
+      return;
+    }
+
+    this.pollOptions.push(this.currentOption);
+
+    this.currentOption = "";
   }
 
-  removeOption() {
+  removeOption(index: number) {
     if (this.pollOptions == null)
       this.pollOptions = [];
 
     if (this.pollOptions.length > 0)
-      this.pollOptions.pop();
+      this.pollOptions.splice(index, 1);
   }
 
   onChangeModerator() {

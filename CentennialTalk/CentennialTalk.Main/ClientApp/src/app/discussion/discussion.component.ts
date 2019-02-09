@@ -54,6 +54,8 @@ export class DiscussionComponent implements OnInit {
 
   hubInstance: HubService;
 
+  replyMessage: MessageModel = null;
+
   isListening: boolean = false;
 
   selectedOptions: string[] = [];
@@ -161,6 +163,14 @@ export class DiscussionComponent implements OnInit {
     this.hubInstance.sendReact(react);
   }
 
+  setReplyMessage(m: MessageModel) {
+    this.replyMessage = m;
+  }
+
+  clearReplyMessage() {
+    this.replyMessage = null;
+  }
+
   sendMessage() {
     var content = this.message;
 
@@ -172,9 +182,13 @@ export class DiscussionComponent implements OnInit {
     messageObj.content = content;
     messageObj.chatCode = this.chatData.chatCode;
     messageObj.sender = this.accountService.getLocalData(StorageKeys.ChatUsername);
-    messageObj.replyId = mid;
+
+    if (!this.accountService.isValNull(this.replyMessage))
+      messageObj.replyId = this.replyMessage.messageId;
 
     this.hubService.sendMessage(messageObj);
+    this.message = "";
+    this.replyMessage = null;
   }
 
   animateMeFifty() {

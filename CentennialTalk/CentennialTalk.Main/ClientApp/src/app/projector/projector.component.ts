@@ -24,6 +24,8 @@ export class ProjectorComponent implements OnInit {
 
   hubInstance: HubService;
 
+  replyMessage: MessageModel = null;
+
   constructor(private speechService: SpeechService, private chatService: ChatService,
     private hubService: HubService, private accountService: AccountService, private utility: UtilityService) {
     this.hubInstance = this.hubService;
@@ -84,6 +86,14 @@ export class ProjectorComponent implements OnInit {
     this.hubInstance.sendReact(react);
   }
 
+  setReplyMessage(m: MessageModel) {
+    this.replyMessage = m;
+  }
+
+  clearReplyMessage() {
+    this.replyMessage = null;
+  }
+
   sendMessage() {
     var content = this.message;
 
@@ -95,15 +105,19 @@ export class ProjectorComponent implements OnInit {
     messageObj.content = content;
     messageObj.chatCode = this.chatData.chatCode;
     messageObj.sender = this.chatData.username;
-    messageObj.replyId = mid;
+
+    if (!this.accountService.isValNull(this.replyMessage))
+      messageObj.replyId = this.replyMessage.messageId;
 
     this.hubService.sendMessage(messageObj);
+    this.message = "";
+    this.replyMessage = null;
   }
 
   goToTranscript() {
     this.chatService.downloadTranscript(this.chatData.chatCode).subscribe(res => {
       if (res.code == 200) {
-        this.download(res.data);
+        this.chatService.download(res.data);
       }
       else {
         let errors: string[] = res.data;
@@ -113,27 +127,5 @@ export class ProjectorComponent implements OnInit {
         });
       }
     });
-  }
-
-  download(data: any) {
-    let json = atob(data);
-    let blob = this.base64toBlob(json);
-
-    let url = window.URL.createObjectURL(blob);
-    let link = document.createElement("a");
-    link.setAttribute("href", url);
-    link.setAttribute("download", "test.docx");
-    link.style.display = "none";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
-
-  base64toBlob(byteString) {
-    var ia = new Uint8Array(byteString.length);
-    for (var i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    return new Blob([ia], { type: 'application/vnd.ms-word' });
   }
 }

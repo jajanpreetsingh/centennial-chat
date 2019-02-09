@@ -167,9 +167,15 @@ export class HubService {
       if (!this.accountService.isValNull(messageData.replyId)) {
         let oldMessage = this.messages.find(x => x.messageId == messageData.replyId);
 
+        console.log("oldy",oldMessage);
+
         if (!this.accountService.isValNull(oldMessage)) {
           messageData.oldMessage = oldMessage.content.length <= 10 ? oldMessage.content : oldMessage.content.substr(0, 10) + " ...";
           messageData.oldSender = oldMessage.sender;
+
+          console.log("oldc", messageData.oldMessage);
+
+          console.log("olds", messageData.oldSender);
         }
       }
 
@@ -236,18 +242,16 @@ export class HubService {
 
   sendMessage(messageObj: MessageModel) {
     if (this.accountService.isValNull(messageObj.content)) {
-      this.utilityService.addPageError("Null message", "Message cannot be null", Level[Level.danger]);
-    }
+      this.utilityService.addPageError("Null message", "Message cannot be null", Level[Level.danger]);    }
 
     messageObj.sentDate = this.datePipe.transform(Date.now(), 'yyyy-MM-dd HH:mm:ss');
 
     this.hubConnection.invoke('Send', JSON.stringify(messageObj));
 
     this.messageService.saveMessage(messageObj).subscribe(res => {
-      console.log(res);
+
     },
       err => {
-        console.log(err);
       });
   }
 
@@ -354,7 +358,6 @@ export class HubService {
   fetchPreviousMessages() {
     this.messages = [];
 
-    console.log('chat code to get message', this.chatData.chatCode);
     this.messageService.getChatMessages(this.chatData.chatCode).subscribe(res => {
       let messageArray = res.data;
 

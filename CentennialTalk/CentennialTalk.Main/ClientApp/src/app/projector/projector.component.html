@@ -26,8 +26,9 @@
                     <i class="fa fa-thumbs-o-down" (click)="dislikeMessage(message)"></i>
                     <span class="f-right">{{message.dislikeCount}}</span>
                     <i class="fa fa-volume-up" (click)="playAudio(message)" aria-hidden="true"></i>
+                    <a class="reply-button" (click)="setReplyMessage(message)">Reply</a>
                   </div>
-                  <div *ngIf="message.replyId" class="replied-to-message no-message">
+                  <div class="replied-to-message no-message">
                     <h6 class="comment-name">{{message.oldSender}}</h6><br />
                     <span class="content">{{message.oldMessage}}</span>
                   </div>
@@ -47,8 +48,9 @@
                     <i class="fa fa-thumbs-o-down" (click)="dislikeMessage(message)"></i>
                     <span class="f-right">{{message.dislikeCount}}</span>
                     <i class="fa fa-volume-up" (click)="playAudio(message)" aria-hidden="true"></i>
+                    <a class="reply-button" (click)="setReplyMessage(message)">Reply</a>
                   </div>
-                  <div *ngIf="message.replyId" class="replied-to-message no-message">
+                  <div class="replied-to-message no-message">
                     <h6 class="comment-name">{{message.oldSender}}</h6><br />
                     <span class="content">{{message.oldMessage}}</span>
                   </div>
@@ -59,7 +61,7 @@
           </ul>
         </div>
       </div>
-      <div class="replying-to-message"><p>Replying to: <span>UserName</span></p><span></span></div>
+      <div *ngIf="replyMessage" (click)="clearReplyMessage()" class="replying-to-message"><p>Replying to: <span>{{replyMessage.sender}}</span></p><span></span></div>
       <div id="textarea-container">
         <textarea [(ngModel)]="message" name="message" placeholder="Enter your message here"></textarea>
         <i *ngIf="!isListening" (click)="startListening()" class="fa fa-microphone" aria-hidden="true"></i>
@@ -68,6 +70,15 @@
       <button (click)="sendMessage()" class="btn btn-lg btn-green">Post</button>
     </div>
     <div class="col-sm-6" id="manage-section">
+
+      <div class="col-sm-6">
+        <h4>Use the Code to share with students</h4>
+        <div class="alert alert-info">
+          <h5>{{chatData.chatCode}}</h5>
+        </div>
+      </div>
+
+      <br />
 
       <div *ngFor="let question of hubInstance.openQuestions">
         <h4><span>Q</span>{{question.content}}</h4>

@@ -27,4 +27,26 @@ export class ChatService {
     return this.http.post("/api/chat/list", { 'value': chatCode })
       .map(res => res.json());
   }
+
+  download(data: any) {
+    let json = atob(data.data);
+    let blob = this.base64toBlob(json);
+
+    let url = window.URL.createObjectURL(blob);
+    let link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", data.name);
+    link.style.display = "none";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  base64toBlob(byteString) {
+    var ia = new Uint8Array(byteString.length);
+    for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ia], { type: 'application/vnd.ms-word' });
+  }
 }

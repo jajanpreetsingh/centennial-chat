@@ -39,26 +39,25 @@ namespace CentennialTalk.Service
 
                 DocumentCore docx = new DocumentCore();
 
-                Section messageSection = WriteMessagesToDoc(chat, docx);
-                docx.Sections.Add(messageSection);
+                WriteMessagesToDoc(chat, docx);
 
-                Section pollSection = WritePollAnswersToDoc(chat, docx);
-                docx.Sections.Add(pollSection);
+                WritePollAnswersToDoc(chat, docx);
 
-                //List<ClusteredResponses> res = GetClusteredQuestions(chat);
+                List<ClusteredResponses> res = GetClusteredQuestions(chat);
 
-                //if (res != null && res.Count > 0)
-                //{
-                //    Section openEndedSection = WriteOpenQuestionsWithClusters(chat, docx, res);
-                //    docx.Sections.Add(openEndedSection);
-                //}
-                //else
-                //{
-                //    Section openEndedSection = WriteOpenQuestionsWithoutClustering(chat, docx);
-                //    docx.Sections.Add(openEndedSection);
-                //}
+                if (res != null && res.Count > 0)
+                {
+                    WriteOpenQuestionsWithClusters(chat, docx, res);
+                }
+                else
+                {
+                    WriteOpenQuestionsWithoutClustering(chat, docx);
+                }
 
-                string fileName = chat.Title + "_" + chat.DiscussionCode + ".docx";
+                string fileName = chat.Title + "_" + chat.DiscussionCode + "_" + DateTime.Now.ToString()
+                    .Replace("/", string.Empty)
+                    .Replace(" ", string.Empty)
+                    .Replace(":", string.Empty) + ".docx";
 
                 docx.Save(fileName);
 
@@ -70,7 +69,58 @@ namespace CentennialTalk.Service
             }
         }
 
-        private Section WriteOpenQuestionsWithClusters(Discussion chat, DocumentCore docx, List<ClusteredResponses> res)
+        private void WriteOpenQuestionsWithoutClustering(Discussion chat, DocumentCore docx)
+        {
+            Section openEndedSection = new Section(docx);
+
+            openEndedSection.PageSetup.PaperType = PaperType.A4;
+
+            List<SubjectiveQuestion> subs = quesRepository.GetChatSubjectiveQuestions(chat.DiscussionCode);
+
+            List<UserAnswer> answers = quesRepository.GetAnswersByChat(chat.DiscussionCode);
+
+            foreach (SubjectiveQuestion sub in subs)
+            {
+                Paragraph pq = new Paragraph(docx);
+
+                pq.Content.End.Insert(string.Format("Subjective Question : {0}", sub.Content),
+                    new CharacterFormat() { Size = 12, FontColor = Color.Blue, Bold = true });
+
+                pq.Inlines.Add(new SpecialCharacter(docx, SpecialCharacterType.LineBreak));
+
+                pq.ParagraphFormat.Alignment = HorizontalAlignment.Left;
+
+                openEndedSection.Blocks.Add(pq);
+
+                foreach (GroupMember mem in chat.Members)
+                {
+                    UserAnswer quesans = answers.FirstOrDefault(x => x.QuestionId == sub.QuestionId && x.MemberId == mem.GroupMemberId);
+
+                    if (quesans == null)
+                        continue;
+
+                    bool isMod = mem.IsModerator;
+
+                    Paragraph p = new Paragraph(docx);
+
+                    p.Content.End.Insert(string.Format("{0} Answers : ", mem.Username), new CharacterFormat() { Size = 12, FontColor = Color.Green });
+
+                    p.Inlines.Add(new SpecialCharacter(docx, SpecialCharacterType.LineBreak));
+
+                    p.Content.End.Insert(quesans.Content, new CharacterFormat() { Size = 12, FontColor = Color.Green });
+
+                    p.Inlines.Add(new SpecialCharacter(docx, SpecialCharacterType.LineBreak));
+
+                    p.ParagraphFormat.Alignment = HorizontalAlignment.Left;
+
+                    openEndedSection.Blocks.Add(p);
+                }
+            }
+
+            docx.Sections.Add(openEndedSection);
+        }
+
+        private void WriteOpenQuestionsWithClusters(Discussion chat, DocumentCore docx, List<ClusteredResponses> res)
         {
             Section openEndedSection = new Section(docx);
 
@@ -100,6 +150,8 @@ namespace CentennialTalk.Service
                 pq.Inlines.Add(new SpecialCharacter(docx, SpecialCharacterType.LineBreak));
 
                 pq.ParagraphFormat.Alignment = HorizontalAlignment.Left;
+
+                openEndedSection.Blocks.Add(pq);
 
                 foreach (uint clid in filterByQuestion.Select(x => x.PredictedClusterId).Distinct().ToList())
                 {
@@ -136,59 +188,15 @@ namespace CentennialTalk.Service
 
                         p.Inlines.Add(new SpecialCharacter(docx, SpecialCharacterType.LineBreak));
 
-                        p.Inlines.Add(new SpecialCharacter(docx, SpecialCharacterType.LineBreak));
-
                         openEndedSection.Blocks.Add(p);
                     }
                 }
             }
 
-            return openEndedSection;
+            docx.Sections.Add(openEndedSection);
         }
 
-        private Section WriteOpenQuestionsWithoutClustering(Discussion chat, DocumentCore docx)
-        {
-            Section openEndedSection = new Section(docx);
-
-            openEndedSection.PageSetup.PaperType = PaperType.A4;
-
-            List<SubjectiveQuestion> subs = quesRepository.GetChatSubjectiveQuestions(chat.DiscussionCode);
-
-            List<UserAnswer> answers = quesRepository.GetAnswersByChat(chat.DiscussionCode);
-
-            foreach (SubjectiveQuestion sub in subs)
-            {
-                Paragraph pq2 = new Paragraph(docx);
-
-                pq2.Content.End.Insert(string.Format("Subjective Question : {0}\n", sub.Content),
-                   new CharacterFormat() { Size = 12, FontColor = Color.Blue, Bold = true });
-
-                pq2.ParagraphFormat.Alignment = HorizontalAlignment.Left;
-
-                foreach (GroupMember mem in chat.Members)
-                {
-                    UserAnswer quesans = answers.FirstOrDefault(x => x.QuestionId == sub.QuestionId && x.MemberId == mem.GroupMemberId);
-
-                    bool isMod = mem.IsModerator;
-
-                    Paragraph p2 = new Paragraph(docx);
-
-                    p2.Content.End.Insert(string.Format("{0} Answers : \n", mem.Username), new CharacterFormat() { Size = 12, FontColor = Color.Green });
-
-                    p2.Content.End.Insert(quesans.Content + "\n", new CharacterFormat() { Size = 12, FontColor = Color.Green });
-
-                    p2.ParagraphFormat.Alignment = HorizontalAlignment.Left;
-
-                    openEndedSection.Blocks.Add(p2);
-                }
-
-                openEndedSection.Blocks.Add(pq2);
-            }
-
-            return openEndedSection;
-        }
-
-        private Section WritePollAnswersToDoc(Discussion chat, DocumentCore docx)
+        private void WritePollAnswersToDoc(Discussion chat, DocumentCore docx)
         {
             Section pollSection = new Section(docx);
             pollSection.PageSetup.PaperType = PaperType.A4;
@@ -216,6 +224,8 @@ namespace CentennialTalk.Service
 
                 pq.ParagraphFormat.Alignment = HorizontalAlignment.Left;
 
+                pollSection.Blocks.Add(pq);
+
                 foreach (GroupMember mem in chat.Members)
                 {
                     List<UserAnswer> quesans = answers.FindAll(x => x.QuestionId == poll.QuestionId && x.MemberId == mem.GroupMemberId);
@@ -242,14 +252,12 @@ namespace CentennialTalk.Service
 
                     pollSection.Blocks.Add(p);
                 }
-
-                pollSection.Blocks.Add(pq);
             }
 
-            return pollSection;
+            docx.Sections.Add(pollSection);
         }
 
-        private Section WriteMessagesToDoc(Discussion chat, DocumentCore docx)
+        private void WriteMessagesToDoc(Discussion chat, DocumentCore docx)
         {
             List<Message> messages = messageRepository.GetChatMessages(chat.DiscussionCode);
 
@@ -276,7 +284,7 @@ namespace CentennialTalk.Service
                 messageSection.Blocks.Add(p);
             }
 
-            return messageSection;
+            docx.Sections.Add(messageSection);
         }
 
         public List<ClusteredResponses> GetClusteredQuestions(Discussion chat)
