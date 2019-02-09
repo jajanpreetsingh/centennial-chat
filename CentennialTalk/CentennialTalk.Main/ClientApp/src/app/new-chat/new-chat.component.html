@@ -41,7 +41,7 @@
           <div class="row" *ngFor="let question of chatData.openQuestions">
             <div class="open-question col-sm-8"><span>Q</span> <input type="text" disabled="disabled" value="{{question.content}}" placeholder="question" class="form-control" /></div>
 
-            <button (click)="removeOpenQuestion(question)" class="btn col-sm-4">Remove Question</button>
+            <button (click)="removeOpenQuestion(question)" class="rm-btn btn col-sm-4">Remove Question</button>
             <hr />
           </div>
           <button class="btn" (click)="addOpenQuestion()">Add Question</button>
