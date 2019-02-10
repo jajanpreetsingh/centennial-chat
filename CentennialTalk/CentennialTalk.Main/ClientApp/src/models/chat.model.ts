@@ -16,4 +16,5 @@ export class ChatModel {
   members: MemberModel[];
 
   creatorId: string;
+  clusterResponses: boolean;
 }

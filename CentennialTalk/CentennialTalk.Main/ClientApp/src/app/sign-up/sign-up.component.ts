@@ -43,8 +43,6 @@ export class SignUpComponent implements OnInit {
         errors.forEach(x => {
           this.utility.addPageError("Error", x, Level[Level.danger]);
         });
-
-        console.log(this.utility.errors);
       }
       else {
         let errors: string[] = res.data;

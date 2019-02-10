@@ -86,7 +86,6 @@ export class HubService {
       'chatCode': this.chatData.chatCode,
       'isModerator': this.accountService.amIModerator()
     })).catch(e => {
-      console.log(e);
     });
 
     this.memberService.updateStatus({
@@ -95,10 +94,8 @@ export class HubService {
       connectionId: this.connectionId,
       isConnected: this.isConnected
     }).subscribe(res => {
-      //console.log(res);
     },
       err => {
-        console.log(err);
       });
   }
 
@@ -120,10 +117,8 @@ export class HubService {
       connectionId: this.connectionId,
       isConnected: this.isConnected
     }).subscribe(res => {
-      console.log(res);
     },
       err => {
-        console.log(err);
       });
 
     this.chatData = new ChatModel();
@@ -167,15 +162,9 @@ export class HubService {
       if (!this.accountService.isValNull(messageData.replyId)) {
         let oldMessage = this.messages.find(x => x.messageId == messageData.replyId);
 
-        console.log("oldy",oldMessage);
-
         if (!this.accountService.isValNull(oldMessage)) {
           messageData.oldMessage = oldMessage.content.length <= 10 ? oldMessage.content : oldMessage.content.substr(0, 10) + " ...";
           messageData.oldSender = oldMessage.sender;
-
-          console.log("oldc", messageData.oldMessage);
-
-          console.log("olds", messageData.oldSender);
         }
       }
 
@@ -208,7 +197,6 @@ export class HubService {
           }
         }
         else {
-          console.log(res.data);
         }
       });
     });
@@ -234,7 +222,6 @@ export class HubService {
           }
         }
         else {
-          console.log(res.data);
         }
       });
     });
@@ -242,14 +229,14 @@ export class HubService {
 
   sendMessage(messageObj: MessageModel) {
     if (this.accountService.isValNull(messageObj.content)) {
-      this.utilityService.addPageError("Null message", "Message cannot be null", Level[Level.danger]);    }
+      this.utilityService.addPageError("Null message", "Message cannot be null", Level[Level.danger]);
+    }
 
     messageObj.sentDate = this.datePipe.transform(Date.now(), 'yyyy-MM-dd HH:mm:ss');
 
     this.hubConnection.invoke('Send', JSON.stringify(messageObj));
 
     this.messageService.saveMessage(messageObj).subscribe(res => {
-
     },
       err => {
       });
@@ -296,7 +283,6 @@ export class HubService {
   onMessageReacted(data: MemberReaction): any {
     this.messageService.getReaction(data).subscribe(res => {
       if (res.code == 200) {
-        console.log(res);
         this.onMessageReceived(res.data);
       }
     })
@@ -367,7 +353,6 @@ export class HubService {
         }
     },
       err => {
-        console.log(err);
       });
   }
 }

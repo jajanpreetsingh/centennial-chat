@@ -15,7 +15,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-
     //this.actRoute.queryParams.subscribe(params => {
     //  let userId = params['userId'];
     //  let code = params['code'];
@@ -38,7 +37,6 @@ export class AppComponent implements OnInit {
 
   logoutToHome() {
     this.accountService.tryLogout().subscribe(res => {
-
       if (res.code == 200) {
         this.accountService.clearAllLocalData();
 

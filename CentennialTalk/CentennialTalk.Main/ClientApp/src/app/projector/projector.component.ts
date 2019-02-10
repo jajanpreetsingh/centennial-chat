@@ -9,6 +9,7 @@ import { QuestionModel } from '../../models/question.model';
 import { ChatService } from '../services/chat.service';
 import { UtilityService } from '../services/utility.service';
 import { Level } from '../../models/popup.model';
+import { TranscriptRequestModel } from '../../models/transcriptrequest.model';
 
 @Component({
   selector: 'app-projector',
@@ -115,7 +116,12 @@ export class ProjectorComponent implements OnInit {
   }
 
   goToTranscript() {
-    this.chatService.downloadTranscript(this.chatData.chatCode).subscribe(res => {
+    let trm: TranscriptRequestModel = new TranscriptRequestModel();
+
+    trm.chatCode = this.chatData.chatCode;
+    trm.clusterResponses = false;
+
+    this.chatService.downloadTranscript(trm).subscribe(res => {
       if (res.code == 200) {
         this.chatService.download(res.data);
       }

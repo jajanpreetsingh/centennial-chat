@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Response = /** @class */ (function () {
-  function Response() {
-  }
-  return Response;
+    function Response() {
+    }
+    return Response;
 }());
 exports.Response = Response;
 //# sourceMappingURL=response.model.js.map

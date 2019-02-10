@@ -79,11 +79,11 @@ namespace CentennialTalk.Main.Controllers
 
         //[Authorize]
         [HttpPost("transcript")]
-        public IActionResult Download([FromBody]RequestDTO chatCode)
+        public IActionResult Download([FromBody]TranscriptRequestDTO trm)
         {
             try
             {
-                string doc = fileService.CreateWordDocument(chatCode.value.ToString());
+                string doc = fileService.CreateWordDocument(trm);
 
                 dynamic fileinfo;
 

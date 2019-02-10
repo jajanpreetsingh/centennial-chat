@@ -13,7 +13,6 @@ namespace CentennialTalk.Service
 
         public void AddTestData()
         {
-
         }
     }
 }

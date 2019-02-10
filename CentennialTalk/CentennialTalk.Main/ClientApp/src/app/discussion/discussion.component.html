@@ -14,53 +14,53 @@
           <ul id="comments-list" class="comments-list">
             <li *ngFor="let message of hubInstance.messages">
 
-                <div *ngIf="!message.isMine" class="comment-main-level">
+              <div *ngIf="!message.isMine" class="comment-main-level">
 
-                  <div class="comment-avatar col-sm-1"><img src="../../assets/icons/{{message.sender}}.svg" alt="{{message.sender}}"></div>
+                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/{{message.sender}}.svg" alt="{{message.sender}}"></div>
 
-                  <div class="comment-box col-sm-10">
-                    <div class="comment-head">
-                      <h6 class="comment-name by-author">{{message.sender}}</h6>
-                      <span>Sent on : {{message.sendDate}}</span>
-                      <i class="fa fa-thumbs-o-up" (click)="likeMessage(message)" [@seventyFiveAnimation]='stateSeventyFive' [@fiftyAnimation]='stateFifty'></i>
-                      <span class="f-right">{{message.likeCount}}</span>
-                      <i class="fa fa-thumbs-o-down" (click)="dislikeMessage(message)" [@seventyFiveAnimation]='stateSeventyFive' [@fiftyAnimation]='stateFifty'></i>
-                      <span class="f-right">{{message.dislikeCount}}</span>
-                      <i class="fa fa-volume-up" (click)="playAudio(message)" aria-hidden="true"></i>
-                      <a class="reply-button" (click)="setReplyMessage(message)">Reply</a>
-                    </div>
-                    <div *ngIf="(message.oldMessage!=null && message.oldMessage!='')" class="replied-to-message no-message">
-                      <h6 class="comment-name">{{message.oldSender}}</h6><br />
-                      <span class="content">{{message.oldMessage}}</span>
-                    </div>
-                    <div class="comment-content">{{message.content}}</div>
+                <div class="comment-box col-sm-10">
+                  <div class="comment-head">
+                    <h6 class="comment-name by-author">{{message.sender}}</h6>
+                    <span>Sent on : {{message.sendDate}}</span>
+                    <i class="fa fa-thumbs-o-up" (click)="likeMessage(message)" [@seventyFiveAnimation]='stateSeventyFive' [@fiftyAnimation]='stateFifty'></i>
+                    <span class="f-right">{{message.likeCount}}</span>
+                    <i class="fa fa-thumbs-o-down" (click)="dislikeMessage(message)" [@seventyFiveAnimation]='stateSeventyFive' [@fiftyAnimation]='stateFifty'></i>
+                    <span class="f-right">{{message.dislikeCount}}</span>
+                    <i class="fa fa-volume-up" (click)="playAudio(message)" aria-hidden="true"></i>
+                    <a class="reply-button" (click)="setReplyMessage(message)">Reply</a>
                   </div>
-                </div>
-
-                <div *ngIf="message.isMine" class="comment-main-level your-message">
-
-                  <div class="comment-avatar col-sm-1"><img src="../../assets/icons/{{message.sender}}.svg" alt="{{message.sender}}"></div>
-
-                  <div class="comment-box col-sm-10">
-                    <div class="comment-head">
-                      <h6 class="comment-name">{{message.sender}}</h6>
-                      <span>Sent on : {{message.sendDate}}</span>
-
-                      <i class="fa fa-thumbs-o-up" (click)="likeMessage(message)" [@seventyFiveAnimation]='stateSeventyFive' [@fiftyAnimation]='stateFifty'></i>
-                      <span class="f-right">{{message.likeCount}}</span>
-                      <i class="fa fa-thumbs-o-down" (click)="dislikeMessage(message)" [@seventyFiveAnimation]='stateSeventyFive' [@fiftyAnimation]='stateFifty'></i>
-                      <span class="f-right">{{message.dislikeCount}}</span>
-                      <i class="fa fa-volume-up" (click)="playAudio(message)" aria-hidden="true"></i>
-                      <a class="reply-button" (click)="setReplyMessage(message)">Reply</a>
-                    </div>
-                    <div *ngIf="(message.oldMessage!=null && message.oldMessage!='')" class="replied-to-message no-message">
-                      <h6 class="comment-name">{{message.oldSender}}</h6><br />
-                      <span class="content">{{message.oldMessage}}</span>
-                    </div>
-                    <div class="comment-content">{{message.content}}</div>
+                  <div *ngIf="message.oldMessage" class="replied-to-message">
+                    <h6 class="comment-name">{{message.oldSender}}</h6><br />
+                    <span class="content">{{message.oldMessage}}</span>
                   </div>
+                  <div class="comment-content">{{message.content}}</div>
                 </div>
-</ul>
+              </div>
+
+              <div *ngIf="message.isMine" class="comment-main-level your-message">
+
+                <div class="comment-avatar col-sm-1"><img src="../../assets/icons/{{message.sender}}.svg" alt="{{message.sender}}"></div>
+
+                <div class="comment-box col-sm-10">
+                  <div class="comment-head">
+                    <h6 class="comment-name">{{message.sender}}</h6>
+                    <span>Sent on : {{message.sendDate}}</span>
+
+                    <i class="fa fa-thumbs-o-up" (click)="likeMessage(message)" [@seventyFiveAnimation]='stateSeventyFive' [@fiftyAnimation]='stateFifty'></i>
+                    <span class="f-right">{{message.likeCount}}</span>
+                    <i class="fa fa-thumbs-o-down" (click)="dislikeMessage(message)" [@seventyFiveAnimation]='stateSeventyFive' [@fiftyAnimation]='stateFifty'></i>
+                    <span class="f-right">{{message.dislikeCount}}</span>
+                    <i class="fa fa-volume-up" (click)="playAudio(message)" aria-hidden="true"></i>
+                    <a class="reply-button" (click)="setReplyMessage(message)">Reply</a>
+                  </div>
+                  <div *ngIf="message.oldMessage" class="replied-to-message">
+                    <h6 class="comment-name">{{message.oldSender}}</h6><br />
+                    <span class="content">{{message.oldMessage}}</span>
+                  </div>
+                  <div class="comment-content">{{message.content}}</div>
+                </div>
+              </div>
+          </ul>
         </div>
       </div>
       <div class="fitted-container">
@@ -77,7 +77,7 @@
           <button *ngIf="hubInstance.publishedQuestion!=null && !hubInstance.publishedQuestion.isPollingQuestion" class="btn" (click)="submitAnswer()">Submit</button>
 
           <!--<button class="btn btn-lg" (click)="animateMeFifty()">test 50%</button>
-      <button class="btn btn-lg" (click)="animateMeSeventyFive()">test 75%</button>-->
+          <button class="btn btn-lg" (click)="animateMeSeventyFive()">test 75%</button>-->
         </form>
       </div>
     </div>

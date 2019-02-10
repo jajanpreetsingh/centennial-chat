@@ -10,7 +10,7 @@
         <input name="title" class="form-control" type="text" placeholder="Title" [(ngModel)]="chatData.title">
         <div class="row">
           <div *ngIf="specifyTime" class="col-sm-6">
-            <h4>Enter Period: <!--<input name="specifyTime" type="checkbox" [(ngModel)]="specifyTime" /> Specify Time--></h4>            
+            <h4>Enter Period: <!--<input name="specifyTime" type="checkbox" [(ngModel)]="specifyTime" /> Specify Time--></h4>
             <input name="chatData.activationDate" (blur)="setActDate()" class="form-control" type="datetime-local" [(ngModel)]="chatData.activationDate">
             <input name="chatData.expirationDate" (blur)="setExpDate()" class="form-control" type="datetime-local" [(ngModel)]="chatData.expirationDate">
           </div>
@@ -21,11 +21,11 @@
             <input name="chatData.expirationDate" (blur)="setExpDate()" class="form-control" type="date" [(ngModel)]="chatData.expirationDate">
           </div>
           <!--<div class="col-sm-6">
-    <h4>Use Link Below to Share It with Students:</h4>
-    <div class="alert alert-info">
-      <h5><a>https://CentennailTalk.ca/RoomName/SomeCode</a></h5>
-    </div>
-  </div>-->
+            <h4>Use Link Below to Share It with Students:</h4>
+            <div class="alert alert-info">
+              <h5><a>https://CentennailTalk.ca/RoomName/SomeCode</a></h5>
+            </div>
+          </div>-->
         </div>
         <div class="col-sm-6">
           <h4>Pre-populate Open-ended Questions:</h4>

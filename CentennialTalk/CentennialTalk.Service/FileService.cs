@@ -1,4 +1,5 @@
 ﻿using CentennialTalk.Models;
+using CentennialTalk.Models.DTOModels;
 using CentennialTalk.Models.QuestionModels;
 using CentennialTalk.PersistenceContract;
 using CentennialTalk.ServiceContract;
@@ -28,11 +29,11 @@ namespace CentennialTalk.Service
             this.logger = logger;
         }
 
-        public string CreateWordDocument(string chatCode)
+        public string CreateWordDocument(TranscriptRequestDTO trm)
         {
             try
             {
-                Discussion chat = chatRepository.GetChatByCode(chatCode, true);
+                Discussion chat = chatRepository.GetChatByCode(trm.chatCode, true);
 
                 if (chat == null)
                     return null;
@@ -43,9 +44,12 @@ namespace CentennialTalk.Service
 
                 WritePollAnswersToDoc(chat, docx);
 
-                List<ClusteredResponses> res = GetClusteredQuestions(chat);
+                List<ClusteredResponses> res = null;
 
-                if (res != null && res.Count > 0)
+                if (trm.clusterResponses)
+                    res = GetClusteredQuestions(chat);
+
+                if (res != null && res.Count > 0 && trm.clusterResponses)
                 {
                     WriteOpenQuestionsWithClusters(chat, docx, res);
                 }

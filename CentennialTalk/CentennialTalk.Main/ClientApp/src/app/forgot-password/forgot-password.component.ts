@@ -25,7 +25,6 @@ export class ForgotPasswordComponent implements OnInit {
 
     this.accServ.sendResetLink(this.email).subscribe(res => {
       if (res.code == 200) {
-
         this.util.addPageError("Reset link sent successfully", "Your password reset link was sent to your registered email. Click the link to reset your password", Level[Level.success]);
 
         this.util.navigateToPath('/general-login');

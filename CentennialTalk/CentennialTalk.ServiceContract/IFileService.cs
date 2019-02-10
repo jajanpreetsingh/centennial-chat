@@ -1,7 +1,9 @@
-﻿namespace CentennialTalk.ServiceContract
+﻿using CentennialTalk.Models.DTOModels;
+
+namespace CentennialTalk.ServiceContract
 {
     public interface IFileService
     {
-        string CreateWordDocument(string chatCode);
+        string CreateWordDocument(TranscriptRequestDTO trm);
     }
 }

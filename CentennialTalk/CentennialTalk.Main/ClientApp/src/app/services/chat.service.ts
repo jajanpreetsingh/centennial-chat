@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { ChatModel } from '../../models/chat.model';
+import { TranscriptRequestModel } from '../../models/transcriptrequest.model';
 
 @Injectable()
 export class ChatService {
@@ -18,8 +19,8 @@ export class ChatService {
       .map(res => res.json());
   }
 
-  downloadTranscript(chatCode: string) {
-    return this.http.post("/api/chat/transcript", { 'value': chatCode })
+  downloadTranscript(trm: TranscriptRequestModel) {
+    return this.http.post("/api/chat/transcript", trm)
       .map(res => res.json());
   }
 

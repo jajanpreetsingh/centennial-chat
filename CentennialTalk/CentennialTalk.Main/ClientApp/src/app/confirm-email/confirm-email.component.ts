@@ -19,7 +19,6 @@ export class ConfirmEmailComponent implements OnInit {
 
       this.accServ.verifyEmail(userId, code).subscribe(res => {
         if (res.code == 200) {
-
           this.util.addPageError("Success", "Email confirmed successfuully. Redirecting to login..", Level[Level.success]);
 
           this.util.navigateToPath('/general-login');

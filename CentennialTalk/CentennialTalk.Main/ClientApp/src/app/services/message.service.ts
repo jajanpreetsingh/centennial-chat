@@ -14,7 +14,6 @@ export class MessageService {
   }
 
   saveMessage(messageData: MessageModel) {
-    console.log('sending', messageData);
     return this.http.post("/api/message/send", messageData)
       .map(res => res.json());
   }

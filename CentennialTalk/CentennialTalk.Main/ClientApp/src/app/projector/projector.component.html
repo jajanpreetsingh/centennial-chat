@@ -28,7 +28,7 @@
                     <i class="fa fa-volume-up" (click)="playAudio(message)" aria-hidden="true"></i>
                     <a class="reply-button" (click)="setReplyMessage(message)">Reply</a>
                   </div>
-                  <div class="replied-to-message no-message">
+                  <div *ngIf="message.oldMessage" class="replied-to-message">
                     <h6 class="comment-name">{{message.oldSender}}</h6><br />
                     <span class="content">{{message.oldMessage}}</span>
                   </div>
@@ -50,7 +50,7 @@
                     <i class="fa fa-volume-up" (click)="playAudio(message)" aria-hidden="true"></i>
                     <a class="reply-button" (click)="setReplyMessage(message)">Reply</a>
                   </div>
-                  <div class="replied-to-message no-message">
+                  <div *ngIf="message.oldMessage" class="replied-to-message">
                     <h6 class="comment-name">{{message.oldSender}}</h6><br />
                     <span class="content">{{message.oldMessage}}</span>
                   </div>
@@ -70,11 +70,12 @@
       <button (click)="sendMessage()" class="btn btn-lg btn-green">Post</button>
     </div>
     <div class="col-sm-6" id="manage-section">
-
-      <div class="col-sm-6">
-        <h4>Use the Code to share with students</h4>
-        <div class="alert alert-info">
-          <h5>{{chatData.chatCode}}</h5>
+      <div class="row">
+        <div class="col-sm-6">
+          <h4>Use the Code to share with students</h4>
+          <div class="alert alert-info">
+            <h5>{{chatData.chatCode}}</h5>
+          </div>
         </div>
       </div>
 

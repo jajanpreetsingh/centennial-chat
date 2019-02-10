@@ -4,6 +4,7 @@ import { ChatService } from '../services/chat.service';
 import { UtilityService } from '../services/utility.service';
 import { StorageKeys, AccountService } from '../services/account.service';
 import { Level } from '../../models/popup.model';
+import { TranscriptRequestModel } from '../../models/transcriptrequest.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,7 +22,6 @@ export class DashboardComponent implements OnInit {
   }
 
   goToNewChatPage() {
-
     let user = this.accountService.getLocalData(StorageKeys.ChatUsername);
 
     if (this.accountService.isValNull(user)) {
@@ -33,7 +33,6 @@ export class DashboardComponent implements OnInit {
   }
 
   goToIconPage() {
-
     this.accountService.clearChatRelatedData();
 
     this.accountService.setLocalData(StorageKeys.ReturnUrl, '/dashboard');
@@ -48,8 +47,13 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  goToTranscript(chatCode) {
-    this.chatServ.downloadTranscript(chatCode).subscribe(res => {
+  goToTranscript(chatCode: string, clusterRes: boolean) {
+    let trm: TranscriptRequestModel = new TranscriptRequestModel();
+
+    trm.chatCode = chatCode;
+    trm.clusterResponses = clusterRes;
+
+    this.chatServ.downloadTranscript(trm).subscribe(res => {
       if (res.code == 200) {
         this.chatServ.download(res.data);
       }

@@ -138,8 +138,6 @@ export class AccountService {
 
     if (token == null)
       return;
-
-    console.log(new JwtHelper().urlBase64Decode(token));
   }
 
   amIModerator(): boolean {
@@ -147,8 +145,6 @@ export class AccountService {
     let mod = this.getLocalData(StorageKeys.ChatModerator);
 
     let amI = ((!this.isValNull(usr)) && (!this.isValNull(mod)) && mod === usr);
-
-    console.log(usr + "  :  " + mod + "  :  " + amI);
 
     return amI;
   }

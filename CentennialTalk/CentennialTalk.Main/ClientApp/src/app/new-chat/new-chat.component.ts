@@ -193,7 +193,6 @@ export class NewChatComponent implements OnInit, OnDestroy {
     }
     else if (this.chatData.expirationDate.valueOf() - new Date().valueOf() < 3600000
       || this.chatData.activationDate.valueOf() == this.chatData.expirationDate.valueOf()) {
-
       this.utilityService.addPageError("Unrealistic duration time",
         "Session expiration/duration should atleast be 1 hour more than current time", Level[Level.danger]);
 
